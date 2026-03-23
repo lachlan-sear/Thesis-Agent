@@ -4,7 +4,7 @@
 
 thesis:
   name: "Vertical AI in Regulated Industries"
-  version: "1.0"
+  version: "2.0"
 
   core_belief: >
     Horizontal AI wrappers lack defensible moats. Vertical AI specialists
@@ -78,6 +78,7 @@ thesis:
       larger TAM and stronger lock-in.
 
 sources:
+  # --- Scout Sources ---
   web_search:
     enabled: true
     queries_per_vertical: 5
@@ -90,36 +91,112 @@ sources:
       - "https://hacker-news.firebaseio.com/v0/topstories.json"
     keywords_filter: true
 
-  rss_feeds:
-    enabled: true
-    feeds:
-      - name: "Sifted"
-        url: "https://sifted.eu/feed"
-        focus: "european-startups"
-      - name: "TechCrunch Startups"
-        url: "https://techcrunch.com/category/startups/feed/"
-        focus: "funding-launches"
-      - name: "EU-Startups"
-        url: "https://www.eu-startups.com/feed/"
-        focus: "european-startups"
-
   companies_house:
     enabled: true
     api_base: "https://api.company-information.service.gov.uk"
     sic_codes:
-      - "62012"
-      - "62090"
-      - "86101"
-      - "86210"
+      - "62012"  # Software development
+      - "62090"  # Other IT service activities
+      - "86101"  # Hospital activities
+      - "86210"  # General medical practice
+      - "86230"  # Dental practice activities
+      - "75000"  # Veterinary activities
 
   github_trending:
     enabled: true
     languages: ["python", "typescript", "rust"]
     min_stars_velocity: 50
 
+  rss_feeds:
+    enabled: true
+    feeds:
+      - name: "Sifted"
+        url: "https://sifted.eu/feed"
+        focus: "European startup ecosystem"
+      - name: "TechCrunch Startups"
+        url: "https://techcrunch.com/category/startups/feed/"
+        focus: "Global startup news, funding"
+      - name: "EU-Startups"
+        url: "https://www.eu-startups.com/feed/"
+        focus: "European startup ecosystem"
+
+  # --- Radar Sources ---
+  # Regulatory monitoring — these are search queries, not coded sources.
+  # The Radar agent uses Claude web search with these specific queries
+  # to catch regulatory changes that create new moats or open windows.
+  regulatory_monitoring:
+    enabled: true
+    queries:
+      # Veterinary
+      - "RCVS regulatory update 2026"
+      - "CMA veterinary market investigation final decision"
+      - "CMA veterinary services remedies 2026"
+      - "veterinary practice regulation UK changes"
+
+      # Healthcare
+      - "CQC new inspection framework digital health 2026"
+      - "MHRA medical device software regulation AI"
+      - "NHS digital compliance new requirements"
+      - "FDA digital health pre-certification 2026"
+      - "EU MDR AI medical device classification"
+
+      # Legal
+      - "SRA solicitors regulation technology guidance 2026"
+      - "legal services regulation AI UK"
+      - "LSB legal services board innovation"
+
+      # Financial
+      - "FCA regulatory sandbox new cohort 2026"
+      - "FCA consumer duty digital services"
+      - "PRA insurtech regulation update"
+
+      # Cross-vertical
+      - "EU AI Act enforcement timeline 2026"
+      - "UK AI regulation DSIT framework"
+      - "ICO AI data protection guidance"
+      - "GDPR automated decision making enforcement"
+
+  # Podcast monitoring — the Radar agent also scans these
+  # but they're primarily used by the Scout agent for discovery
+  podcast_feeds:
+    - name: "20VC"
+      url: "https://feeds.megaphone.fm/twentyminutevc"
+      signal: "Founder appearance = imminent or recent fundraise"
+    - name: "Riding Unicorns"
+      url: "https://feeds.acast.com/public/shows/riding-unicorns"
+      signal: "European early-stage founder signal"
+
+  # Investor activity tracking — Radar agent searches for these
+  investor_tracking:
+    enabled: true
+    watch_list:
+      # European funds in thesis verticals
+      - "Balderton Capital"
+      - "Northzone"
+      - "Earlybird"
+      - "Atomico"
+      - "Index Ventures"
+      - "Accel Europe"
+      - "Singular"
+      - "firstminute capital"
+      # US funds active in Europe
+      - "Sequoia Capital"
+      - "a16z"
+      - "General Catalyst"
+      - "Bessemer"
+      # Vertical specialists
+      - "Khosla Ventures"
+      - "GV"
+      - "Lux Capital"
+    queries:
+      - "{investor} new investment 2026"
+      - "{investor} seed series A healthcare legal fintech 2026"
+      - "{investor} European portfolio company 2026"
+
 scheduling:
   scout: "daily"
   radar_funding: "daily"
+  radar_regulatory: "weekly"
   radar_synthesis: "weekly"
   ops: "weekly"
   timezone: "Europe/London"
