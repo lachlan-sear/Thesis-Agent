@@ -1,5 +1,6 @@
 """
 Config loader. Reads thesis.yaml and provides typed access.
+Generates sophisticated, VC-grade search queries — not generic Google searches.
 """
 
 import yaml
@@ -36,9 +37,10 @@ def get_thesis_text(config: dict) -> str:
     for s in thesis.get("signals_negative", []):
         lines.append(f"  - {s}")
 
-    lines.append("\nPortfolio Exemplars:")
-    for ex in thesis.get("portfolio_exemplars", []):
-        lines.append(f"  • {ex['name']}: {ex['why']}")
+    if thesis.get("portfolio_exemplars"):
+        lines.append("\nPortfolio Exemplars:")
+        for ex in thesis.get("portfolio_exemplars", []):
+            lines.append(f"  • {ex['name']}: {ex['why']}")
 
     lines.append(f"\nEvaluation Rubric:")
     for k, v in thesis.get("evaluation_rubric", {}).items():
@@ -53,27 +55,123 @@ def get_thesis_text(config: dict) -> str:
 
 def get_search_queries(config: dict) -> list[str]:
     """
-    Generate search queries from thesis verticals.
-    Produces targeted queries for Claude web search.
+    Generate sophisticated, VC-grade search queries from thesis config.
+
+    Five query categories that mirror how top analysts actually source:
+    1. Regulatory triggers — new rules creating new moats
+    2. Talent signals — strong founders entering a vertical
+    3. Incumbent failure — demand signal from user frustration
+    4. Budget movement — outsourced spend being automated (Sequoia wedge)
+    5. Investor activity — smart money validating timing
+    6. Category creation — autopilot companies emerging
+    7. European ecosystem — Sifted, EU-Startups, local signals
     """
     thesis = config["thesis"]
     queries = []
 
-    all_verticals = (
-        thesis.get("target_verticals", {}).get("primary", [])
-        + thesis.get("target_verticals", {}).get("emerging", [])
-    )
+    primary = thesis.get("target_verticals", {}).get("primary", [])
+    secondary = thesis.get("target_verticals", {}).get("secondary", [])
+    emerging = thesis.get("target_verticals", {}).get("emerging", [])
+    all_verticals = primary + emerging
 
-    query_templates = [
-        "{vertical} startup seed funding 2026",
-        "{vertical} AI startup series A 2025 2026",
-        "{vertical} startup Europe UK funding",
-        "new {vertical} company launch 2026",
-        "{vertical} digital transformation startup",
+    # --- 1. Regulatory triggers ---
+    # New regulation = new moat for first movers
+    regulatory_templates = [
+        "{vertical} regulation change 2026",
+        "{vertical} compliance new requirements Europe UK",
+        "{vertical} AI regulation approval 2026",
     ]
 
+    # --- 2. Talent signals ---
+    # Ex-McKinsey, ex-Google, ex-Big4 founding in regulated verticals
+    talent_templates = [
+        "ex-McKinsey ex-BCG founded {vertical} startup",
+        "former Google DeepMind engineer {vertical} company",
+        "{vertical} startup founded by doctors lawyers operators",
+    ]
+
+    # --- 3. Incumbent failure ---
+    # Hatred of status quo = demand signal
+    incumbent_templates = [
+        "{vertical} software complaints frustration switching",
+        "{vertical} legacy system replacement AI-native",
+        "replacing {vertical} practice management software",
+    ]
+
+    # --- 4. Budget movement (Sequoia wedge) ---
+    # Outsourced work being automated
+    budget_templates = [
+        "{vertical} outsourcing automation AI agent",
+        "{vertical} managed services AI replacement",
+        "autonomous {vertical} workflow no human",
+    ]
+
+    # --- 5. Investor activity ---
+    # Smart money moving into verticals
+    investor_templates = [
+        "seed series A {vertical} AI startup 2025 2026 funded",
+        "Sequoia a16z {vertical} AI investment 2026",
+        "European {vertical} startup funding round 2026",
+    ]
+
+    # --- 6. Category creation ---
+    # New autopilot companies
+    category_templates = [
+        "AI-native {vertical} company launch 2026",
+        "{vertical} autopilot AI startup outcomes",
+        "{vertical} AI replacing outsourced services",
+    ]
+
+    # --- 7. European ecosystem ---
+    european_templates = [
+        "{vertical} startup Europe UK seed Series A 2026",
+        "{vertical} AI company London Berlin Paris 2026",
+    ]
+
+    # Generate queries across all templates and verticals
+    all_templates = (
+        regulatory_templates
+        + talent_templates
+        + incumbent_templates
+        + budget_templates
+        + investor_templates
+        + category_templates
+        + european_templates
+    )
+
     for vertical in all_verticals:
-        for tmpl in query_templates:
+        for tmpl in all_templates:
             queries.append(tmpl.format(vertical=vertical))
+
+    # --- Thesis-specific queries (not vertical-dependent) ---
+    thesis_queries = [
+        # Sequoia framework signals
+        "services as software AI startup 2026",
+        "AI agent replacing professional services 2026",
+        "autopilot AI company seed funding Europe",
+        "copilot to autopilot AI transition startup",
+
+        # Vertical AI specific
+        "vertical AI startup defensible moat 2026",
+        "domain-specific AI company regulated industry",
+        "vertical AI seed round Europe UK 2026",
+
+        # Competitive intelligence
+        "Y Combinator W2026 healthcare legal fintech AI",
+        "Entrepreneur First London cohort 2026",
+        "Antler Seedcamp portfolio 2026 AI",
+
+        # Data flywheel / moat signals
+        "AI startup proprietary dataset regulated industry",
+        "healthcare legal dental AI data advantage",
+
+        # Workforce crisis = automation opportunity
+        "accountant shortage AI automation",
+        "nurse doctor shortage digital health solution",
+        "lawyer shortage legal AI automation UK",
+        "veterinary workforce crisis technology solution",
+    ]
+
+    queries.extend(thesis_queries)
 
     return queries
