@@ -1,4 +1,4 @@
-# thesis-radar
+# Thesis Agent
 
 An autonomous deal intelligence system for venture capital.
 
