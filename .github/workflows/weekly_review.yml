@@ -1,0 +1,42 @@
+name: Weekly Ops Review
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'    # 9am UTC every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly-ops:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Ops Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py run --ops
+
+      - name: Run Weekly Radar Synthesis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py run --radar --weekly
+
+      - name: Commit outputs
+        run: |
+          git config user.name "thesis-radar[bot]"
+          git config user.email "bot@thesis-radar"
+          git add outputs/ data/
+          git diff --cached --quiet || git commit -m "weekly: $(date +%Y-%m-%d) ops + synthesis"
+          git push

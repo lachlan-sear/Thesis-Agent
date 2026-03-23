@@ -1,0 +1,42 @@
+name: Daily Intelligence Run
+
+on:
+  schedule:
+    - cron: '0 7 * * *'    # 7am UTC daily (8am London)
+  workflow_dispatch:         # Manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  daily-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Scout Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py run --scout --max-queries 10
+
+      - name: Run Radar Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py run --radar
+
+      - name: Commit outputs
+        run: |
+          git config user.name "thesis-radar[bot]"
+          git config user.email "bot@thesis-radar"
+          git add outputs/ data/
+          git diff --cached --quiet || git commit -m "daily: $(date +%Y-%m-%d) scout + radar"
+          git push

@@ -1,0 +1,175 @@
+# thesis-radar configuration
+# Aligned to Left Lane Capital's investment thesis
+# Author: Lachlan Sear
+
+thesis:
+  name: "Left Lane Capital — Deal Sourcing Radar"
+  version: "1.0"
+  fund: "Left Lane Capital"
+
+  core_belief: >
+    The future of the global consumer and worker economy will be defined by the
+    continued and accelerating penetration of digital-first platforms. The best
+    investments are in hyper-growth consumer and technology businesses with enduring
+    customer relationships — companies where customers maintain a 5-10+ year
+    relationship with the product, platform, or service. We embrace complex,
+    regulation-heavy markets that most VCs avoid, and use deep data analytics to
+    underwrite customer durability at inflection points.
+
+  target_verticals:
+    primary:
+      - "consumer health & wellness"
+      - "fintech & payments"
+      - "food & beverage tech"
+      - "edtech"
+      - "e-commerce & marketplaces"
+      - "SMB tech & vertical SaaS"
+    secondary:
+      - "consumer social & apps"
+      - "media & entertainment"
+      - "logistics & supply chain"
+      - "developer tools & infrastructure"
+    emerging:
+      - "AI-enabled consumer services"
+      - "digital-first healthcare (mental health, preventive, diagnostics)"
+      - "regulation-heavy consumer fintech (insurance, tax, property)"
+
+  portfolio_exemplars:
+    # These are examples of what a good Left Lane company looks like
+    - name: "Talkiatry"
+      why: "Digital-first mental healthcare, regulation-heavy, enduring patient relationships"
+    - name: "Everlab"
+      why: "AI-powered preventive healthcare, consumer-facing, data flywheel"
+    - name: "AnswersNow"
+      why: "Autism support platform, healthcare regulation, long-term patient engagement"
+    - name: "Olipop"
+      why: "Consumer brand disrupting legacy CPG, strong unit economics, loyal base"
+    - name: "Blank Street"
+      why: "Digital-native physical retail, consumer habit formation, tech-enabled ops"
+    - name: "Ownwell"
+      why: "Property tax automation, regulation-heavy, clear ROI, sticky service"
+    - name: "Prenuvo"
+      why: "Preventive health screening, consumer-facing, premium positioning"
+    - name: "Kast"
+      why: "Consumer finance, digital-first, enduring financial relationship"
+    - name: "GoStudent"
+      why: "EdTech marketplace, global, enduring student-tutor relationships"
+
+  signals_positive:
+    - "Enduring customer relationship (5-10+ year potential)"
+    - "Strong unit economics with clear path to profitability"
+    - "Digital transformation of offline/legacy industry"
+    - "Regulation-heavy market (creates moat, deters competition)"
+    - "Consumer-facing with high engagement and retention"
+    - "Data-driven operations with measurable customer durability"
+    - "Founder with operator background in the target industry"
+    - "Breakout growth metrics (inflection point visible in data)"
+    - "Autopilot potential — selling the outcome, not the tool"
+    - "Network effects or viral acquisition channels"
+
+  signals_negative:
+    - "Pure enterprise SaaS with no consumer touchpoint"
+    - "Unsustainable growth (paid acquisition without retention)"
+    - "Pure hardware play without software/services layer"
+    - "No clear path to unit economics within 18 months"
+    - "Thin AI wrapper without domain-specific moat"
+    - "Market too small (<$1B TAM)"
+    - "Founder-market fit unclear or absent"
+
+  stage_focus:
+    primary: "series-a"
+    range_min: "seed"
+    range_max: "series-c"
+    check_size: "$5M-$50M"
+    sweet_spot: "Series A/B at breakout growth inflection"
+
+  geography:
+    primary: ["us", "europe", "uk"]
+    secondary: ["global-emerging"]
+    offices: ["new-york", "london"]
+
+  evaluation_rubric:
+    customer_durability: "How enduring is the customer relationship? Can this last 5-10+ years? (1-10)"
+    unit_economics: "Are unit economics strong or clearly improving? (1-10)"
+    regulation_moat: "Does regulatory complexity create defensibility? (1-10)"
+    growth_inflection: "Is this company at or approaching a breakout growth moment? (1-10)"
+    founder_quality: "Operator background, domain expertise, execution track record? (1-10)"
+    thesis_fit: "Overall alignment with Left Lane's consumer/tech thesis? (1-10)"
+
+  # Sequoia framework integration
+  autopilot_lens:
+    enabled: true
+    description: >
+      Per Sequoia's 'Services: The New Software' framework — is this company
+      selling the work (autopilot) rather than the tool (copilot)? Companies
+      that capture service/labour budgets rather than software budgets have
+      larger TAM and stronger lock-in. Extra credit for autopilot positioning.
+
+sources:
+  # Tier 1: Structured discovery
+  web_search:
+    enabled: true
+    queries_per_vertical: 5
+    recency: "30d"
+
+  hacker_news:
+    enabled: true
+    endpoints:
+      - "https://hacker-news.firebaseio.com/v0/showstories.json"
+      - "https://hacker-news.firebaseio.com/v0/topstories.json"
+    keywords_filter: true
+
+  product_hunt:
+    enabled: true
+    categories:
+      - "health"
+      - "fintech"
+      - "education"
+      - "food-drink"
+      - "productivity"
+
+  rss_feeds:
+    enabled: true
+    feeds:
+      - name: "Sifted"
+        url: "https://sifted.eu/feed"
+        focus: "european-startups"
+      - name: "TechCrunch Startups"
+        url: "https://techcrunch.com/category/startups/feed/"
+        focus: "funding-launches"
+      - name: "EU-Startups"
+        url: "https://www.eu-startups.com/feed/"
+        focus: "european-startups"
+
+  # Tier 2: Enrichment
+  companies_house:
+    enabled: true
+    api_base: "https://api.company-information.service.gov.uk"
+    sic_codes:
+      - "62012"  # Business and domestic software development
+      - "62090"  # Other IT service activities
+      - "86101"  # Hospital activities
+      - "86210"  # General medical practice
+      - "64209"  # Activities of other holding companies
+
+  github_trending:
+    enabled: true
+    languages: ["python", "typescript", "rust"]
+    min_stars_velocity: 50  # stars per week
+
+  # Tier 3: Narrative signal
+  regulatory_feeds:
+    enabled: true
+    sources:
+      - "EU AI Act enforcement updates"
+      - "FCA regulatory sandbox"
+      - "NHS Digital compliance"
+      - "FDA digital health updates"
+
+scheduling:
+  scout: "daily"
+  radar_funding: "daily"
+  radar_synthesis: "weekly"
+  ops: "weekly"
+  timezone: "Europe/London"
+  run_time: "07:00"
