@@ -12,7 +12,7 @@ Julien Bek at Sequoia recently argued that the next trillion-dollar company won'
 
 The same logic applies inside a VC fund. Most deal sourcing is pattern matching against a thesis — scanning hundreds of companies to find the handful worth a partner meeting. That's intelligence, not judgement. The judgement is deciding whether to invest.
 
-**thesis-radar automates the intelligence layer.** It sources, evaluates, and maintains a deal pipeline autonomously — surfacing structured recommendations for the human to make judgement calls on. Every improvement in the underlying model makes the sourcing faster, cheaper, and more comprehensive.
+**Thesis Agent automates the intelligence layer.** It sources, evaluates, and maintains a deal pipeline autonomously — surfacing structured recommendations for the human to make judgement calls on. Every improvement in the underlying model makes the sourcing faster, cheaper, and more comprehensive.
 
 The thesis is configurable. Swap in your own `thesis.yaml` and the entire system re-orients: different verticals, different signals, different scoring rubrics.
 
