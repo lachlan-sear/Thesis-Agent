@@ -1,4 +1,4 @@
-# thesis-radar
+# thesis-agent
 
 An autonomous deal intelligence system for venture capital.
 
@@ -12,7 +12,7 @@ Julien Bek at Sequoia recently argued that the next trillion-dollar company won'
 
 The same logic applies inside a VC fund. Most deal sourcing is pattern matching against a thesis — scanning hundreds of companies to find the handful worth a partner meeting. That's intelligence, not judgement. The judgement is deciding whether to invest.
 
-**thesis-radar automates the intelligence layer.** It sources, evaluates, and maintains a deal pipeline autonomously — surfacing structured recommendations for the human to make judgement calls on. Every improvement in the underlying model makes the sourcing faster, cheaper, and more comprehensive.
+**thesis-agent automates the intelligence layer.** It sources, evaluates, and maintains a deal pipeline autonomously — surfacing structured recommendations for the human to make judgement calls on. Every improvement in the underlying model makes the sourcing faster, cheaper, and more comprehensive.
 
 The thesis is configurable. Swap in your own `thesis.yaml` and the entire system re-orients: different verticals, different signals, different scoring rubrics.
 
@@ -67,15 +67,15 @@ Everything flows from `config/thesis.yaml`. It defines:
 - Evaluation rubric with weighted dimensions
 - Portfolio exemplars for calibration
 
-The current config is aligned to **Left Lane Capital's** thesis: hyper-growth consumer and technology businesses with enduring customer relationships, embracing regulation-heavy markets.
+The thesis is fully configurable. A healthcare investor, a fintech fund, a climate tech scout — each swaps in their own config and the entire system re-orients.
 
 ### 2. Scout sources companies
 
 The scout agent searches across multiple sources in parallel:
 
-- **Claude web search** — targeted queries generated from thesis verticals ("consumer health AI startup seed 2026", "fintech regulation startup Europe")
+- **Claude web search** — targeted queries generated from thesis verticals
 - **Hacker News** — Show HN posts and top stories, keyword-filtered
-- **RSS feeds** — Sifted, TechCrunch, EU-Startups
+- **RSS feeds** — configurable feed list (Sifted, TechCrunch, etc.)
 - **Companies House API** — UK incorporations by SIC code (free, public)
 
 Each candidate is deduplicated against the SQLite history, then evaluated by Claude against the thesis rubric. Companies scoring 7+ get a deep enrichment pass: founder backgrounds, funding history, competitive landscape, regulatory context.
@@ -97,8 +97,8 @@ All output goes to `outputs/daily/` and `outputs/weekly/` as markdown files. Com
 ## Quick Start
 
 ```bash
-git clone https://github.com/lachlan-sear/thesis-radar.git
-cd thesis-radar
+git clone https://github.com/lachlan-sear/thesis-agent.git
+cd thesis-agent
 pip install -r requirements.txt
 cp .env.example .env   # Add your ANTHROPIC_API_KEY
 ```
@@ -134,7 +134,7 @@ python main.py history    # Show run history
 
 ## Model Routing
 
-Not every task needs the most powerful model. thesis-radar routes intelligently:
+Not every task needs the most powerful model. thesis-agent routes intelligently:
 
 | Task | Model | Why |
 |------|-------|-----|
@@ -176,7 +176,7 @@ This scores whether a company is selling the work (autopilot) or selling the too
 ## Project Structure
 
 ```
-thesis-radar/
+thesis-agent/
 ├── config/
 │   ├── thesis.yaml              # Investment thesis (the brain)
 │   └── tracker_state.json       # Current tracked companies
@@ -211,7 +211,7 @@ thesis-radar/
 
 ## Cost Estimate
 
-Running daily with 10 search queries and 12 tracked companies:
+Running daily with 10 search queries and a 12-company tracker:
 
 | Agent | Frequency | Estimated API cost |
 |-------|-----------|-------------------|
@@ -219,8 +219,6 @@ Running daily with 10 search queries and 12 tracked companies:
 | Radar (3 monitors) | Daily | ~$0.30-0.80/day |
 | Ops (12 company checks) | Weekly | ~$0.50-1.00/week |
 | **Total** | | **~$25-70/month** |
-
-Compare to Harmonic ($500+/mo), Dealroom ($800+/mo), or a part-time analyst ($3,000+/mo).
 
 ---
 
@@ -241,7 +239,7 @@ Compare to Harmonic ($500+/mo), Dealroom ($800+/mo), or a part-time analyst ($3,
 
 Most deal sourcing tools sell the tool. Harmonic gives you a dashboard. Dealroom gives you a database. You still need an analyst to evaluate every company against your thesis.
 
-thesis-radar sells the work. It sources, evaluates, enriches, monitors, and maintains — then delivers a brief. The human decides what to do with it. That's the only part that requires judgement.
+thesis-agent sells the work. It sources, evaluates, enriches, monitors, and maintains — then delivers a brief. The human decides what to do with it. That's the only part that requires judgement.
 
 ---
 
