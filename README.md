@@ -24,8 +24,8 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      thesis.yaml                         │
-│            (configurable investment thesis)               │
+│                      thesis.yaml                        │
+│            (configurable investment thesis)             │
 └────────────────────────┬────────────────────────────────┘
                          │
           ┌──────────────┼──────────────┐
