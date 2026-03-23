@@ -1,97 +1,74 @@
 # Radar Digest — Week of 2026-03-17
 
-**Thesis:** Vertical AI in Regulated Industries
+**Thesis:** Sports Tech — Digital-First Platforms in Participatory Sport
 
 ## Signal Summary
-- **21** total signals detected
-- **8** funding rounds
-- **4** exits / shutdowns
-- **6** regulatory signals
+- **14** total signals detected
+- **5** funding rounds
+- **2** exits / M&A
+- **4** trend signals
 - **3** competitive moves
 
 ---
 
 ### Funding Rounds
 
-🔵 **Anterior**: Market chatter suggests growth round in preparation. Healthcare prior auth vertical heating up across both US and UK.
-   → *Thesis implication: validates autopilot model in healthcare. Watch for round size as market signal.*
+🔵 **Playtomic**: Hiring surge detected — 18 open roles across engineering, product, and country management (UK, Germany, Italy). Pattern consistent with pre-Series B scaling.
+   → *Thesis implication: padel booking category leader preparing for growth round. Market timing aligns with padel venue buildout across Northern Europe.*
 
-🔵 **Lawhive**: Team expanded ~40% in Q1 2026. Adzuna shows 14 open roles. Hiring pattern consistent with imminent raise.
-   → *Thesis implication: consumer legal AI gaining traction. SRA moat holding as a competitive barrier.*
+🔵 **Veo Technologies**: Reported to have closed extension round. AI sports camera market heating up.
+   → *Thesis implication: hardware-adjacent sports tech raising at strong valuations. Validates demand for automated game film.*
 
-🔵 **Crosby**: Early revenue traction on autopilot NDA product. Sequoia portfolio.
-   → *Thesis implication: validates the outsourcing wedge in legal — NDAs are the ideal entry point (well-defined, intelligence-heavy, routinely outsourced).*
+🔵 **Heja**: Announced expansion into German market. Team communication for youth sports gaining cross-border traction.
 
-🔵 **Rillet**: New enterprise customer announcements. Positioning shift from copilot toward autopilot.
-   → *Thesis implication: accounting autopilot thesis gaining traction. Structural accountant shortage ($340K lost in 5 years) creating demand pull.*
+🔵 **Arcade**: 3 engineering roles posted (Adzuna). Building team in New York.
 
-🔵 **WithCoverage**: Expanded from commercial lines to SMB package insurance.
-   → *Thesis implication: insurance autopilot is widening its wedge. Moving from single-line to multi-line is the expansion path.*
-
-🔵 **Serval**: Hired VP Sales from ServiceNow. Go-to-market acceleration signal.
-
-🔵 **TaxGPT**: Raised seed round, European expansion planned. Multi-jurisdiction tax is intelligence-heavy and routinely outsourced.
-
-🔵 **Pace**: 4 engineering roles posted in last 14 days. Building team for claims adjusting automation.
+🔵 **Tonsser**: Partnership with Bundesliga Next announced for grassroots scouting pilot.
 
 ---
 
-### Exits & Shutdowns
+### Exits & M&A
 
-🔵 **Covetrus + MWI Animal Health**: $3.5B merger announced — largest consolidation event in veterinary services. Incumbent distraction benefits nimble startups.
-   → *Thesis implication: structural tailwind for Lupa Pets and Digitail. Integration chaos at Covetrus will slow incumbent innovation for 12-18 months.*
+🔵 **WSC Sports**: Acquired PlaySight and integrated Trace technology. AI sports video consolidation underway.
+   → *Thesis implication: professional/college video market consolidating. Creates gap at amateur/youth level that Arcade and Veo target.*
 
-🔴 **Olive AI**: Remaining operations officially wound down. Healthcare automation is hard — but Anterior's different architecture (domain-native, NHS-validated) suggests the problem is solvable.
-   → *Thesis implication: validates that horizontal AI approaches fail in healthcare. Vertical-native wins.*
-
-🔵 **LegalZoom**: Revenue decline accelerating. Q4 results disappointing.
-   → *Thesis implication: the legacy digitisation model (forms + templates) is being displaced by autopilot-native legal AI (Lawhive, Crosby). Category shift underway.*
-
-🔵 **Udemy**: Acquired by Coursera for $930M. Left Lane portfolio exit.
-   → *Thesis implication: edtech consolidation continues. Platform players acquiring for content library and user base.*
+🔵 **Zwift**: Reported IPO preparation for late 2026/early 2027. Virtual sports platform proving venture-scale returns are possible in participatory sports tech.
+   → *Thesis implication: Zwift IPO would validate the entire category. Creates LP interest in sports tech allocations.*
 
 ---
 
-### Regulatory & Policy
+### Trend Signals
 
-🔴 **CMA Veterinary Investigation**: Final decision expected within days. Provisional measures include mandatory price transparency, prescription fee caps, ownership disclosure, and potentially a new Veterinary Surgeons Act.
-   → *Thesis implication: immediate compliance demand for veterinary software. Lupa Pets explicitly positioning compliance features. First-mover advantage for companies already building for this.*
+🔵 **Padel participation**: European Padel Association reports 25% YoY growth in registered players across EU. UK padel courts increased from 400 to 700+ in 2025. New venue openings accelerating.
+   → *Thesis implication: structural tailwind for Playtomic and any padel-adjacent technology.*
 
-🔵 **EU AI Act Enforcement**: Timeline accelerated for healthcare AI applications. High-risk classification applies to clinical decision-making AI.
-   → *Thesis implication: raises compliance moat for EU-based healthcare AI. Benefits Anterior and other EU-compliant players. Disadvantages US-only companies entering Europe.*
+🔵 **Youth sports spending**: US youth sports market now estimated at $30B+/year. Travel team participation continuing to grow despite cost concerns.
+   → *Thesis implication: validates Arcade and similar platforms targeting youth sports parents.*
 
-🔵 **SRA Technology Guidance**: Updated guidance on AI use in legal services. Emphasises solicitor supervision requirement.
-   → *Thesis implication: reinforces Lawhive's model (solicitor supervision baked in from day one). Pure AI legal tools without SRA standing face regulatory headwind.*
+🔵 **AI in sports analysis**: Google DeepMind published new research on automated tactical analysis from broadcast footage. Open-source models improving rapidly.
+   → *Thesis implication: commoditisation risk for sports analytics companies without proprietary data moats. Benefits platforms with unique data (Playtomic's booking data, Arcade's amateur game film).*
 
-🔵 **FCA Consumer Duty Update**: New requirements for digital financial services. Must demonstrate fair customer outcomes through data.
-   → *Thesis implication: compliance complexity increases for consumer fintech. Benefits regulated players, raises bar for wrappers.*
-
-🔵 **NHS Digital Interoperability**: New FHIR compliance requirements for clinical software. Mandatory for NHS deployments from 2026.
-   → *Thesis implication: switching cost moat deepens for companies already NHS-compliant. Late entrants face 12+ month certification timeline.*
-
-🔵 **MHRA Software as Medical Device**: Clarified guidance on AI-powered clinical tools classification. Dental and veterinary AI tools may fall under expanded definition.
-   → *Thesis implication: potential new regulatory barrier in dental and veterinary AI. Benefits companies already compliant. Watch for classification decisions.*
+🔵 **Sports facility investment**: Major PE firms (KKR, CVC) investing in padel and indoor sports facility chains across Europe.
+   → *Thesis implication: institutional capital validating the venue category. Creates demand for technology serving these venues.*
 
 ---
 
 ### Competitive Moves
 
-🔵 **Digitail**: Expanded integration partnerships (IDEXX, Zoetis). Strengthening US position. No major European moves detected.
-   → *Thesis implication: Digitail focusing on US — window for Lupa to consolidate UK/European position remains open.*
+🔵 **Hudl**: Launched "Hudl Assist" — AI-powered highlight generation for high school sports. Moving downstream from college/pro.
+   → *Thesis implication: validates the amateur game film market. But Hudl's enterprise DNA may not translate to consumer-grade UX needed for youth sports parents.*
 
-🔵 **Harvey**: Launched new autopilot features for contract review. Moving from copilot toward autopilot model.
-   → *Thesis implication: copilot-to-autopilot convergence happening in legal AI as predicted. Validates Sequoia framework.*
+🔵 **Catapult Sports**: Expanded wearable offering to semi-pro and academy level. Price point dropping.
+   → *Thesis implication: professional sports tech companies pushing downstream. Creates competitive pressure but also market validation.*
 
-🔵 **IDEXX (ezyVet)**: No significant product updates. Corporate parent focused on diagnostics hardware.
-   → *Thesis implication: ezyVet innovation stalled under corporate ownership. Confirms that veterinary software innovation is coming from startups, not incumbents.*
+🔵 **TeamSnap**: Added AI scheduling features. Incumbent team management platform investing in intelligence layer.
+   → *Thesis implication: existing platforms adding AI features rather than new entrants disrupting. Confirms that the tool market is maturing — autopilot opportunity emerging.*
 
 ---
 
 ## Weekly Thesis Synthesis
 
-Three converging signals this week strengthen the vertical AI thesis across all target verticals. First, the regulatory environment continues to tighten — CMA (veterinary), EU AI Act (healthcare), SRA (legal), and FCA (fintech) are all raising compliance bars that deepen moats for companies already inside the regulatory perimeter and raise entry costs for newcomers. Second, the Olive AI shutdown and LegalZoom revenue decline both validate that horizontal and legacy approaches are failing — domain-native architecture is the winning pattern. Third, hiring surges across Lawhive, Pace, and Serval suggest the best vertical AI companies are entering a breakout growth phase, with capital likely to follow within 3-6 months.
-
-The CMA veterinary decision is the most time-sensitive signal — it creates an immediate compliance window that benefits Lupa Pets specifically. This is worth monitoring daily until the final ruling drops.
+The participatory sports tech market is entering an inflection point driven by three converging forces. First, padel and indoor racket sports participation is growing 25%+ YoY across Europe, creating a wave of new venues that need modern technology (booking, pricing, community). Playtomic's hiring surge suggests they see this window and are preparing to capture it. Second, the amateur game film market is validating — Hudl moving downstream and WSC Sports consolidating at the pro level both confirm that automated video capture and analysis has real demand at every level of sport. Arcade's position at the youth/amateur level is the underserved wedge. Third, institutional capital entering sports facilities (KKR, CVC investing in padel chains) creates a new buyer profile for venue technology — these operators are data-driven and expect modern tools, unlike traditional club owners. The next 6-12 months will determine whether Playtomic becomes the category winner in racket sports or whether a larger marketplace (Google Maps, ClassPass) commoditises booking.
 
 ---
 
