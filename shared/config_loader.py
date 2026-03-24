@@ -3,6 +3,7 @@ Config loader. Reads thesis.yaml and provides typed access.
 Generates sophisticated, VC-grade search queries — not generic Google searches.
 """
 
+import random
 import yaml
 from pathlib import Path
 from typing import Any
@@ -135,7 +136,10 @@ def get_search_queries(config: dict) -> list[str]:
         "{vertical} AI company London Berlin Paris 2026",
     ]
 
-    # Generate queries across all templates and verticals
+    # Generate queries ROUND-ROBIN across verticals so that --max-queries N
+    # gives breadth (one query per vertical) rather than depth (all queries
+    # for the first vertical).  Shuffle vertical order each run so the same
+    # vertical isn't always first.
     all_templates = (
         regulatory_templates
         + talent_templates
@@ -146,12 +150,17 @@ def get_search_queries(config: dict) -> list[str]:
         + european_templates
     )
 
-    for vertical in all_verticals:
-        for tmpl in all_templates:
+    shuffled_verticals = list(all_verticals)
+    random.shuffle(shuffled_verticals)
+
+    for tmpl in all_templates:
+        for vertical in shuffled_verticals:
             queries.append(tmpl.format(vertical=vertical))
 
     # --- 8. Funding intelligence — who just raised, who's about to ---
-    for vertical in primary[:3]:
+    shuffled_primary = list(primary)
+    random.shuffle(shuffled_primary)
+    for vertical in shuffled_primary[:3]:
         queries.append(f"{vertical} startup Series A Series B funding 2026 Europe")
         queries.append(f"{vertical} startup raised seed round 2026 UK")
 
