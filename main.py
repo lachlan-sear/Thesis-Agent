@@ -18,6 +18,8 @@ Usage:
 
 import sys
 import argparse
+from dotenv import load_dotenv
+load_dotenv()
 from pathlib import Path
 from datetime import datetime
 
