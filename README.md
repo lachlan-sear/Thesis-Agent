@@ -24,8 +24,8 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      thesis.yaml                        │
-│            (configurable investment thesis)             │
+│                      thesis.yaml                         │
+│            (configurable investment thesis)               │
 └────────────────────────┬────────────────────────────────┘
                          │
           ┌──────────────┼──────────────┐
@@ -34,7 +34,7 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
     │   SCOUT   │  │   RADAR   │  │    OPS    │
     │  (daily)  │  │  (daily)  │  │ (weekly)  │
     │           │  │           │  │           │
-    │ Sources   │  │ Funding   │  │ Staleness │
+    │ 12 sources│  │ Funding   │  │ Staleness │
     │ Dedup     │  │ Exits     │  │ Promotion │
     │ Evaluate  │  │ Trends    │  │ Kill      │
     │ Enrich    │  │ Regulate  │  │ X-ref     │
@@ -47,11 +47,79 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 
 | Agent | Schedule | What it does |
 |-------|----------|--------------|
-| **Scout** | Daily | Sources new companies from web search, Hacker News, RSS. Evaluates each against the thesis (scored 1-10 across 7 dimensions). Enriches top hits with deep research. Outputs a brief with recommendations. |
-| **Radar** | Daily + Weekly | Monitors funding rounds, exits, shutdowns, regulatory shifts, and competitive moves across thesis verticals. Weekly synthesis distils signals into thesis implications. |
-| **Ops** | Weekly | Audits the tracker for staleness. Checks tracked companies for news. Suggests promotions (to benchmark tier) and kills. Cross-references with radar signals. |
+| **Scout** | Daily | Sources new companies from 12 data sources. Evaluates each against the thesis using 5 VC frameworks (scored 1-10 across 7 dimensions). Enriches top hits with deep research. Outputs a brief with recommendations. |
+| **Radar** | Daily + Weekly | Monitors funding rounds, exits, shutdowns, regulatory shifts, and competitive moves across thesis verticals. Tracks investor activity. Weekly synthesis distils signals into thesis implications. |
+| **Ops** | Weekly | Audits the tracker for staleness. Checks tracked companies for news and hiring signals. Suggests promotions (to benchmark tier) and kills. Cross-references with radar signals. |
 
 The agents reinforce each other. Scout finds a company → Radar catches a regulatory change in the same vertical → Ops cross-references both and flags the update.
+
+---
+
+## Sample Output
+
+The examples below are from a **Sports Tech** thesis configuration — demonstrating that the system works for any investment thesis, not just the author's. See [examples/](examples/) for the full set.
+
+Here's what a scout brief entry looks like ([full brief](examples/scout_2026-03-23.md)):
+
+> **Arcade** (8.1/10) — AI-powered youth sports video platform. Automates game film analysis for amateur leagues and travel teams.
+>
+> | Dimension | Score |
+> |-----------|:-----:|
+> | Thesis Fit | **9**/10 |
+> | Customer Durability | **8**/10 |
+> | Regulation Moat | **6**/10 |
+> | Autopilot Potential | **9**/10 |
+> | **Composite** | **8.1**/10 |
+>
+> **Bull case:** Youth sports parents spend $30B+/year in the US alone. Automated game film replaces $500/game human videographers — pure autopilot. Viral distribution through team sharing.
+>
+> **Bear case:** Low switching costs. No regulatory moat. Hudl dominates at college/pro level and could move downstream.
+
+And here's an ops review recommending a promotion ([full review](examples/ops_2026-03-23.md)):
+
+> **Promote to Benchmark: Playtomic**
+> *Tracked since January 2026. Composite: 8.4/10.*
+>
+> Three signals converging: hiring surge (18 roles on Adzuna), geographic expansion into UK/Germany, and padel participation growing 25% YoY across Europe. Series B likely within 6 months.
+
+The scout scans 12 sources, deduplicates against history, scores every company on 7 dimensions using 5 VC evaluation frameworks, and enriches the top hits with founder backgrounds, competitive landscape, and regulatory context.
+
+---
+
+## 12 Data Sources
+
+The scout agent pulls from 12 sources covering the full company lifecycle — from incorporation to breakout. 11 are free.
+
+| Source | What it catches | When in lifecycle | Cost |
+|--------|----------------|-------------------|------|
+| **Companies House** | UK incorporations by SIC code | Day 0 — incorporation | Free |
+| **Product Hunt** | Product launches | Day 1 — launch | Free |
+| **GitHub** | Developer traction (star velocity, contributors) | Weeks 1-12 — adoption | Free |
+| **Hacker News** | Builder community signal (Show HN, top stories) | Weeks 1-12 | Free |
+| **Reddit** | Practitioner frustration and adoption signals | Ongoing — demand signal | Free |
+| **Podcasts** | Founder appearances on 20VC, Riding Unicorns, etc. | Ongoing — fundraise signal | Free |
+| **Twitter/X** | Funding announcements, investor activity | Ongoing | Free |
+| **RSS Feeds** | Press coverage (Sifted, TechCrunch, EU-Startups) | Ongoing | Free |
+| **Adzuna** | Hiring velocity — the #1 breakout predictor | Months 3-12 — pre-funding | Free |
+| **USPTO Patents** | IP defensibility signals | Months 6-24 — moat building | Free |
+| **Wikipedia** | Mindshare trends (pageview velocity) | Ongoing — awareness | Free |
+| **Claude Web Search** | Thesis-targeted queries across 7 signal categories | Anytime — fills gaps | API cost |
+
+Each source is a module implementing `fetch() → list[RawCandidate]`. Add a new source by dropping a file in `agents/scout/sources/`.
+
+---
+
+## Evaluation Frameworks
+
+Every company is scored using 5 VC evaluation frameworks:
+
+1. **Moat Taxonomy** — regulatory, data, workflow, network, or none
+2. **Sequoia Autopilot Test** — selling the work (autopilot) or the tool (copilot)?
+3. **10x Test** — 10x better, 10x cheaper, or both?
+4. **Founder-Market Fit** — domain expertise, operator background, industry credibility
+5. **Outsourcing Wedge** — is the task already outsourced? (Existing budget = clean substitution)
+
+Scoring calibration: 1-3 weak, 4-6 interesting but not meeting-ready, 7+ warrants a partner meeting, 8-9 exceptional, 10 generational.
 
 ---
 
@@ -59,38 +127,25 @@ The agents reinforce each other. Scout finds a company → Radar catches a regul
 
 ### 1. Define your thesis
 
-Everything flows from `config/thesis.yaml`. It defines:
+Everything flows from `config/thesis.yaml`. It defines target verticals, positive and negative signals, stage and geography focus, evaluation rubric with weighted dimensions, regulatory monitoring queries, and investor activity tracking.
 
-- Target verticals (primary, secondary, emerging)
-- Positive and negative signals
-- Stage and geography focus
-- Evaluation rubric with weighted dimensions
-- Portfolio exemplars for calibration
-
-The thesis is fully configurable. A healthcare investor, a fintech fund, a climate tech scout — each swaps in their own config and the entire system re-orients.
+The thesis is fully configurable. A healthcare investor, a fintech fund, a sports tech scout — each swaps in their own config and the entire system re-orients. The examples in this repo use a Sports Tech thesis to demonstrate this.
 
 ### 2. Scout sources companies
 
-The scout agent searches across multiple sources in parallel:
-
-- **Claude web search** — targeted queries generated from thesis verticals
-- **Hacker News** — Show HN posts and top stories, keyword-filtered
-- **RSS feeds** — configurable feed list (Sifted, TechCrunch, etc.)
-- **Companies House API** — UK incorporations by SIC code (free, public)
-
-Each candidate is deduplicated against the SQLite history, then evaluated by Claude against the thesis rubric. Companies scoring 7+ get a deep enrichment pass: founder backgrounds, funding history, competitive landscape, regulatory context.
+The scout agent searches across 12 sources in parallel, deduplicates against the SQLite history, evaluates every candidate using Claude against 5 VC frameworks, and enriches high-scorers with deep research: founder backgrounds, funding history, competitive landscape, regulatory context, product maturity, and red flags.
 
 ### 3. Radar monitors the market
 
-Daily scans for funding rounds, exits, and trend signals across thesis verticals. Weekly synthesis uses Claude Opus to distil a week's signals into thesis implications — what's heating up, what's cooling down, what should change sourcing priorities.
+Daily scans for funding rounds, exits, and trend signals. Weekly monitoring of regulatory changes (configurable per vertical) and investor activity (configurable watch list). Weekly synthesis uses Claude Opus to distil signals into thesis implications.
 
 ### 4. Ops maintains the tracker
 
-Weekly audit of all tracked companies. Web searches for recent news on each entry. Flags staleness (>30 days since update), suggests promotions for breakout performers, suggests kills for companies that have pivoted away, shut down, or gone stale.
+Weekly audit of all tracked companies. Web searches for recent news. Hiring signal checks via Adzuna. Flags staleness (>30 days), recommends promotions for breakout performers, recommends kills for companies that have pivoted, shut down, or gone stale. Cross-references with radar signals.
 
 ### 5. Read your briefs
 
-All output goes to `outputs/daily/` and `outputs/weekly/` as markdown files. Committed to the repo by GitHub Actions, so the full history of what was sourced, evaluated, and recommended is version-controlled and auditable.
+All output goes to `outputs/daily/` and `outputs/weekly/` as markdown files. Committed to the repo by GitHub Actions, so the full history is version-controlled and auditable.
 
 ---
 
@@ -106,20 +161,13 @@ cp .env.example .env   # Add your ANTHROPIC_API_KEY
 ### Run agents
 
 ```bash
-# Run all three agents
-python main.py run --all
-
-# Run individually
-python main.py run --scout
-python main.py run --radar
-python main.py run --radar --weekly    # Include weekly synthesis
-python main.py run --ops
-
-# Dry run (no API calls — tests structure and HN source)
-python main.py run --scout --dry-run
-
-# Control search depth
-python main.py run --scout --max-queries 20
+python main.py run --all                # Run all three agents
+python main.py run --scout              # Scout only
+python main.py run --radar              # Radar only
+python main.py run --radar --weekly     # Include weekly synthesis
+python main.py run --ops                # Ops only
+python main.py run --scout --dry-run    # No API calls — tests structure and free sources
+python main.py run --scout --max-queries 20  # Control search depth
 ```
 
 ### Utilities
@@ -147,56 +195,43 @@ Not every task needs the most powerful model. thesis-agent routes intelligently:
 
 ---
 
-## Customisation
-
-### Use your own thesis
-
-Edit `config/thesis.yaml`. Change the verticals, signals, rubric, and exemplars. The entire system re-orients automatically.
-
-A climate tech investor swaps in different verticals (energy storage, carbon capture, grid), different positive signals (IP portfolio, regulatory incentive alignment), and different exemplars. Same architecture, different intelligence.
-
-### Add sources
-
-Each source implements a simple pattern: `fetch() → list[RawCandidate]`. Add a new file to `agents/scout/sources/`, import it in the scout orchestrator, and it's live.
-
-### Adjust scoring
-
-The evaluation rubric weights in `shared/models.py` control how the composite score is calculated. Increase the weight on `regulation_moat` if moat matters more than growth inflection for your thesis.
-
----
-
-## Sequoia Framework Integration
-
-The evaluation rubric includes an `autopilot_potential` dimension, inspired by Sequoia's "Services: The New Software" thesis.
-
-This scores whether a company is selling the work (autopilot) or selling the tool (copilot). Companies that capture service and labour budgets rather than software budgets get higher marks — they have larger TAM, stronger lock-in, and benefit directly from model improvements rather than being threatened by them.
-
----
-
 ## Project Structure
 
 ```
 thesis-agent/
 ├── config/
 │   ├── thesis.yaml              # Investment thesis (the brain)
-│   └── tracker_state.json       # Current tracked companies
+│   └── tracker_state.json       # Currently tracked companies
 ├── agents/
 │   ├── scout/                   # Agent 1: Deal Sourcing
-│   │   ├── scout.py             # Pipeline orchestrator
-│   │   ├── evaluator.py         # Claude-powered thesis scoring
+│   │   ├── scout.py             # Pipeline orchestrator (12 sources)
+│   │   ├── evaluator.py         # Claude-powered scoring (5 frameworks)
 │   │   ├── enricher.py          # Deep research on high scorers
 │   │   └── sources/
-│   │       ├── web_search.py    # Claude web search discovery
-│   │       └── hn.py            # Hacker News scanner
+│   │       ├── web_search.py    # Claude web search (7 query categories)
+│   │       ├── hn.py            # Hacker News
+│   │       ├── companies_house.py # UK incorporations
+│   │       ├── github_trending.py # Developer traction
+│   │       ├── adzuna_hiring.py # Hiring velocity signals
+│   │       ├── rss.py           # RSS feeds
+│   │       ├── producthunt.py   # Product launches
+│   │       ├── reddit.py        # Practitioner signals
+│   │       ├── patents.py       # IP defensibility
+│   │       ├── wikipedia.py     # Mindshare trends
+│   │       ├── podcasts.py      # VC podcast monitoring
+│   │       └── twitter.py       # X/Twitter signals
 │   ├── radar/                   # Agent 2: Market Intelligence
-│   │   └── radar.py             # Funding, exits, trends, synthesis
+│   │   └── radar.py             # Funding, exits, trends, regulatory, synthesis
 │   └── ops/                     # Agent 3: Tracker Management
-│       └── ops.py               # Staleness, promotions, kills
+│       └── ops.py               # Staleness, promotions, kills, cross-refs
 ├── shared/
 │   ├── claude_client.py         # API wrapper with model routing
-│   ├── config_loader.py         # Thesis config parser
+│   ├── config_loader.py         # Thesis config parser (7 query categories)
 │   ├── models.py                # Pydantic data models
 │   └── db.py                    # SQLite persistence
+├── tests/
+│   └── test_core.py             # Core logic tests
+├── examples/                    # Sample outputs (Sports Tech thesis)
 ├── outputs/
 │   ├── daily/                   # Scout briefs + radar signals
 │   └── weekly/                  # Ops reviews + radar synthesis
@@ -209,27 +244,19 @@ thesis-agent/
 
 ---
 
-## Cost Estimate
+## Customisation
 
-Running daily with 10 search queries and a 12-company tracker:
+### Use your own thesis
 
-| Agent | Frequency | Estimated API cost |
-|-------|-----------|-------------------|
-| Scout (10 queries + eval) | Daily | ~$0.50-1.50/day |
-| Radar (3 monitors) | Daily | ~$0.30-0.80/day |
-| Ops (12 company checks) | Weekly | ~$0.50-1.00/week |
-| **Total** | | **~$25-70/month** |
+Edit `config/thesis.yaml`. Change the verticals, signals, rubric, regulatory monitoring queries, and investor watch list. The entire system re-orients automatically.
 
----
+### Add sources
 
-## Built With
+Each source implements `fetch() → list[RawCandidate]`. Drop a new file in `agents/scout/sources/`, import it in the scout orchestrator, and it's live.
 
-- **Python 3.12**
-- **Claude API** — Sonnet for bulk work, Opus for synthesis
-- **SQLite** — Deduplication and signal history
-- **GitHub Actions** — Scheduling and output versioning
-- **Pydantic** — Typed data models throughout
-- **PyYAML** — Thesis configuration
+### Adjust scoring
+
+The evaluation rubric weights in `shared/models.py` control how the composite score is calculated. Increase the weight on `regulation_moat` if moat matters more than growth inflection for your thesis.
 
 ---
 
@@ -240,6 +267,17 @@ Running daily with 10 search queries and a 12-company tracker:
 Most deal sourcing tools sell the tool. Harmonic gives you a dashboard. Dealroom gives you a database. You still need an analyst to evaluate every company against your thesis.
 
 thesis-agent sells the work. It sources, evaluates, enriches, monitors, and maintains — then delivers a brief. The human decides what to do with it. That's the only part that requires judgement.
+
+---
+
+## Built With
+
+- **Python 3.12** — standard library for most data sources (no heavy dependencies)
+- **Claude API** — Sonnet for bulk work, Opus for synthesis
+- **SQLite** — Deduplication and signal history
+- **GitHub Actions** — Scheduling and output versioning
+- **Pydantic** — Typed data models throughout
+- **PyYAML** — Thesis configuration
 
 ---
 
