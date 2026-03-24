@@ -1,4 +1,4 @@
-# thesis-agent
+# Thesis Agent
 
 An autonomous deal intelligence system for venture capital.
 
@@ -24,15 +24,15 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      thesis.yaml                         │
-│            (configurable investment thesis)               │
+│                      thesis.yaml                        │
+│            (configurable investment thesis)             │
 └────────────────────────┬────────────────────────────────┘
                          │
           ┌──────────────┼──────────────┐
           ▼              ▼              ▼
     ┌───────────┐  ┌───────────┐  ┌───────────┐
     │   SCOUT   │  │   RADAR   │  │    OPS    │
-    │  (daily)  │  │  (daily)  │  │ (weekly)  │
+    │  (daily)  │  │  (daily)  │  │  (weekly) │
     │           │  │           │  │           │
     │ 12 sources│  │ Funding   │  │ Staleness │
     │ Dedup     │  │ Exits     │  │ Promotion │
@@ -41,8 +41,8 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
     └─────┬─────┘  └─────┬─────┘  └─────┬─────┘
           │              │              │
           ▼              ▼              ▼
-    Scout Brief    Radar Digest    Ops Review
-    (markdown)     (markdown)      (markdown)
+    Scout Brief     Radar Digest    Ops Review
+    (markdown)      (markdown)      (markdown)
 ```
 
 | Agent | Schedule | What it does |
