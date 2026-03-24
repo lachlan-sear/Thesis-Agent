@@ -79,9 +79,22 @@ def check_for_news(entries: list[TrackerEntry], config: dict) -> list[OpsRecomme
         print(f"  Checking: {entry.name}...")
         try:
             raw = client.search_and_summarise(
-                query=f"{entry.name} startup news funding 2026",
+                query=f"{entry.name} startup funding round investors 2026",
                 task_type="audit",
                 system="""You are checking for recent news about a startup company.
+Look specifically for:
+1. New funding rounds or extensions
+2. New investors joining the cap table
+3. Revenue milestones or growth metrics
+4. Product launches or pivots
+5. Team changes (new C-suite, departures)
+6. Regulatory developments affecting their vertical
+7. Competitive moves (competitor funding, launches, acquisitions)
+8. Shutdown or pivot signals
+
+If you find a new funding round, note the amount, lead investor, and whether
+previous investors followed on. This is a critical signal.
+
 Return ONLY valid JSON: {"has_news": true/false, "news_type": "funding"|"acquisition"|"shutdown"|"product"|"hiring"|"none",
 "summary": "brief description or empty", "action": "update"|"kill"|"promote"|"none"}""",
             )
