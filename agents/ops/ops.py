@@ -226,7 +226,7 @@ def run_ops(
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
     brief_file = output_path / f"ops_{review.date}.md"
-    brief_file.write_text(format_ops_review(review, config))
+    brief_file.write_text(format_ops_review(review, config), encoding='utf-8')
     print(f"\n  Review written to: {brief_file}")
 
     log_run("ops", raw_count=len(entries), passed_count=len(all_recs), output_path=str(brief_file))

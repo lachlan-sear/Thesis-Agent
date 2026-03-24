@@ -144,7 +144,7 @@ Return your findings as JSON matching this schema:
     try:
         # Use web search for enrichment
         raw_research = client.search_and_summarise(
-            query=f"{name} startup company funding founders",
+            query=f"{name} startup funding investors revenue customers 2025 2026",
             task_type="enrich",
             system=ENRICHER_SYSTEM,
             prompt_template=prompt,
@@ -203,7 +203,7 @@ Return ONLY valid JSON matching this schema:
         )
 
     except Exception as e:
-        # Return basic enrichment on failure
+        print(f"  [WARN] Enrichment failed for {name}: {e}")
         return EnrichedCompany(
             name=name,
             url=url,

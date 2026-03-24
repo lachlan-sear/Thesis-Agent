@@ -229,7 +229,7 @@ def run_scout(
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
     brief_file = output_path / f"scout_{brief.date}.md"
-    brief_file.write_text(format_brief(brief, config, source_counts))
+    brief_file.write_text(format_brief(brief, config, source_counts), encoding='utf-8')
     print(f"\n  Brief → {brief_file}")
     log_run("scout", raw_count=raw_count, passed_count=len(deduped), output_path=str(brief_file))
 

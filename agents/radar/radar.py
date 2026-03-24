@@ -291,7 +291,7 @@ def run_radar(
     output_path.mkdir(parents=True, exist_ok=True)
     prefix = "radar_weekly" if weekly else "radar"
     brief_file = output_path / f"{prefix}_{digest.week_of}.md"
-    brief_file.write_text(format_radar_digest(digest, config))
+    brief_file.write_text(format_radar_digest(digest, config), encoding='utf-8')
     print(f"\n  Digest written to: {brief_file}")
 
     log_run("radar", raw_count=len(all_signals), output_path=str(brief_file))
