@@ -46,6 +46,13 @@ def get_thesis_text(config: dict) -> str:
     for k, v in thesis.get("evaluation_rubric", {}).items():
         lines.append(f"  {k}: {v}")
 
+    # Evaluation weights (if thesis specifies custom weights)
+    eval_weights = thesis.get("evaluation_weights", {})
+    if eval_weights:
+        lines.append(f"\nEvaluation Weights (fund-specific):")
+        for k, v in eval_weights.items():
+            lines.append(f"  {k}: {v}")
+
     autopilot = thesis.get("autopilot_lens", {})
     if autopilot.get("enabled"):
         lines.append(f"\nAutopilot Lens (Sequoia Framework):\n{autopilot.get('description', '')}")
@@ -142,6 +149,11 @@ def get_search_queries(config: dict) -> list[str]:
     for vertical in all_verticals:
         for tmpl in all_templates:
             queries.append(tmpl.format(vertical=vertical))
+
+    # --- 8. Funding intelligence — who just raised, who's about to ---
+    for vertical in primary[:3]:
+        queries.append(f"{vertical} startup Series A Series B funding 2026 Europe")
+        queries.append(f"{vertical} startup raised seed round 2026 UK")
 
     # --- Thesis-specific queries (not vertical-dependent) ---
     thesis_queries = [

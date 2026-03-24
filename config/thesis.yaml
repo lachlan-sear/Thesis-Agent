@@ -62,12 +62,18 @@ thesis:
 
   evaluation_rubric:
     thesis_fit: "How well does this company match the vertical AI thesis? (1-10)"
-    moat_strength: "How defensible is the position — data, regulation, workflow lock-in? (1-10)"
-    timing: "Is the market ready? Is the regulatory window open? (1-10)"
-    founder_quality: "Domain expertise, technical depth, founder-market fit? (1-10)"
     customer_durability: "How enduring is the customer relationship? (1-10)"
+    regulation_moat: "How defensible is the position via regulatory complexity? (1-10)"
     unit_economics: "Are unit economics strong or clearly improving? (1-10)"
+    growth_inflection: "Is the company at or approaching breakout growth? (1-10)"
+    founder_quality: "Domain expertise, technical depth, founder-market fit? (1-10)"
     autopilot_potential: "Per Sequoia framework — selling the work, not the tool? (1-10)"
+    funding_stage_score: "Quality of cap table — investor tier, follow-on, cleanliness? (1-10)"
+    tam_score: "Total addressable market — venture-scale opportunity? (1-10)"
+    revenue_model_score: "Durability and quality of revenue model? (1-10)"
+    gtm_score: "Go-to-market efficiency — sales cycle, CAC, distribution? (1-10)"
+    geo_scalability: "Can this expand beyond home market? (1-10)"
+    exit_potential: "Clear acquirers, IPO path, comparable exits? (1-10)"
 
   autopilot_lens:
     enabled: true
