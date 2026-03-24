@@ -56,7 +56,7 @@ class ClaudeClient:
         """Send a completion request and parse JSON from response."""
         raw = self.complete(task_type, system, prompt, max_tokens)
 
-        # Strip markdown fences if present
+        # Strip markdown fences and leading/trailing whitespace aggressively
         cleaned = raw.strip()
         if cleaned.startswith("```json"):
             cleaned = cleaned[7:]
@@ -64,8 +64,22 @@ class ClaudeClient:
             cleaned = cleaned[3:]
         if cleaned.endswith("```"):
             cleaned = cleaned[:-3]
+        cleaned = cleaned.strip()
 
-        return json.loads(cleaned.strip())
+        # Extract just the JSON object/array — Claude sometimes prepends newlines or text
+        first_brace = cleaned.find("{")
+        first_bracket = cleaned.find("[")
+        if first_brace == -1 and first_bracket == -1:
+            raise ValueError(f"No JSON object or array found in response: {cleaned[:200]}")
+        if first_bracket == -1 or (first_brace != -1 and first_brace < first_bracket):
+            start = first_brace
+            end = cleaned.rfind("}") + 1
+        else:
+            start = first_bracket
+            end = cleaned.rfind("]") + 1
+        cleaned = cleaned[start:end]
+
+        return json.loads(cleaned)
 
     def search_and_summarise(
         self,
