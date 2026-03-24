@@ -172,7 +172,7 @@ cp .env.example .env   # Add your ANTHROPIC_API_KEY
 ### Run agents
 
 ```bash
-python main.py run --all                # Run all three agents
+python main.py run --all --max-queries 24   # Run all three agents
 python main.py run --scout              # Scout only
 python main.py run --radar              # Radar only
 python main.py run --radar --weekly     # Include weekly synthesis
@@ -180,6 +180,8 @@ python main.py run --ops                # Ops only
 python main.py run --scout --dry-run    # No API calls — tests structure and free sources
 python main.py run --scout --max-queries 20  # Control search depth
 ```
+
+> **Note:** `--max-queries` controls how many web search queries to run. 24 gives ~3 queries per primary vertical. Reduce to 8 for a quick scan, increase to 40 for deep coverage.
 
 ### Utilities
 
