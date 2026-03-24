@@ -47,7 +47,7 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 
 | Agent | Schedule | What it does |
 |-------|----------|--------------|
-| **Scout** | Daily | Sources new companies from 12 data sources. Evaluates each against the thesis using 5 VC frameworks (scored 1-10 across 7 dimensions). Enriches top hits with deep research. Outputs a brief with recommendations. |
+| **Scout** | Daily | Sources new companies from 12 data sources. Evaluates each against the thesis using 5 VC frameworks (scored 1-10 across 13 dimensions). Enriches top hits with deep research. Outputs a brief with recommendations. |
 | **Radar** | Daily + Weekly | Monitors funding rounds, exits, shutdowns, regulatory shifts, and competitive moves across thesis verticals. Tracks investor activity. Weekly synthesis distils signals into thesis implications. |
 | **Ops** | Weekly | Audits the tracker for staleness. Checks tracked companies for news and hiring signals. Suggests promotions (to benchmark tier) and kills. Cross-references with radar signals. |
 
@@ -63,13 +63,22 @@ Here's what a scout brief entry looks like ([full brief](examples/scout_2026-03-
 
 > **Arcade** (8.1/10) — AI-powered youth sports video platform. Automates game film analysis for amateur leagues and travel teams.
 >
-> | Dimension | Score |
-> |-----------|:-----:|
-> | Thesis Fit | **9**/10 |
-> | Customer Durability | **8**/10 |
-> | Regulation Moat | **6**/10 |
-> | Autopilot Potential | **9**/10 |
-> | **Composite** | **8.1**/10 |
+> | Dimension | Score | Notes |
+> |-----------|-------|-------|
+> | Thesis Fit | **9**/10 | |
+> | Customer Durability | **8**/10 | |
+> | Regulation Moat | **6**/10 | |
+> | Unit Economics | **7**/10 | |
+> | Growth Inflection | **8**/10 | |
+> | Founder Quality | **7**/10 | |
+> | Autopilot Potential | **9**/10 | *Selling the work or the tool?* |
+> | Funding & Cap Table | **5**/10 | ~$4M seed |
+> | TAM / Market Size | **8**/10 | $30B+ youth sports |
+> | Revenue Model | **8**/10 | subscription |
+> | Go-to-Market | **7**/10 | viral — team sharing |
+> | Geographic Scalability | **7**/10 | |
+> | Exit Potential | **7**/10 | Hudl, WSC Sports precedents |
+> | **Composite** | **7.6**/10 | |
 >
 > **Bull case:** Youth sports parents spend $30B+/year in the US alone. Automated game film replaces $500/game human videographers — pure autopilot. Viral distribution through team sharing.
 >
@@ -82,7 +91,7 @@ And here's an ops review recommending a promotion ([full review](examples/ops_20
 >
 > Three signals converging: hiring surge (18 roles on Adzuna), geographic expansion into UK/Germany, and padel participation growing 25% YoY across Europe. Series B likely within 6 months.
 
-The scout scans 12 sources, deduplicates against history, scores every company on 7 dimensions using 5 VC evaluation frameworks, and enriches the top hits with founder backgrounds, competitive landscape, and regulatory context.
+The scout scans 12 sources, deduplicates against history, scores every company on 13 dimensions using 5 VC evaluation frameworks, and enriches the top hits with founder backgrounds, competitive landscape, regulatory context, TAM estimates, revenue model analysis, and exit comparables.
 
 ---
 
@@ -111,7 +120,9 @@ Each source is a module implementing `fetch() → list[RawCandidate]`. Add a new
 
 ## Evaluation Frameworks
 
-Every company is scored using 5 VC evaluation frameworks:
+**Evaluator** — Scores every candidate across 13 dimensions: thesis fit, customer durability, regulation moat, unit economics, growth inflection, founder quality, autopilot potential (Sequoia framework), funding & cap table quality, TAM, revenue model, go-to-market efficiency, geographic scalability, and exit potential. Runs 5 analytical frameworks: moat taxonomy, Sequoia autopilot test, 10x test, founder-market fit, and outsourcing wedge analysis.
+
+The 5 analytical frameworks:
 
 1. **Moat Taxonomy** — regulatory, data, workflow, network, or none
 2. **Sequoia Autopilot Test** — selling the work (autopilot) or the tool (copilot)?
@@ -256,7 +267,7 @@ Each source implements `fetch() → list[RawCandidate]`. Drop a new file in `age
 
 ### Adjust scoring
 
-The evaluation rubric weights in `shared/models.py` control how the composite score is calculated. Increase the weight on `regulation_moat` if moat matters more than growth inflection for your thesis.
+The evaluation rubric weights in `shared/models.py` provide universal defaults. To override per-fund, add an `evaluation_weights` section to your `thesis.yaml` — the evaluator will use those weights instead. See `config/LEFT_LANE_thesis.yaml` for an example.
 
 ---
 
