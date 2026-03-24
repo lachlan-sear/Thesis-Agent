@@ -269,7 +269,7 @@ Each source implements `fetch() → list[RawCandidate]`. Drop a new file in `age
 
 ### Adjust scoring
 
-The evaluation rubric weights in `shared/models.py` provide universal defaults. To override per-fund, add an `evaluation_weights` section to your `thesis.yaml` — the evaluator will use those weights instead. See `config/LEFT_LANE_thesis.yaml` for an example.
+The evaluation rubric weights in `shared/models.py` provide universal defaults. To override per-fund, add an `evaluation_weights` section to your `thesis.yaml` — the evaluator will use those weights instead. Add an `evaluation_weights` section to your `thesis.yaml` to override the default weights for your fund's priorities.
 
 ---
 
