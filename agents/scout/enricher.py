@@ -61,7 +61,13 @@ ENRICHER_SCHEMA = """{
   "product_maturity": "string — live product with paying customers / beta / waitlist / pre-product. Include evidence.",
   "distribution_strategy": "string — how do they acquire customers? partnerships, sales, PLG, marketplace?",
   "key_metrics": "string — any public metrics: revenue, users, growth rate, retention. 'Not found' if unavailable.",
-  "red_flags": "string — anything concerning: no product, pivot history, founder departures, lawsuit, etc. 'None found' if clean."
+  "red_flags": "string — anything concerning: no product, pivot history, founder departures, lawsuit, etc. 'None found' if clean.",
+  "tam_estimate": "string — market size estimate with source",
+  "revenue_model": "string — how they make money, pricing details if known",
+  "gtm_strategy": "string — customer acquisition strategy and distribution",
+  "distribution_advantage": "string — any exclusive partnerships or channels",
+  "exit_comparables": "string — potential acquirers, comparable exits, multiples",
+  "investor_quality": "string — lead investors, tier, follow-on behaviour"
 }"""
 
 
@@ -105,6 +111,32 @@ Research the following — search thoroughly, use multiple queries if needed:
 
 7. RED FLAGS: Any concerns? Founder departures, pivots, lawsuits, negative
    press, quiet periods suggesting stall?
+
+8. TAM & MARKET SIZE: What is the total addressable market for this company's
+   vertical? Find market research estimates. Is this a $500M niche or a $50B+
+   opportunity? What is the serviceable obtainable market in year 1-3?
+
+9. REVENUE MODEL: How does this company make money? Subscription per seat?
+   Per-clinic SaaS? Usage-based? Transactional? Marketplace take rate?
+   Are there multiple revenue streams? What are typical price points?
+
+10. GO-TO-MARKET & DISTRIBUTION: How do they acquire customers? Product-led
+    growth? Direct sales team? Channel partnerships? Viral referral?
+    What is the typical sales cycle length? What is the CAC relative
+    to LTV? Any distribution moats (exclusive partnerships, integrations)?
+
+11. GEOGRAPHIC PRESENCE & SCALABILITY: Where do they operate today?
+    What markets are they expanding into? Does regulation help or
+    hinder cross-border expansion? Is the product inherently local
+    or globally portable?
+
+12. EXIT LANDSCAPE: Who are potential acquirers in this space? Have there
+    been comparable exits? At what multiples? Is IPO realistic given
+    the TAM? Name specific companies that could acquire this.
+
+13. INVESTOR QUALITY: Who has invested? Are lead investors tier 1?
+    Have insiders followed on in subsequent rounds? What does the
+    investor's portfolio tell you about their conviction in this space?
 
 Return your findings as JSON matching this schema:
 {ENRICHER_SCHEMA}"""
@@ -160,6 +192,12 @@ Return ONLY valid JSON matching this schema:
             competitive_landscape=result.get("competitive_landscape"),
             regulatory_context=result.get("regulatory_context"),
             product_maturity=result.get("product_maturity"),
+            tam_estimate=result.get("tam_estimate"),
+            revenue_model=result.get("revenue_model"),
+            gtm_strategy=result.get("gtm_strategy"),
+            distribution_advantage=result.get("distribution_advantage"),
+            exit_comparables=result.get("exit_comparables"),
+            investor_quality=result.get("investor_quality"),
             evaluation=evaluation,
             source="enriched",
         )

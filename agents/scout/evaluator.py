@@ -58,6 +58,49 @@ EVALUATION FRAMEWORK:
    - Regulated workflows create natural lock-in.
    - Monthly consumer apps without switching costs = low durability.
 
+ADDITIONAL DIMENSIONS — score these for every company:
+
+8. FUNDING STAGE & CAP TABLE (funding_stage_score):
+   - Who has invested? Are they tier 1 (Sequoia, a16z, Accel, Balderton, Index)?
+   - Have insiders followed on? (strongest signal of conviction)
+   - Is the cap table clean or cluttered with party rounds?
+   - Pre-seed with no investors = null, not 1. Seed with top angels = 6-7. Series A led by tier 1 = 8-9.
+   - If no funding information is available, score null.
+
+9. TAM / MARKET SIZE (tam_score):
+   - Is this a venture-scale market? $1B+ TAM minimum for a VC-backable company.
+   - Consider both current market and expansion potential.
+   - Niche vertical in a tiny market = 3-4 even if execution is great.
+   - Vertical AI in a $50B+ regulated market = 8-9.
+   - Score based on the realistic serviceable obtainable market, not fantasy TAM.
+
+10. REVENUE MODEL (revenue_model_score):
+   - Subscription/SaaS with annual contracts = strong (7-8).
+   - Usage-based with growing consumption = strong (7-8).
+   - Transactional with repeat purchasing = good (6-7).
+   - One-time purchases or unclear monetisation = weak (3-4).
+   - Revenue model tied to outcomes rather than seats = bonus.
+
+11. GO-TO-MARKET / DISTRIBUTION (gtm_score):
+   - Product-led growth with viral mechanics = excellent (8-9).
+   - Partnerships providing guaranteed distribution = strong (7-8).
+   - Direct sales to SMBs with short cycles = good (6-7).
+   - Enterprise sales with 12+ month cycles to early-stage company = risk (4-5).
+   - No clear distribution strategy = weak (2-3).
+
+12. GEOGRAPHIC SCALABILITY (geo_scalability):
+   - Software with no regulatory barriers to expansion = 8-9.
+   - Vertical AI where regulation varies by country but core product transfers = 6-7.
+   - Heavily UK-specific with limited portability = 3-4.
+   - Consider: does being in a regulated vertical help or hinder cross-border growth?
+
+13. EXIT POTENTIAL (exit_potential):
+   - Clear strategic acquirers exist and are active = 8-9 (e.g. IDEXX for vet tech, Epic for health IT).
+   - Market has seen comparable exits at strong multiples = 7-8.
+   - IPO-scale potential given TAM and growth = 8-9.
+   - No obvious acquirers and market too small for IPO = 3-4.
+   - If too early to assess, score null.
+
 SCORING CALIBRATION:
 - 1-3: Weak. No thesis fit, thin wrapper, or fundamentally flawed.
 - 4-5: Interesting space, but execution or positioning concerns. Not worth a meeting yet.
@@ -88,6 +131,16 @@ EVALUATOR_SCHEMA = """{
   "founder_quality": int or null,        // 1-10: domain expertise, operator background?
   "thesis_fit": int or null,             // 1-10: overall alignment with investment thesis?
   "autopilot_potential": int or null,    // 1-10: selling the work or the tool?
+  "funding_stage_score": int or null,    // 1-10: quality of cap table, investor tier, follow-on signals
+  "tam_score": int or null,              // 1-10: total addressable market size — $500M or $50B?
+  "revenue_model_score": int or null,    // 1-10: quality and durability of revenue model
+  "gtm_score": int or null,              // 1-10: go-to-market efficiency — short sales cycles, low CAC?
+  "geo_scalability": int or null,        // 1-10: can this expand beyond home market?
+  "exit_potential": int or null,         // 1-10: clear acquirers, IPO path, or comparable exits?
+  "funding_detail": "string — known funding rounds, lead investors, follow-on status",
+  "revenue_model_type": "subscription" | "transactional" | "marketplace" | "usage-based" | "hybrid" | "unknown",
+  "gtm_strategy": "string — PLG, direct sales, partnerships, viral, paid acquisition, or combination",
+  "exit_comparables": "string — named acquirers, comparable exits, relevant multiples",
   "moat_type": "regulatory" | "data" | "workflow" | "network" | "none" | "unknown",
   "ten_x_test": "better" | "cheaper" | "both" | "neither" | "unknown",
   "outsourcing_wedge": true | false | null,  // is the task already outsourced?
@@ -141,13 +194,25 @@ Return your evaluation as JSON matching this schema:
             founder_quality=result.get("founder_quality"),
             thesis_fit=result.get("thesis_fit"),
             autopilot_potential=result.get("autopilot_potential"),
+            funding_stage_score=result.get("funding_stage_score"),
+            tam_score=result.get("tam_score"),
+            revenue_model_score=result.get("revenue_model_score"),
+            gtm_score=result.get("gtm_score"),
+            geo_scalability=result.get("geo_scalability"),
+            exit_potential=result.get("exit_potential"),
+            funding_detail=result.get("funding_detail", ""),
+            revenue_model_type=result.get("revenue_model_type", ""),
+            gtm_strategy=result.get("gtm_strategy", ""),
+            exit_comparables=result.get("exit_comparables", ""),
             one_liner=result.get("one_liner", ""),
             bull_case=result.get("bull_case", ""),
             bear_case=result.get("bear_case", ""),
             action=Action(result.get("action", "skip")),
             reasoning=result.get("reasoning", ""),
         )
-        eval_obj.compute_composite()
+        # Use thesis-specific weights if available
+        thesis_weights = config.get("thesis", {}).get("evaluation_weights", None)
+        eval_obj.compute_composite(custom_weights=thesis_weights)
         return eval_obj
 
     except (json.JSONDecodeError, KeyError, ValueError) as e:

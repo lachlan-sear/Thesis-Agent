@@ -72,28 +72,45 @@ class Evaluation(BaseModel):
     founder_quality: Optional[int] = Field(None, ge=1, le=10)
     thesis_fit: Optional[int] = Field(None, ge=1, le=10)
     autopilot_potential: Optional[int] = Field(None, ge=1, le=10)
+    funding_stage_score: Optional[int] = Field(None, ge=1, le=10)
+    tam_score: Optional[int] = Field(None, ge=1, le=10)
+    revenue_model_score: Optional[int] = Field(None, ge=1, le=10)
+    gtm_score: Optional[int] = Field(None, ge=1, le=10)
+    geo_scalability: Optional[int] = Field(None, ge=1, le=10)
+    exit_potential: Optional[int] = Field(None, ge=1, le=10)
     composite_score: float = 0.0
     one_liner: str = ""
     bull_case: str = ""
     bear_case: str = ""
     action: Action = Action.SKIP
     reasoning: str = ""
+    funding_detail: str = ""       # e.g. "$20M Series A led by Singular, firstminute followed on"
+    revenue_model_type: str = ""   # e.g. "subscription", "transactional", "marketplace", "usage-based", "hybrid"
+    gtm_strategy: str = ""         # e.g. "PLG", "direct sales", "partnerships", "viral"
+    exit_comparables: str = ""     # e.g. "Veeva ($40B), Provet Cloud (acquired by IDEXX)"
 
-    def compute_composite(self) -> float:
-        """Weighted average of available scores."""
-        weights = {
-            "customer_durability": 0.20,
-            "unit_economics": 0.15,
-            "regulation_moat": 0.15,
-            "growth_inflection": 0.15,
+    def compute_composite(self, custom_weights: dict = None) -> float:
+        """Weighted average of available scores. Accepts custom weights from thesis config."""
+        default_weights = {
+            "thesis_fit": 0.12,
+            "customer_durability": 0.12,
+            "regulation_moat": 0.10,
+            "unit_economics": 0.10,
+            "growth_inflection": 0.10,
             "founder_quality": 0.10,
-            "thesis_fit": 0.15,
-            "autopilot_potential": 0.10,
+            "autopilot_potential": 0.08,
+            "funding_stage_score": 0.07,
+            "tam_score": 0.07,
+            "revenue_model_score": 0.06,
+            "gtm_score": 0.06,
+            "geo_scalability": 0.05,
+            "exit_potential": 0.05,
         }
+        weights = custom_weights if custom_weights else default_weights
         total_weight = 0.0
         total_score = 0.0
         for field, weight in weights.items():
-            val = getattr(self, field)
+            val = getattr(self, field, None)
             if val is not None:
                 total_score += val * weight
                 total_weight += weight
@@ -119,6 +136,12 @@ class EnrichedCompany(BaseModel):
     regulatory_context: Optional[str] = None
     product_maturity: Optional[str] = None
     connection_paths: Optional[str] = None
+    tam_estimate: Optional[str] = None          # e.g. "$12B global veterinary software market"
+    revenue_model: Optional[str] = None         # e.g. "SaaS subscription per clinic"
+    gtm_strategy: Optional[str] = None          # e.g. "Partnership-led via Vetsure (1,200 clinics)"
+    distribution_advantage: Optional[str] = None # e.g. "Exclusive Vetsure partnership"
+    exit_comparables: Optional[str] = None      # e.g. "IDEXX acquired Provet Cloud; Veeva IPO at $40B"
+    investor_quality: Optional[str] = None      # e.g. "Singular (led), firstminute (follow-on)"
     evaluation: Evaluation
     source: str
     discovered_at: datetime = Field(default_factory=datetime.utcnow)
