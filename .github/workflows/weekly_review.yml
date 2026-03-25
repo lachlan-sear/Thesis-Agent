@@ -1,8 +1,8 @@
 name: Weekly Ops Review
 
 on:
-  schedule:
-    - cron: '0 9 * * 1'    # 9am UTC every Monday
+  # schedule:
+  #   - cron: '0 9 * * 1'    # 9am UTC every Monday
   workflow_dispatch:
 
 permissions:

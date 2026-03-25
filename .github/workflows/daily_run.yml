@@ -1,8 +1,8 @@
 name: Daily Intelligence Run
 
 on:
-  schedule:
-    - cron: '0 7 * * *'    # 7am UTC daily (8am London)
+  # schedule:
+  #   - cron: '0 7 * * *'    # 7am UTC daily (8am London)
   workflow_dispatch:         # Manual trigger from GitHub UI
 
 permissions:
