@@ -2,7 +2,7 @@
 """
 thesis-radar — Autonomous deal intelligence for venture capital.
 
-Three agents. One thesis. Daily briefs.
+Four agents. One thesis. Daily briefs.
 
 Usage:
     python main.py run --all              # Run all agents
@@ -10,6 +10,7 @@ Usage:
     python main.py run --radar            # Run radar only
     python main.py run --radar --weekly   # Run radar with weekly synthesis
     python main.py run --ops              # Run ops only
+    python main.py run --events            # Run events only
     python main.py run --all --dry-run    # Dry run (no API calls)
     python main.py health                 # Show tracker health
     python main.py thesis                 # Display current thesis config
@@ -37,9 +38,10 @@ def cmd_run(args):
     run_scout = args.all or args.scout
     run_radar = args.all or args.radar
     run_ops = args.all or args.ops
+    run_events = args.all or args.events
 
-    if not (run_scout or run_radar or run_ops):
-        print("Specify at least one agent: --all, --scout, --radar, or --ops")
+    if not (run_scout or run_radar or run_ops or run_events):
+        print("Specify at least one agent: --all, --scout, --radar, --ops, or --events")
         return
 
     print(f"\n{'#' * 60}")
@@ -68,6 +70,14 @@ def cmd_run(args):
     if run_ops:
         from agents.ops.ops import run_ops as execute_ops
         execute_ops(
+            config=config,
+            output_dir="outputs/weekly",
+            dry_run=args.dry_run,
+        )
+
+    if run_events:
+        from agents.events.events import run_events as execute_events
+        execute_events(
             config=config,
             output_dir="outputs/weekly",
             dry_run=args.dry_run,
@@ -143,6 +153,7 @@ def main():
     run_parser.add_argument("--scout", action="store_true", help="Run scout agent")
     run_parser.add_argument("--radar", action="store_true", help="Run radar agent")
     run_parser.add_argument("--ops", action="store_true", help="Run ops agent")
+    run_parser.add_argument("--events", action="store_true", help="Run the events agent (outbound triggers)")
     run_parser.add_argument("--weekly", action="store_true", help="Include weekly synthesis (radar)")
     run_parser.add_argument("--dry-run", action="store_true", help="Skip API calls")
     run_parser.add_argument("--max-queries", type=int, default=10, help="Max search queries for scout")

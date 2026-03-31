@@ -162,6 +162,15 @@ sources:
       - "ICO AI data protection guidance"
       - "GDPR automated decision making enforcement"
 
+  # Events monitoring — the Events agent uses these queries
+  # to find upcoming conferences, demo days, and pitch events
+  events_monitoring:
+    queries:
+      - "enterprise software startup conference Europe 2026"
+      - "developer tooling demo day 2026"
+      - "cybersecurity summit Europe speakers 2026"
+      - "SaaS startup pitch competition 2026"
+
   # Podcast monitoring — the Radar agent also scans these
   # but they're primarily used by the Scout agent for discovery
   podcast_feeds:

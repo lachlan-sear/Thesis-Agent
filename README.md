@@ -2,7 +2,7 @@
 
 An autonomous deal intelligence system for venture capital.
 
-Three AI agents that source, evaluate, and maintain a deal pipeline against a configurable investment thesis. Built on the principle that deal sourcing is intelligence work — and intelligence work is what AI does best.
+Four AI agents that source, evaluate, and maintain a deal pipeline against a configurable investment thesis. Built on the principle that deal sourcing is intelligence work — and intelligence work is what AI does best.
 
 ---
 
@@ -20,29 +20,28 @@ The thesis is configurable. Swap in your own `thesis.yaml` and the entire system
 
 ## Architecture
 
-Three agents, one system. Each runs on a schedule and generates actionable reports.
+Four agents, one system. Each runs on a schedule and generates actionable reports.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                      thesis.yaml                        │
-│            (configurable investment thesis)             │
-└────────────────────────┬────────────────────────────────┘
-                         │
-          ┌──────────────┼──────────────┐
-          ▼              ▼              ▼
-    ┌───────────┐  ┌───────────┐  ┌───────────┐
-    │   SCOUT   │  │   RADAR   │  │    OPS    │
-    │  (daily)  │  │  (daily)  │  │  (weekly) │
-    │           │  │           │  │           │
-    │ 12 sources│  │ Funding   │  │ Staleness │
-    │ Dedup     │  │ Exits     │  │ Promotion │
-    │ Evaluate  │  │ Trends    │  │ Kill      │
-    │ Enrich    │  │ Regulate  │  │ X-ref     │
-    └─────┬─────┘  └─────┬─────┘  └─────┬─────┘
-          │              │              │
-          ▼              ▼              ▼
-    Scout Brief     Radar Digest    Ops Review
-    (markdown)      (markdown)      (markdown)
+┌─────────────────────────────────────────────────────────────────────┐
+│                            thesis.yaml                              │
+│                  (configurable investment thesis)                   │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+          ┌──────────────┬───────┴──────┬──────────────┐
+          ▼              ▼              ▼              ▼
+    ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐
+    │   SCOUT   │  │   RADAR   │  │    OPS    │  │  EVENTS   │
+    │  (daily)  │  │  (daily)  │  │ (weekly)  │  │ (weekly)  │
+    │           │  │           │  │           │  │           │
+    │ 12 sources│  │ Funding   │  │ Staleness │  │ Confrnces │
+    │ Dedup     │  │ Exits     │  │ Promotion │  │ Reg dates │
+    │ Evaluate  │  │ Trends    │  │ Kill      │  │ Launches  │
+    │ Enrich    │  │ Regulate  │  │ X-ref     │  │ Triggers  │
+    └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘
+          │              │              │              │
+          ▼              ▼              ▼              ▼
+    Scout Brief    Radar Digest    Ops Review    Events Digest
 ```
 
 | Agent | Schedule | What it does |
@@ -50,6 +49,7 @@ Three agents, one system. Each runs on a schedule and generates actionable repor
 | **Scout** | Daily | Sources new companies from 12 data sources. Evaluates each against the thesis using 5 VC frameworks (scored 1-10 across 13 dimensions). Enriches top hits with deep research. Outputs a brief with recommendations. |
 | **Radar** | Daily + Weekly | Monitors funding rounds, exits, shutdowns, regulatory shifts, and competitive moves across thesis verticals. Tracks investor activity. Weekly synthesis distils signals into thesis implications. |
 | **Ops** | Weekly | Audits the tracker for staleness. Checks tracked companies for news and hiring signals. Suggests promotions (to benchmark tier) and kills. Cross-references with radar signals. |
+| **Events** | Weekly | Monitors conferences, regulatory hearings, product launches, and earnings calls. Surfaces time-sensitive outbound triggers — the reason to call a founder this week. |
 
 The agents reinforce each other. Scout finds a company → Radar catches a regulatory change in the same vertical → Ops cross-references both and flags the update.
 
@@ -172,11 +172,12 @@ cp .env.example .env   # Add your ANTHROPIC_API_KEY
 ### Run agents
 
 ```bash
-python main.py run --all --max-queries 24   # Run all three agents
+python main.py run --all --max-queries 24   # Run all four agents
 python main.py run --scout              # Scout only
 python main.py run --radar              # Radar only
 python main.py run --radar --weekly     # Include weekly synthesis
 python main.py run --ops                # Ops only
+python main.py run --events             # Events only
 python main.py run --scout --dry-run    # No API calls — tests structure and free sources
 python main.py run --scout --max-queries 20  # Control search depth
 ```
@@ -235,8 +236,10 @@ thesis-agent/
 │   │       └── twitter.py       # X/Twitter signals
 │   ├── radar/                   # Agent 2: Market Intelligence
 │   │   └── radar.py             # Funding, exits, trends, regulatory, synthesis
-│   └── ops/                     # Agent 3: Tracker Management
-│       └── ops.py               # Staleness, promotions, kills, cross-refs
+│   ├── ops/                     # Agent 3: Tracker Management
+│   │   └── ops.py               # Staleness, promotions, kills, cross-refs
+│   └── events/                  # Agent 4: Outbound Triggers
+│       └── events.py            # Conferences, regulatory, launches
 ├── shared/
 │   ├── claude_client.py         # API wrapper with model routing
 │   ├── config_loader.py         # Thesis config parser (7 query categories)
