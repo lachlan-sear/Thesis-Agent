@@ -1,0 +1,43 @@
+{
+  "number": 1,
+  "date": "2026-10-13",
+  "kind": "seed",
+  "checked": 22,
+  "applied": 4,
+  "held": 0,
+  "changes": [
+    {
+      "company": "Wexler",
+      "sector": "regulated",
+      "kind": "exit",
+      "headline": "Wexler agreed to be acquired by Legora",
+      "date": "2026-07",
+      "source": "https://tech.eu/2026/07/29/legora-acquires-legal-ai-startup-wexler-in-fifth-acquisition-of-2026/"
+    },
+    {
+      "company": "Harvey",
+      "sector": "regulated",
+      "kind": "round",
+      "headline": "Harvey raised $550M at $15.6B, co-led by Lightspeed and Diffusion",
+      "date": "2026-09",
+      "source": "https://aiweekly.co/alerts/harvey-raises-550m-at-156b-co-led-by-lightspeed-and-diffusion"
+    },
+    {
+      "company": "Comand AI",
+      "sector": "defence",
+      "kind": "round",
+      "headline": "Comand AI raised a €32M Series A led by Blossom Capital, with Saab as a strategic investor",
+      "date": "2026-06",
+      "source": "https://resiliencemedia.co/comand-ai-raises-e32m-for-its-c2-software-adds-saab-as-a-strategic-backer/"
+    },
+    {
+      "company": "Isembard",
+      "sector": "robotics",
+      "kind": "round",
+      "headline": "Isembard raised a $50M Series A led by Union Square Ventures",
+      "date": "2026-03",
+      "source": "https://www.automation.com/article/isembard-raises-50-million-usd-series-a-open-25-ai-powered-factories-aerospace-defense"
+    }
+  ],
+  "note": "Edition 1 re-orients the tracker to the Permission to operate thesis. 22 companies carried over and checked by hand on 13 Oct 2026 against the March tracker; 9 added to the new orbits, awaiting their first weekly check; 24 out-of-thesis names retired. Weekly runs take over from Monday 19 Oct."
+}

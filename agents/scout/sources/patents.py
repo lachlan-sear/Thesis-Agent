@@ -19,6 +19,7 @@ import urllib.request
 import urllib.parse
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 USPTO_API = "https://api.patentsview.org/patents/query"
@@ -47,6 +48,8 @@ THESIS_PATENT_QUERIES = [
     "healthcare workflow automation",
     "regulatory compliance artificial intelligence",
 ]
+THESIS_PATENT_QUERIES = thesis_queries("{kw} machine learning", fallback=THESIS_PATENT_QUERIES)
+
 
 
 def search_patents_by_keyword(

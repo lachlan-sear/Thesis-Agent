@@ -17,6 +17,7 @@ import urllib.request
 import os
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 API_URL = "https://api.producthunt.com/v2/api/graphql"
@@ -42,6 +43,8 @@ THESIS_KEYWORDS = [
     "practice management", "automation", "workflow",
     "consumer", "marketplace", "platform",
 ]
+THESIS_KEYWORDS = thesis_keywords(fallback=THESIS_KEYWORDS)
+
 
 
 def _graphql_request(query: str, variables: dict = None) -> dict | None:

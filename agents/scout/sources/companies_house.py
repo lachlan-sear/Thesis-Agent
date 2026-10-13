@@ -17,6 +17,7 @@ import urllib.parse
 import os
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 API_BASE = "https://api.company-information.service.gov.uk"
@@ -46,6 +47,8 @@ TECH_KEYWORDS = [
     "healthtech", "medtech", "fintech", "legaltech", "insurtech",
     "veterinary technology", "dental technology", "practice management",
 ]
+TECH_KEYWORDS = ["ai", "software", "platform", "robot", "autonom"] + thesis_keywords(fallback=TECH_KEYWORDS)
+
 
 
 def _fetch(endpoint: str, params: dict = None) -> dict | None:

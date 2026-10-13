@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 import re
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 # VC and startup podcasts ranked by signal strength
@@ -78,6 +79,8 @@ THESIS_KEYWORDS = [
     "saas", "marketplace", "platform", "series a", "series b",
     "seed", "raised", "funding", "million",
 ]
+THESIS_KEYWORDS = thesis_keywords(fallback=THESIS_KEYWORDS)
+
 
 
 def fetch_podcast_feed(url: str, timeout: int = 15) -> str | None:

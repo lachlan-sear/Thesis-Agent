@@ -1,182 +1,168 @@
 #!/usr/bin/env python3
 """
-thesis-radar — Autonomous deal intelligence for venture capital.
-
-Four agents. One thesis. Daily briefs.
+thesis-agent — a deal-intelligence engine any fund can point at its own thesis.
 
 Usage:
-    python main.py run --all              # Run all agents
-    python main.py run --scout            # Run scout only
-    python main.py run --radar            # Run radar only
-    python main.py run --radar --weekly   # Run radar with weekly synthesis
-    python main.py run --ops              # Run ops only
-    python main.py run --events            # Run events only
-    python main.py run --all --dry-run    # Dry run (no API calls)
-    python main.py health                 # Show tracker health
-    python main.py thesis                 # Display current thesis config
-    python main.py history                # Show run history
+    python main.py weekly                 # The scheduled run: refresh, scout, radar, ops, events, publish
+    python main.py run --refresh          # Check every tracked company for rounds, exits, shutdowns
+    python main.py run --scout            # Source new companies against the thesis
+    python main.py run --radar [--weekly] # Market signals (and weekly synthesis)
+    python main.py run --ops              # Tracker staleness and cross-references
+    python main.py run --events           # Upcoming outbound triggers
+    python main.py run --all --dry-run    # Everything, no API calls
+    python main.py publish                # Rebuild data/observatory.json for the Observatory
+    python main.py check                  # Validate thesis.yaml and the tracker
+    python main.py thesis                 # Print the thesis as the agents see it
+    python main.py health                 # Tracker freshness summary
 """
 
-import sys
 import argparse
-from dotenv import load_dotenv
-load_dotenv()
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
-from datetime import datetime
 
-# Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from shared.config_loader import load_config, get_thesis_text
-from shared.db import init_db, get_all_seen, get_recent_signals
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:  # .env support is optional; Actions passes secrets as env vars
+    pass
+
+from shared.config_loader import get_thesis_text, load_config, sector_map
+
+
+def _banner(config):
+    print(f"\n{'#' * 60}\n  thesis-agent — {config['thesis'].get('name', '')}"
+          f"\n  {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}\n{'#' * 60}")
 
 
 def cmd_run(args):
-    """Run one or more agents."""
     config = load_config()
-
-    run_scout = args.all or args.scout
-    run_radar = args.all or args.radar
-    run_ops = args.all or args.ops
-    run_events = args.all or args.events
-
-    if not (run_scout or run_radar or run_ops or run_events):
-        print("Specify at least one agent: --all, --scout, --radar, --ops, or --events")
+    picks = {k: args.all or getattr(args, k) for k in ("refresh", "scout", "radar", "ops", "events")}
+    if not any(picks.values()):
+        print("Specify at least one agent: --all, --refresh, --scout, --radar, --ops or --events")
         return
-
-    print(f"\n{'#' * 60}")
-    print(f"  thesis-radar — {config['thesis'].get('fund', 'Deal Intelligence')}")
-    print(f"  {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
-    print(f"{'#' * 60}")
-
-    if run_scout:
-        from agents.scout.scout import run_scout as execute_scout
-        execute_scout(
-            config=config,
-            max_search_queries=args.max_queries,
-            output_dir="outputs/daily",
-            dry_run=args.dry_run,
-        )
-
-    if run_radar:
-        from agents.radar.radar import run_radar as execute_radar
-        execute_radar(
-            config=config,
-            weekly=args.weekly,
-            output_dir="outputs/weekly" if args.weekly else "outputs/daily",
-            dry_run=args.dry_run,
-        )
-
-    if run_ops:
-        from agents.ops.ops import run_ops as execute_ops
-        execute_ops(
-            config=config,
-            output_dir="outputs/weekly",
-            dry_run=args.dry_run,
-        )
-
-    if run_events:
-        from agents.events.events import run_events as execute_events
-        execute_events(
-            config=config,
-            output_dir="outputs/weekly",
-            dry_run=args.dry_run,
-        )
-
-    print(f"\n{'#' * 60}")
-    print(f"  All runs complete. Check outputs/ for briefs.")
-    print(f"{'#' * 60}\n")
+    _banner(config)
+    if picks["refresh"]:
+        from agents.refresh.refresh import run_refresh
+        run_refresh(config=config, dry_run=args.dry_run, limit=args.limit)
+    if picks["scout"]:
+        from agents.scout.scout import run_scout
+        run_scout(config=config, max_search_queries=args.max_queries,
+                  output_dir="outputs/weekly", dry_run=args.dry_run)
+    if picks["radar"]:
+        from agents.radar.radar import run_radar
+        run_radar(config=config, weekly=args.weekly, output_dir="outputs/weekly", dry_run=args.dry_run)
+    if picks["ops"]:
+        from agents.ops.ops import run_ops
+        run_ops(config=config, output_dir="outputs/weekly", dry_run=args.dry_run)
+    if picks["events"]:
+        from agents.events.events import run_events
+        run_events(config=config, output_dir="outputs/weekly", dry_run=args.dry_run)
 
 
-def cmd_health(args):
-    """Display tracker health summary."""
-    init_db()
-    tracked = get_all_seen(action_filter="track")
-    watched = get_all_seen(action_filter="watch")
-    skipped = get_all_seen(action_filter="skip")
-    signals = get_recent_signals(days=7)
+def cmd_weekly(args):
+    """The scheduled pipeline. Each stage is isolated so one failure doesn't lose the rest."""
+    config = load_config()
+    _banner(config)
+    from agents.refresh.refresh import run_refresh
+    stages = [("refresh", lambda: run_refresh(config=config, dry_run=args.dry_run))]
+    if not args.refresh_only:
+        from agents.scout.scout import run_scout
+        from agents.radar.radar import run_radar
+        from agents.ops.ops import run_ops
+        from agents.events.events import run_events
+        stages += [
+            ("scout", lambda: run_scout(config=config, max_search_queries=args.max_queries,
+                                        output_dir="outputs/weekly", dry_run=args.dry_run)),
+            ("radar", lambda: run_radar(config=config, weekly=True, output_dir="outputs/weekly", dry_run=args.dry_run)),
+            ("ops", lambda: run_ops(config=config, output_dir="outputs/weekly", dry_run=args.dry_run)),
+            ("events", lambda: run_events(config=config, output_dir="outputs/weekly", dry_run=args.dry_run)),
+        ]
+    failed = []
+    for name, fn in stages:
+        try:
+            fn()
+        except Exception as e:
+            failed.append(name)
+            print(f"\n  [ERROR] {name} failed: {e}\n")
+    if not args.dry_run:
+        from shared.publish import build
+        out = build(config)
+        print(f"  Published edition {out['edition']['number'] if out['edition'] else '-'} → data/observatory.json")
+    if "refresh" in failed:
+        sys.exit(1)  # the tracker is the product; a failed refresh should show red in Actions
 
-    print(f"\n  Tracker Health")
-    print(f"  {'=' * 40}")
-    print(f"  Tracked:  {len(tracked)}")
-    print(f"  Watching: {len(watched)}")
-    print(f"  Skipped:  {len(skipped)}")
-    print(f"  Signals (7d): {len(signals)}")
 
-    if tracked:
-        print(f"\n  Top tracked companies:")
-        for t in sorted(tracked, key=lambda x: x.get("composite_score") or 0, reverse=True)[:10]:
-            score = t.get("composite_score", "?")
-            print(f"    {score:>5} — {t['name']}")
+def cmd_publish(args):
+    from shared.publish import build
+    out = build()
+    print(f"  data/observatory.json: {len(out['companies'])} companies, edition {out['edition'] and out['edition']['number']}")
 
-    print()
+
+def cmd_check(args):
+    """Validate the thesis and tracker; exits non-zero on any problem (used in CI)."""
+    from shared import tracker
+    config = load_config()
+    problems = []
+    t = config.get("thesis", {})
+    sectors = sector_map(config)
+    if not sectors:
+        problems.append("thesis.sectors is empty")
+    weights = t.get("evaluation_weights") or {}
+    if weights and abs(sum(weights.values()) - 1.0) > 0.01:
+        problems.append(f"evaluation_weights sum to {sum(weights.values()):.2f}, not 1.0")
+    if weights and set(weights) - set(t.get("evaluation_rubric", {})):
+        problems.append(f"weights without a rubric entry: {sorted(set(weights) - set(t.get('evaluation_rubric', {})))}")
+    problems += tracker.validate(tracker.load(), set(sectors))
+    if problems:
+        print("  Problems:\n  - " + "\n  - ".join(problems))
+        sys.exit(1)
+    print(f"  OK: {len(sectors)} sectors, {len(tracker.load())} companies, rubric of {len(t.get('evaluation_rubric', {}))}")
 
 
 def cmd_thesis(args):
-    """Display the current thesis configuration."""
-    config = load_config()
-    print(f"\n{get_thesis_text(config)}\n")
+    print(f"\n{get_thesis_text(load_config())}\n")
 
 
-def cmd_history(args):
-    """Show recent run history."""
-    init_db()
-    from shared.db import get_connection
-    conn = get_connection()
-    rows = conn.execute(
-        "SELECT * FROM run_history ORDER BY started_at DESC LIMIT 20"
-    ).fetchall()
-    conn.close()
-
-    if not rows:
-        print("\n  No run history yet. Run an agent first.\n")
-        return
-
-    print(f"\n  Run History (last 20)")
-    print(f"  {'=' * 60}")
-    for r in rows:
-        print(f"  {r['started_at'][:16]} | {r['agent']:6s} | raw:{r['raw_count']:3d} passed:{r['passed_count']:3d} | {r['status']}")
+def cmd_health(args):
+    from shared import tracker
+    rows = tracker.load()
+    pending = [c for c in rows if c.get("verifiedBy") == "pending"]
+    stale = [c for c in rows if (tracker.days_since(c.get("lastVerified")) or 999) > 30
+             and c.get("status") not in ("exited", "shut_down")]
+    print(f"\n  Tracker: {len(rows)} companies | {len(pending)} awaiting first check | {len(stale)} not checked in 30 days")
+    for c in stale[:15]:
+        print(f"    {c['name']:<24} last checked {c.get('lastVerified') or 'never'}")
     print()
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="thesis-radar — Autonomous deal intelligence for VC",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
-    )
-    subparsers = parser.add_subparsers(dest="command")
+    parser = argparse.ArgumentParser(description="thesis-agent", formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog=__doc__)
+    sub = parser.add_subparsers(dest="command")
 
-    # Run command
-    run_parser = subparsers.add_parser("run", help="Run agents")
-    run_parser.add_argument("--all", action="store_true", help="Run all agents")
-    run_parser.add_argument("--scout", action="store_true", help="Run scout agent")
-    run_parser.add_argument("--radar", action="store_true", help="Run radar agent")
-    run_parser.add_argument("--ops", action="store_true", help="Run ops agent")
-    run_parser.add_argument("--events", action="store_true", help="Run the events agent (outbound triggers)")
-    run_parser.add_argument("--weekly", action="store_true", help="Include weekly synthesis (radar)")
-    run_parser.add_argument("--dry-run", action="store_true", help="Skip API calls")
-    run_parser.add_argument("--max-queries", type=int, default=10, help="Max search queries for scout")
-    run_parser.set_defaults(func=cmd_run)
+    run = sub.add_parser("run", help="Run individual agents")
+    for flag in ("all", "refresh", "scout", "radar", "ops", "events", "weekly", "dry_run"):
+        run.add_argument(f"--{flag.replace('_', '-')}", action="store_true")
+    run.add_argument("--max-queries", type=int, default=24)
+    run.add_argument("--limit", type=int, default=None, help="Max companies for --refresh")
+    run.set_defaults(func=cmd_run)
 
-    # Health command
-    health_parser = subparsers.add_parser("health", help="Show tracker health")
-    health_parser.set_defaults(func=cmd_health)
+    weekly = sub.add_parser("weekly", help="The scheduled weekly pipeline")
+    weekly.add_argument("--dry-run", action="store_true")
+    weekly.add_argument("--refresh-only", action="store_true")
+    weekly.add_argument("--max-queries", type=int, default=24)
+    weekly.set_defaults(func=cmd_weekly)
 
-    # Thesis command
-    thesis_parser = subparsers.add_parser("thesis", help="Display thesis config")
-    thesis_parser.set_defaults(func=cmd_thesis)
-
-    # History command
-    history_parser = subparsers.add_parser("history", help="Show run history")
-    history_parser.set_defaults(func=cmd_history)
+    for name, fn in (("publish", cmd_publish), ("check", cmd_check), ("thesis", cmd_thesis), ("health", cmd_health)):
+        sub.add_parser(name).set_defaults(func=fn)
 
     args = parser.parse_args()
-
     if not args.command:
         parser.print_help()
         return
-
     args.func(args)
 
 

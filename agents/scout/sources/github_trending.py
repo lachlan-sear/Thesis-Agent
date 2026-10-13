@@ -17,6 +17,7 @@ import urllib.parse
 import os
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 API_BASE = "https://api.github.com"
@@ -46,6 +47,8 @@ SEARCH_QUERIES = [
     "compliance automation",
     "clinical notes AI",
 ]
+SEARCH_QUERIES = thesis_queries("{kw} AI", fallback=SEARCH_QUERIES)
+
 
 
 def _fetch(url: str) -> dict | None:

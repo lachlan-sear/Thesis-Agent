@@ -1,6 +1,6 @@
 """
 Config loader. Reads thesis.yaml and provides typed access.
-Generates sophisticated, VC-grade search queries — not generic Google searches.
+Everything thesis-specific comes from the YAML; nothing is hard-coded here.
 """
 
 import random
@@ -38,6 +38,16 @@ def get_thesis_text(config: dict) -> str:
     for s in thesis.get("signals_negative", []):
         lines.append(f"  - {s}")
 
+    if thesis.get("sectors"):
+        lines.append("\nSectors:")
+        for sec in thesis["sectors"]:
+            lines.append(f"  [{sec['id']}] {sec['name']}: {' '.join((sec.get('description') or '').split())}")
+
+    if thesis.get("frameworks"):
+        lines.append("\nAnalytical lenses:")
+        for fw in thesis["frameworks"]:
+            lines.append(f"  - {fw['name']}: {fw['text']}")
+
     if thesis.get("portfolio_exemplars"):
         lines.append("\nPortfolio Exemplars:")
         for ex in thesis.get("portfolio_exemplars", []):
@@ -56,143 +66,63 @@ def get_thesis_text(config: dict) -> str:
 
     autopilot = thesis.get("autopilot_lens", {})
     if autopilot.get("enabled"):
-        lines.append(f"\nAutopilot Lens (Sequoia Framework):\n{autopilot.get('description', '')}")
+        lines.append(f"\nAutopilot Lens:\n{autopilot.get('description', '')}")
 
     return "\n".join(lines)
 
 
+def sector_map(config: dict) -> dict[str, dict]:
+    """Sector id -> sector config, in thesis order."""
+    return {s["id"]: s for s in config["thesis"].get("sectors", [])}
+
+
+def exclusions(config: dict) -> set[str]:
+    """Lower-cased names the fund never wants scored, published or commented on."""
+    return {n.lower().strip() for n in config.get("exclude_from_views") or []}
+
+
+DEFAULT_TEMPLATES = [
+    "{vertical} startup seed Series A 2026 Europe",
+    "{vertical} startup raised funding 2026",
+    "{vertical} regulation change 2026",
+    "former operator founded {vertical} company",
+    "{vertical} legacy software replacement AI-native",
+]
+
+
 def get_search_queries(config: dict) -> list[str]:
     """
-    Generate sophisticated, VC-grade search queries from thesis config.
+    Scout's web-search queries, built entirely from thesis.yaml.
 
-    Five query categories that mirror how top analysts actually source:
-    1. Regulatory triggers — new rules creating new moats
-    2. Talent signals — strong founders entering a vertical
-    3. Incumbent failure — demand signal from user frustration
-    4. Budget movement — outsourced spend being automated (Sequoia wedge)
-    5. Investor activity — smart money validating timing
-    6. Category creation — autopilot companies emerging
-    7. European ecosystem — Sifted, EU-Startups, local signals
+    Templates (sourcing.templates, or a neutral default set) run round-robin
+    across every sector keyword, so --max-queries N gives breadth before depth.
+    sourcing.thesis_queries are appended as written. Nothing here is specific
+    to any one thesis: swap the YAML and the searches follow.
     """
     thesis = config["thesis"]
+    sourcing = config.get("sourcing", {})
+    templates = sourcing.get("templates") or DEFAULT_TEMPLATES
+
+    keywords: list[str] = []
+    for s in thesis.get("sectors", []):
+        keywords.extend(s.get("keywords") or [s.get("name", "")])
+    if not keywords:  # older theses without sectors
+        tv = thesis.get("target_verticals", {})
+        keywords = tv.get("primary", []) + tv.get("emerging", [])
+    seen, ordered = set(), []
+    for k in keywords:
+        if k and k.lower() not in seen:
+            seen.add(k.lower())
+            ordered.append(k)
+    random.shuffle(ordered)
+
+    templated = [t.format(vertical=k) for t in templates for k in ordered]
+    extra = list(sourcing.get("thesis_queries", []))
+    # Interleave so a small --max-queries still runs some thesis-specific searches.
     queries = []
-
-    primary = thesis.get("target_verticals", {}).get("primary", [])
-    secondary = thesis.get("target_verticals", {}).get("secondary", [])
-    emerging = thesis.get("target_verticals", {}).get("emerging", [])
-    all_verticals = primary + emerging
-
-    # --- 1. Regulatory triggers ---
-    # New regulation = new moat for first movers
-    regulatory_templates = [
-        "{vertical} regulation change 2026",
-        "{vertical} compliance new requirements Europe UK",
-        "{vertical} AI regulation approval 2026",
-    ]
-
-    # --- 2. Talent signals ---
-    # Ex-McKinsey, ex-Google, ex-Big4 founding in regulated verticals
-    talent_templates = [
-        "ex-McKinsey ex-BCG founded {vertical} startup",
-        "former Google DeepMind engineer {vertical} company",
-        "{vertical} startup founded by doctors lawyers operators",
-    ]
-
-    # --- 3. Incumbent failure ---
-    # Hatred of status quo = demand signal
-    incumbent_templates = [
-        "{vertical} software complaints frustration switching",
-        "{vertical} legacy system replacement AI-native",
-        "replacing {vertical} practice management software",
-    ]
-
-    # --- 4. Budget movement (Sequoia wedge) ---
-    # Outsourced work being automated
-    budget_templates = [
-        "{vertical} outsourcing automation AI agent",
-        "{vertical} managed services AI replacement",
-        "autonomous {vertical} workflow no human",
-    ]
-
-    # --- 5. Investor activity ---
-    # Smart money moving into verticals
-    investor_templates = [
-        "seed series A {vertical} AI startup 2025 2026 funded",
-        "Sequoia a16z {vertical} AI investment 2026",
-        "European {vertical} startup funding round 2026",
-    ]
-
-    # --- 6. Category creation ---
-    # New autopilot companies
-    category_templates = [
-        "AI-native {vertical} company launch 2026",
-        "{vertical} autopilot AI startup outcomes",
-        "{vertical} AI replacing outsourced services",
-    ]
-
-    # --- 7. European ecosystem ---
-    european_templates = [
-        "{vertical} startup Europe UK seed Series A 2026",
-        "{vertical} AI company London Berlin Paris 2026",
-    ]
-
-    # Generate queries ROUND-ROBIN across verticals so that --max-queries N
-    # gives breadth (one query per vertical) rather than depth (all queries
-    # for the first vertical).  Shuffle vertical order each run so the same
-    # vertical isn't always first.
-    all_templates = (
-        regulatory_templates
-        + talent_templates
-        + incumbent_templates
-        + budget_templates
-        + investor_templates
-        + category_templates
-        + european_templates
-    )
-
-    shuffled_verticals = list(all_verticals)
-    random.shuffle(shuffled_verticals)
-
-    for tmpl in all_templates:
-        for vertical in shuffled_verticals:
-            queries.append(tmpl.format(vertical=vertical))
-
-    # --- 8. Funding intelligence — who just raised, who's about to ---
-    shuffled_primary = list(primary)
-    random.shuffle(shuffled_primary)
-    for vertical in shuffled_primary[:3]:
-        queries.append(f"{vertical} startup Series A Series B funding 2026 Europe")
-        queries.append(f"{vertical} startup raised seed round 2026 UK")
-
-    # --- Thesis-specific queries (not vertical-dependent) ---
-    thesis_queries = [
-        # Sequoia framework signals
-        "services as software AI startup 2026",
-        "AI agent replacing professional services 2026",
-        "autopilot AI company seed funding Europe",
-        "copilot to autopilot AI transition startup",
-
-        # Vertical AI specific
-        "vertical AI startup defensible moat 2026",
-        "domain-specific AI company regulated industry",
-        "vertical AI seed round Europe UK 2026",
-
-        # Competitive intelligence
-        "Y Combinator W2026 healthcare legal fintech AI",
-        "Entrepreneur First London cohort 2026",
-        "Antler Seedcamp portfolio 2026 AI",
-
-        # Data flywheel / moat signals
-        "AI startup proprietary dataset regulated industry",
-        "healthcare legal dental AI data advantage",
-
-        # Workforce crisis = automation opportunity
-        "accountant shortage AI automation",
-        "nurse doctor shortage digital health solution",
-        "lawyer shortage legal AI automation UK",
-        "veterinary workforce crisis technology solution",
-    ]
-
-    queries.extend(thesis_queries)
-
+    while templated or extra:
+        if extra:
+            queries.append(extra.pop(0))
+        queries.extend(templated[:2])
+        templated = templated[2:]
     return queries

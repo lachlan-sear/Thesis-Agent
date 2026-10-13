@@ -1,54 +1,90 @@
-# thesis-agent configuration
-# Example: Vertical AI in Regulated Industries
-
+# ─────────────────────────────────────────────────────────────────────────────
+# thesis.yaml — the only file a fund needs to edit.
+#
+# Everything downstream reads this: what Scout searches for, how candidates
+# are scored, what Radar watches, which planets the Observatory draws, and
+# which companies are hidden from every view (your own portfolio).
+#
+# This copy is the reference instance: Lachlan Sear's "Permission to operate"
+# thesis. A contrasting example lives in examples/theses/sports-tech.yaml.
+# ─────────────────────────────────────────────────────────────────────────────
 
 thesis:
-  name: "Vertical AI in Regulated Industries"
-  version: "2.0"
+  fund: "Reference instance (Lachlan Sear)"
+  name: "Permission to operate"
+  version: "3.0"
+  updated: "2026-10-13"
 
   core_belief: >
-    Horizontal AI wrappers lack defensible moats. Vertical AI specialists
-    win through domain expertise, regulatory complexity, and data flywheels.
-    The best opportunities are in regulated industries where the workflow
-    is intelligence-heavy, the buying decision requires trust, and the
-    incumbent software is decades behind.
+    The next durable AI companies sell into markets where the bottleneck is
+    permission, not the model. In regulated industries that permission is
+    certification, liability and a buyer's trust; in physical AI it is the
+    safety case, procurement and real-world data that cannot be scraped. The
+    moats are the same in both: compliance work competitors must repeat,
+    proprietary operating data, and slow buyers whose switching costs run for
+    a decade. The layer that grants the permission — evaluation, security,
+    simulation and certification — is the picks and shovels of both.
 
+  # Planets. Each sector becomes an orbit in the Observatory and a lane for
+  # Scout's searches. Order = distance from the centre. Colours are optional.
+  sectors:
+    - id: regulated
+      name: "Regulated vertical AI"
+      short: "Regulated"
+      color: "#2F6B5B"
+      description: >
+        AI built for licensed professions and regulated workflows: health,
+        legal, tax and accounting, financial services, veterinary and dental.
+      keywords: ["healthcare", "legal", "tax", "accounting", "financial services", "insurance", "veterinary", "dental", "compliance"]
+    - id: defence
+      name: "Defence and dual-use"
+      short: "Defence"
+      color: "#8A4B2A"
+      description: >
+        Command and control, ISR, electronic warfare, uncrewed systems and
+        critical-infrastructure protection, sold to ministries and primes.
+      keywords: ["defence", "defense tech", "dual-use", "ISR", "command and control", "drones", "counter-UAS", "critical infrastructure"]
+    - id: robotics
+      name: "Robotics and autonomy"
+      short: "Robotics"
+      color: "#3D4F8F"
+      description: >
+        Robot learning, humanoids, autonomous vehicles and vessels, and
+        software-run factories reshoring critical manufacturing.
+      keywords: ["robotics", "robot learning", "humanoid", "autonomous vehicles", "autonomous shipping", "manufacturing automation", "embodied AI"]
+    - id: assurance
+      name: "AI assurance"
+      short: "Assurance"
+      color: "#7A5C8E"
+      description: >
+        The permission layer: evaluation, AI security, governance and
+        compliance, simulation and certification that regulated and physical
+        AI must pass through.
+      keywords: ["AI evaluation", "AI security", "AI governance", "GRC", "simulation", "certification", "safety case"]
+
+  # Legacy grouping some agents still read (kept in step with `sectors`).
   target_verticals:
-    primary:
-      - "healthcare"
-      - "legal"
-      - "dental"
-      - "veterinary"
-    secondary:
-      - "insurance"
-      - "accounting"
-      - "compliance"
-      - "education"
-    emerging:
-      - "AI-enabled consumer services"
-      - "digital-first healthcare (mental health, preventive, diagnostics)"
-      - "regulation-heavy fintech (insurance, tax, property)"
+    primary: ["healthcare", "legal", "defence and dual-use", "robotics and autonomy"]
+    secondary: ["tax and accounting", "financial services compliance", "veterinary", "dental", "autonomous shipping"]
+    emerging: ["AI assurance and evaluation", "AI security", "software-defined manufacturing", "counter-drone systems"]
 
   signals_positive:
-    - "Domain-specific training data or proprietary dataset"
-    - "Regulatory moat (licensing, certification, compliance)"
-    - "Replaces outsourced service spend, not tool spend"
-    - "Founder with industry operating experience"
-    - "Vertical-specific workflow automation, not horizontal wrapper"
-    - "Revenue model tied to outcomes, not seats"
-    - "Network effects or data flywheel potential"
-    - "Enduring customer relationship (5-10+ year potential)"
-    - "Strong unit economics with clear path to profitability"
-    - "Autopilot potential — selling the outcome, not the tool"
+    - "Holds or is pursuing a licence, certification, accreditation or approved-supplier status competitors must repeat"
+    - "Proprietary operating data from deployed systems or regulated workflows"
+    - "Replaces outsourced service or labour spend, not software seats"
+    - "Founders who have operated inside the regulated or physical domain"
+    - "Signed pilots or contracts with ministries, primes, hospitals, insurers or law firms"
+    - "Hardware-light or uses commodity hardware; the value is in the software and data"
+    - "Clear path through procurement (frameworks, DIANA, DASA, SBIR, NHS frameworks)"
+    - "Revenue tied to outcomes or deployments rather than seats"
 
   signals_negative:
-    - "Thin wrapper on foundation model API"
-    - "No domain-specific data advantage"
-    - "Competing directly with model provider roadmap"
-    - "Horizontal positioning across multiple unrelated verticals"
-    - "No regulatory or switching cost moat"
-    - "Unsustainable growth without retention"
-    - "Market too small (<$1B TAM)"
+    - "Thin wrapper on a foundation model API with no domain data"
+    - "Competing head-on with a model provider's roadmap"
+    - "Hardware-capital-intensive with no software margin"
+    - "No credible route through the buyer's procurement or approval process"
+    - "Horizontal positioning across unrelated verticals"
+    - "Market too small for venture returns (<$1B serviceable)"
 
   stage_focus:
     primary: "seed"
@@ -57,34 +93,76 @@ thesis:
     sweet_spot: "Seed to Series A"
 
   geography:
-    primary: ["europe", "uk"]
-    secondary: ["us"]
+    primary: ["uk", "europe"]
+    secondary: ["us", "israel"]
 
+  # Scoring. Keys become the dimensions in every evaluation and brief;
+  # weights must sum to 1.0. Change both freely.
   evaluation_rubric:
-    thesis_fit: "How well does this company match the vertical AI thesis? (1-10)"
-    customer_durability: "How enduring is the customer relationship? (1-10)"
-    regulation_moat: "How defensible is the position via regulatory complexity? (1-10)"
-    unit_economics: "Are unit economics strong or clearly improving? (1-10)"
-    growth_inflection: "Is the company at or approaching breakout growth? (1-10)"
-    founder_quality: "Domain expertise, technical depth, founder-market fit? (1-10)"
-    autopilot_potential: "Per Sequoia framework — selling the work, not the tool? (1-10)"
-    funding_stage_score: "Quality of cap table — investor tier, follow-on, cleanliness? (1-10)"
-    tam_score: "Total addressable market — venture-scale opportunity? (1-10)"
-    revenue_model_score: "Durability and quality of revenue model? (1-10)"
-    gtm_score: "Go-to-market efficiency — sales cycle, CAC, distribution? (1-10)"
-    geo_scalability: "Can this expand beyond home market? (1-10)"
-    exit_potential: "Clear acquirers, IPO path, comparable exits? (1-10)"
+    thesis_fit: "How well does this match the permission-to-operate thesis? (1-10)"
+    permission_moat: "How hard is the licence, certification, safety case or procurement position to replicate? (1-10)"
+    data_advantage: "Does it own operating data competitors cannot scrape or buy? (1-10)"
+    customer_durability: "Will the buyer still be using this in 5-10 years? (1-10)"
+    founder_quality: "Domain operating experience, technical depth, founder-market fit? (1-10)"
+    growth_inflection: "At or approaching breakout growth (contracts, deployments, hiring)? (1-10)"
+    unit_economics: "Software-like margins, or clearly improving? (1-10)"
+    funding_stage_score: "Quality of cap table: investor tier, follow-on, cleanliness? (1-10)"
+    tam_score: "Venture-scale serviceable market? (1-10)"
+    gtm_score: "Route to revenue, including the procurement cycle? (1-10)"
+    exit_potential: "Credible acquirers (primes, incumbents, platforms) or IPO path? (1-10)"
 
-  autopilot_lens:
-    enabled: true
-    description: >
-      Per Sequoia's 'Services: The New Software' framework — is this company
-      selling the work (autopilot) rather than the tool (copilot)? Companies
-      that capture service/labour budgets rather than software budgets have
-      larger TAM and stronger lock-in.
+  evaluation_weights:
+    thesis_fit: 0.14
+    permission_moat: 0.14
+    data_advantage: 0.10
+    customer_durability: 0.10
+    founder_quality: 0.10
+    growth_inflection: 0.10
+    unit_economics: 0.07
+    funding_stage_score: 0.07
+    tam_score: 0.07
+    gtm_score: 0.06
+    exit_potential: 0.05
+
+  # Analytical lenses the evaluator applies before scoring (free text).
+  frameworks:
+    - name: "Permission test"
+      text: "What permission does the buyer need before this can be used (licence, certification, safety case, accreditation, framework place)? Does the company hold it, and how long would a competitor take to get it?"
+    - name: "Moat taxonomy"
+      text: "Regulatory or approval, data, workflow, network, or none. Name the moat; 'none' is an acceptable answer."
+    - name: "Real-world data loop"
+      text: "Does each deployment produce data that makes the next one better, and that a model lab cannot get from the web?"
+    - name: "Services as software"
+      text: "Is it selling the work (an outcome that replaces service or labour spend) or a tool that adds a seat?"
+    - name: "Procurement path"
+      text: "Who signs, through which framework or budget line, and how long is the cycle? Long cycles at seed are a risk; a signed framework place is a strong signal."
+
+sourcing:
+  # Extra thesis-specific searches, run alongside the per-sector templates.
+  thesis_queries:
+    - "defence tech startup Europe seed Series A 2026"
+    - "NATO DIANA accelerator cohort 2026 companies"
+    - "UK MOD DASA contract AI startup 2026"
+    - "robot learning foundation model startup raises 2026"
+    - "humanoid robot startup Europe funding 2026"
+    - "AI-native law firm startup 2026"
+    - "healthcare prior authorisation AI startup 2026"
+    - "AI evaluation red teaming startup seed 2026"
+    - "AI security startup raises seed 2026"
+    - "software-defined factory reshoring startup 2026"
+  # Templates run once per sector keyword; {vertical} is replaced.
+  templates:
+    - "{vertical} startup seed Series A 2026 Europe"
+    - "{vertical} startup raised funding 2026 UK"
+    - "{vertical} AI regulation approval certification 2026"
+    - "former operator founded {vertical} company"
+    - "{vertical} legacy software replacement AI-native"
+
+# Hidden from the Observatory, the published data and every brief. A fund
+# lists its own portfolio here so the tool never scores or comments on it.
+exclude_from_views: []
 
 sources:
-  # --- Scout Sources ---
   web_search:
     enabled: true
     queries_per_vertical: 5
@@ -101,16 +179,18 @@ sources:
     enabled: true
     api_base: "https://api.company-information.service.gov.uk"
     sic_codes:
-      - "62012"  # Software development
-      - "62090"  # Other IT service activities
-      - "86101"  # Hospital activities
-      - "86210"  # General medical practice
-      - "86230"  # Dental practice activities
-      - "75000"  # Veterinary activities
+      - "62012"  # Business and domestic software development
+      - "72190"  # Other research and experimental development on natural sciences and engineering
+      - "25620"  # Machining
+      - "30300"  # Manufacture of air and spacecraft and related machinery
+      - "30400"  # Manufacture of military fighting vehicles
+      - "28990"  # Manufacture of other special-purpose machinery
+      - "86210"  # General medical practice activities
+      - "69102"  # Solicitors
 
   github_trending:
     enabled: true
-    languages: ["python", "typescript", "rust"]
+    languages: ["python", "typescript", "rust", "c++"]
     min_stars_velocity: 50
 
   rss_feeds:
@@ -125,54 +205,42 @@ sources:
       - name: "EU-Startups"
         url: "https://www.eu-startups.com/feed/"
         focus: "European startup ecosystem"
+      - name: "The Robot Report"
+        url: "https://www.therobotreport.com/feed/"
+        focus: "Robotics funding and launches"
 
-  # --- Radar Sources ---
-  # Regulatory monitoring — these are search queries, not coded sources.
-  # The Radar agent uses Claude web search with these specific queries
-  # to catch regulatory changes that create new moats or open windows.
   regulatory_monitoring:
     enabled: true
     queries:
-      # Veterinary
-      - "RCVS regulatory update 2026"
-      - "CMA veterinary market investigation final decision"
-      - "CMA veterinary services remedies 2026"
-      - "veterinary practice regulation UK changes"
+      # Regulated industries
+      - "MHRA AI as a medical device guidance 2026"
+      - "FDA AI-enabled device software guidance 2026"
+      - "SRA legal services AI regulation 2026"
+      - "FCA AI guidance financial services 2026"
+      - "CMA veterinary market remedies 2026"
+      # Defence and dual-use
+      - "UK defence procurement reform SME 2026"
+      - "European Defence Fund call results 2026"
+      - "NATO Innovation Fund investment 2026"
+      - "export controls dual-use AI drones 2026"
+      # Robotics and autonomy
+      - "EU Machinery Regulation AI safety components 2027"
+      - "UK Automated Vehicles Act implementation 2026"
+      - "CAA beyond visual line of sight drone approval 2026"
+      # Assurance (cross-cutting)
+      - "EU AI Act high-risk obligations enforcement 2026"
+      - "UK AI Security Institute evaluation 2026"
+      - "ISO 42001 certification AI management system"
 
-      # Healthcare
-      - "CQC new inspection framework digital health 2026"
-      - "MHRA medical device software regulation AI"
-      - "NHS digital compliance new requirements"
-      - "FDA digital health pre-certification 2026"
-      - "EU MDR AI medical device classification"
-
-      # Legal
-      - "SRA solicitors regulation technology guidance 2026"
-      - "legal services regulation AI UK"
-      - "LSB legal services board innovation"
-
-      # Financial
-      - "FCA regulatory sandbox new cohort 2026"
-      - "FCA consumer duty digital services"
-      - "PRA insurtech regulation update"
-
-      # Cross-vertical
-      - "EU AI Act enforcement timeline 2026"
-      - "UK AI regulation DSIT framework"
-      - "ICO AI data protection guidance"
-      - "GDPR automated decision making enforcement"
-
-  # Events monitoring — the Events agent uses these queries
-  # to find upcoming conferences, demo days, and pitch events
   events_monitoring:
     queries:
-      - "enterprise software startup conference Europe 2026"
-      - "developer tooling demo day 2026"
-      - "cybersecurity summit Europe speakers 2026"
-      - "SaaS startup pitch competition 2026"
+      - "defence technology conference Europe 2026 startups"
+      - "NATO DIANA demo day 2026"
+      - "robotics conference Europe 2026 startup showcase"
+      - "legal technology conference London 2026"
+      - "digital health conference Europe 2026 startups"
+      - "AI safety evaluation summit 2026"
 
-  # Podcast monitoring — the Radar agent also scans these
-  # but they're primarily used by the Scout agent for discovery
   podcast_feeds:
     - name: "20VC"
       url: "https://feeds.megaphone.fm/twentyminutevc"
@@ -181,38 +249,34 @@ sources:
       url: "https://feeds.acast.com/public/shows/riding-unicorns"
       signal: "European early-stage founder signal"
 
-  # Investor activity tracking — Radar agent searches for these
   investor_tracking:
     enabled: true
     watch_list:
-      # European funds in thesis verticals
       - "Balderton Capital"
-      - "Northzone"
-      - "Earlybird"
-      - "Atomico"
+      - "Plural"
+      - "Lakestar"
+      - "Project A"
+      - "Blossom Capital"
+      - "NATO Innovation Fund"
+      - "Cambridge Innovation Capital"
       - "Index Ventures"
-      - "Accel Europe"
-      - "Singular"
-      - "firstminute capital"
-      # US funds active in Europe
-      - "Sequoia Capital"
-      - "a16z"
+      - "Accel"
       - "General Catalyst"
-      - "Bessemer"
-      # Vertical specialists
-      - "Khosla Ventures"
-      - "GV"
+      - "Andreessen Horowitz"
+      - "Founders Fund"
       - "Lux Capital"
+      - "Lightspeed"
     queries:
       - "{investor} new investment 2026"
-      - "{investor} seed series A healthcare legal fintech 2026"
-      - "{investor} European portfolio company 2026"
+      - "{investor} defence robotics healthcare legal AI investment 2026"
+
+# The weekly refresh: what gets checked and how strictly.
+refresh:
+  max_companies: 60            # cost cap per run
+  stale_after_days: 30
+  require_source_match: true   # a change is applied only if its source page contains it
+  hold_low_confidence: true    # low-confidence findings go to data/review.json, not the tracker
 
 scheduling:
-  scout: "daily"
-  radar_funding: "daily"
-  radar_regulatory: "weekly"
-  radar_synthesis: "weekly"
-  ops: "weekly"
+  weekly: "Monday 07:00 Europe/London"
   timezone: "Europe/London"
-  run_time: "07:00"

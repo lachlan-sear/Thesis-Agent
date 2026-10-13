@@ -22,7 +22,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from shared.config_loader import load_config, get_search_queries
+from shared.config_loader import load_config, get_search_queries, exclusions
 from shared.models import RawCandidate, Action, ScoutBrief
 from shared.db import init_db, is_seen, mark_seen, save_evaluation, log_run
 from agents.scout.sources.web_search import run_discovery
@@ -63,6 +63,46 @@ def _run_source(name: str, func, source_counts: dict, all_candidates: list, **kw
     except Exception as e:
         print(f"  → Failed ({e})")
         source_counts[name.lower().replace(" ", "_")] = 0
+
+
+SEEN_PATH = Path(__file__).resolve().parents[2] / "data" / "seen.json"
+CANDIDATES_PATH = Path(__file__).resolve().parents[2] / "data" / "candidates.json"
+
+
+def _load_seen() -> set[str]:
+    """Names already evaluated in earlier runs. Kept in git, because Actions runners start clean."""
+    try:
+        return set(json.loads(SEEN_PATH.read_text()))
+    except Exception:
+        return set()
+
+
+def _save_seen(names: set[str]) -> None:
+    SEEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SEEN_PATH.write_text(json.dumps(sorted(_load_seen() | names), indent=1) + "\n")
+
+
+def _save_candidates(brief, candidates, config) -> None:
+    """Scout's track and watch recommendations: the inbox a partner reviews. Never auto-added to the tracker."""
+    try:
+        prior = json.loads(CANDIDATES_PATH.read_text())
+    except Exception:
+        prior = []
+    by_name = {c.name.lower(): c for c in candidates}
+    rows = []
+    for tier, items in (("track", brief.recommended_track), ("watch", brief.watch_list)):
+        for co in items:
+            ev = co.evaluation
+            src = by_name.get(co.name.lower())
+            rows.append({
+                "date": brief.date, "name": co.name, "tier": tier, "score": ev.composite_score,
+                "sector": co.vertical, "oneLiner": ev.one_liner, "bull": ev.bull_case, "bear": ev.bear_case,
+                "website": co.url, "foundVia": src.source if src else None,
+                "sourceUrl": src.source_url if src else None,
+            })
+    excluded = exclusions(config)
+    rows = [r for r in rows if r["name"].lower() not in excluded]
+    CANDIDATES_PATH.write_text(json.dumps((rows + prior)[:150], indent=2, ensure_ascii=False) + "\n")
 
 
 def run_scout(
@@ -174,7 +214,9 @@ def run_scout(
 
     # --- Dedup ---
     print("\n[2/5] Deduplicating...")
-    new = [c for c in all_candidates if not is_seen(c.name)]
+    from shared import tracker as _tracker
+    known = set(_tracker.by_name(_tracker.load())) | _load_seen() | exclusions(config)
+    new = [c for c in all_candidates if not is_seen(c.name) and c.name.lower().strip() not in known]
     seen_batch = set()
     deduped = []
     for c in new:
@@ -197,6 +239,8 @@ def run_scout(
     for ev in evaluations:
         mark_seen(ev.company_name, source="scout", composite_score=ev.composite_score, action=ev.action.value)
         save_evaluation(ev.company_name, ev.model_dump())
+    if evaluations:
+        _save_seen({e.company_name.lower().strip() for e in evaluations})
 
     # --- Enrich ---
     high_scoring = [e for e in evaluations if e.composite_score >= enrich_threshold]
@@ -225,6 +269,9 @@ def run_scout(
         recommended_track=enriched_track, watch_list=enriched_watch,
         skipped=skipped,
     )
+
+    if not dry_run:
+        _save_candidates(brief, deduped, config)
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -273,7 +320,7 @@ def format_brief(brief: ScoutBrief, config: dict, source_counts: dict = None) ->
             lines.extend([
                 f"### {company.name}", f"**{ev.one_liner}**", "",
                 f"| | |", f"|---|---|",
-                f"| **Vertical** | {company.vertical} |",
+                f"| **Sector** | {company.vertical} |",
                 f"| **Stage** | {company.stage.value} |",
                 f"| **Geography** | {company.geography or 'N/A'} |",
                 f"| **Founded** | {company.founded or 'N/A'} |",
@@ -286,19 +333,8 @@ def format_brief(brief: ScoutBrief, config: dict, source_counts: dict = None) ->
                 "", "#### Thesis Scorecard", "",
                 f"| Dimension | Score | Notes |",
                 f"|-----------|-------|-------|",
-                f"| Thesis Fit | **{ev.thesis_fit or '?'}**/10 | |",
-                f"| Customer Durability | **{ev.customer_durability or '?'}**/10 | |",
-                f"| Regulation Moat | **{ev.regulation_moat or '?'}**/10 | |",
-                f"| Unit Economics | **{ev.unit_economics or '?'}**/10 | |",
-                f"| Growth Inflection | **{ev.growth_inflection or '?'}**/10 | |",
-                f"| Founder Quality | **{ev.founder_quality or '?'}**/10 | |",
-                f"| Autopilot Potential | **{ev.autopilot_potential or '?'}**/10 | *Selling the work or the tool?* |",
-                f"| Funding & Cap Table | **{ev.funding_stage_score or '?'}**/10 | {ev.funding_detail or ''} |",
-                f"| TAM / Market Size | **{ev.tam_score or '?'}**/10 | |",
-                f"| Revenue Model | **{ev.revenue_model_score or '?'}**/10 | {ev.revenue_model_type or ''} |",
-                f"| Go-to-Market | **{ev.gtm_score or '?'}**/10 | {ev.gtm_strategy or ''} |",
-                f"| Geographic Scalability | **{ev.geo_scalability or '?'}**/10 | |",
-                f"| Exit Potential | **{ev.exit_potential or '?'}**/10 | {ev.exit_comparables or ''} |",
+                *[f"| {k.replace('_', ' ').title()} | **{ev.scores.get(k) or '?'}**/10 | |"
+                  for k in config["thesis"].get("evaluation_rubric", {})],
                 f"| **Composite** | **{ev.composite_score}**/10 | |",
                 "",
                 f"**Bull case:** {ev.bull_case}", "",
@@ -340,7 +376,6 @@ def format_brief(brief: ScoutBrief, config: dict, source_counts: dict = None) ->
     lines.extend([
         "", "---",
         f"*Generated by [thesis-agent](https://github.com/lachlan-sear/thesis-agent) on {brief.date}.*",
-        "*12 sources: Web search, Hacker News, Companies House, GitHub, Adzuna, RSS, "
-        "Product Hunt, Reddit, Patents, Wikipedia, Podcasts, Twitter/X.*",
+        f"*Sources scanned this run: {', '.join(sorted((source_counts or {}).keys())) or 'none'}.*",
     ])
     return "\n".join(lines)

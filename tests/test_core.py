@@ -142,11 +142,14 @@ class TestConfigLoader:
 class TestDatabase:
     """Test database operations."""
 
-    def test_init_db(self):
-        from shared.db import init_db
-        init_db()  # Should not raise
+    def test_init_db(self, tmp_path, monkeypatch):
+        import shared.db as db
+        monkeypatch.setattr(db, "DB_PATH", tmp_path / "t.db")
+        db.init_db()  # Should not raise
 
-    def test_seen_tracking(self):
+    def test_seen_tracking(self, tmp_path, monkeypatch):
+        import shared.db as db
+        monkeypatch.setattr(db, "DB_PATH", tmp_path / "t.db")
         from shared.db import init_db, is_seen, mark_seen
         init_db()
         assert not is_seen("UniqueTestCompany12345")

@@ -78,6 +78,9 @@ class Evaluation(BaseModel):
     gtm_score: Optional[int] = Field(None, ge=1, le=10)
     geo_scalability: Optional[int] = Field(None, ge=1, le=10)
     exit_potential: Optional[int] = Field(None, ge=1, le=10)
+    # Generic per-dimension scores keyed by the thesis rubric (evaluation_rubric in thesis.yaml).
+    scores: dict[str, Optional[int]] = {}
+    moat_type: str = ""
     composite_score: float = 0.0
     one_liner: str = ""
     bull_case: str = ""
@@ -110,7 +113,7 @@ class Evaluation(BaseModel):
         total_weight = 0.0
         total_score = 0.0
         for field, weight in weights.items():
-            val = getattr(self, field, None)
+            val = self.scores.get(field) if field in self.scores else getattr(self, field, None)
             if val is not None:
                 total_score += val * weight
                 total_weight += weight

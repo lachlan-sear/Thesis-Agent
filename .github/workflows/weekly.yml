@@ -1,0 +1,79 @@
+name: Weekly run
+
+# Every Monday: refresh every tracked company (applying only source-checked
+# changes), source new candidates, scan the market, then publish
+# data/observatory.json and a dated edition. The Observatory reads that file.
+on:
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC (07:17 London in summer)
+  workflow_dispatch:
+    inputs:
+      refresh_only:
+        description: "Only refresh the tracker (skip scout, radar, ops, events)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-run
+  cancel-in-progress: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OBSERVATORY_DEPLOY_HOOK: ${{ secrets.OBSERVATORY_DEPLOY_HOOK }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Check the thesis and tracker
+        run: python main.py check
+
+      - name: Fail clearly without an API key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Add ANTHROPIC_API_KEY under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Run the weekly pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          COMPANIES_HOUSE_API_KEY: ${{ secrets.COMPANIES_HOUSE_API_KEY }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+        run: |
+          if [ "${{ inputs.refresh_only }}" = "true" ]; then
+            python main.py weekly --refresh-only
+          else
+            python main.py weekly
+          fi
+
+      - name: Validate before committing
+        run: python main.py check
+
+      - name: Commit the edition
+        run: |
+          git config user.name "thesis-agent[bot]"
+          git config user.email "thesis-agent[bot]@users.noreply.github.com"
+          git add data/ outputs/ || true
+          git diff --cached --quiet && { echo "Nothing changed"; exit 0; }
+          git commit -m "Weekly edition $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Ping the Observatory to rebuild (optional)
+        if: env.OBSERVATORY_DEPLOY_HOOK != ''
+        run: curl -fsS -X POST "$OBSERVATORY_DEPLOY_HOOK" > /dev/null

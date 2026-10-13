@@ -14,6 +14,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from shared.models import RawCandidate
+from shared.keywords import thesis_keywords, thesis_queries
 
 
 # Default feeds — configurable via thesis.yaml
@@ -49,6 +50,8 @@ THESIS_KEYWORDS = [
     "vertical", "regulated", "saas", "platform",
     "consumer", "digital health", "mental health",
 ]
+THESIS_KEYWORDS = thesis_keywords(fallback=THESIS_KEYWORDS)
+
 
 
 def fetch_feed(url: str, timeout: int = 10) -> str | None:

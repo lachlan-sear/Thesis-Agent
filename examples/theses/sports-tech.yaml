@@ -1,0 +1,72 @@
+# A contrasting thesis, to show the engine re-orients when the YAML changes.
+# Copy over config/thesis.yaml (or set THESIS_CONFIG) and run `python main.py check`.
+# The briefs in examples/sports-tech-briefs/ were produced from this thesis (March 2026).
+
+thesis:
+  fund: "Example fund (illustrative)"
+  name: "Sport's operating system"
+  version: "1.0"
+  updated: "2026-10-13"
+  core_belief: >
+    Sport is a large, fragmented, under-digitised economy. Software that runs
+    the club, the venue and the athlete's data, and that monetises the long
+    tail of amateur and youth sport, compounds through network effects that
+    broadcasters and leagues cannot replicate.
+  sectors:
+    - id: performance
+      name: "Athlete performance and health"
+      short: "Performance"
+      description: "Wearables analytics, injury prediction, coaching software."
+      keywords: ["sports performance analytics", "athlete wearables", "injury prediction", "coaching software"]
+    - id: grassroots
+      name: "Grassroots and youth sport"
+      short: "Grassroots"
+      description: "Club management, bookings, payments and video for amateur sport."
+      keywords: ["youth sports", "club management software", "padel booking", "amateur sports video"]
+    - id: fan
+      name: "Fan and media"
+      short: "Fan"
+      description: "Direct-to-fan platforms, highlights automation, fantasy and ticketing."
+      keywords: ["sports highlights AI", "fan engagement platform", "sports ticketing", "fantasy sports"]
+  target_verticals:
+    primary: ["youth sports", "sports performance", "fan engagement"]
+    secondary: ["venues", "ticketing"]
+    emerging: ["padel", "women's sport"]
+  signals_positive:
+    - "Network effects through team or club sharing"
+    - "Replaces paid human labour (videographers, analysts, admin)"
+    - "Participation growth in the underlying sport"
+  signals_negative:
+    - "Dependent on a single league's rights"
+    - "Consumer app with no switching costs"
+  stage_focus: {primary: "seed", range_min: "pre-seed", range_max: "series-b", sweet_spot: "Seed to Series A"}
+  geography: {primary: ["europe", "uk"], secondary: ["us"]}
+  evaluation_rubric:
+    thesis_fit: "Fit with the sport operating-system thesis (1-10)"
+    network_effects: "Does each new team or user make it better for the rest? (1-10)"
+    labour_replacement: "Does it replace paid human work? (1-10)"
+    founder_quality: "Founder-market fit (1-10)"
+    growth_inflection: "Breakout growth signals (1-10)"
+    tam_score: "Venture-scale market (1-10)"
+  evaluation_weights:
+    thesis_fit: 0.25
+    network_effects: 0.2
+    labour_replacement: 0.15
+    founder_quality: 0.15
+    growth_inflection: 0.15
+    tam_score: 0.1
+  frameworks:
+    - name: "Participation tailwind"
+      text: "Is participation in the sport growing, and does the product grow with it?"
+sourcing:
+  thesis_queries:
+    - "padel startup raises 2026"
+    - "youth sports software funding 2026"
+exclude_from_views: []
+sources:
+  web_search: {enabled: true}
+  hacker_news: {enabled: true}
+  rss_feeds: {enabled: true, feeds: []}
+  investor_tracking: {enabled: false, watch_list: [], queries: []}
+refresh: {max_companies: 40, require_source_match: true}
+scheduling: {weekly: "Monday 07:00 Europe/London"}

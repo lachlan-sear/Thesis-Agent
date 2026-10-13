@@ -17,39 +17,34 @@ from shared.models import (
 from shared.db import init_db, get_recent_signals, get_all_seen, log_run
 
 
-TRACKER_STATE_PATH = Path(__file__).parent.parent.parent / "config" / "tracker_state.json"
+def _stage(raw: str | None) -> str:
+    s = (raw or "").lower().replace(" ", "-")
+    return s if s in {"pre-seed", "seed", "series-a", "series-b", "series-c", "growth"} else "unknown"
 
 
 def load_tracker_state() -> list[TrackerEntry]:
-    """Load the current tracker state from JSON."""
-    if not TRACKER_STATE_PATH.exists():
-        return []
-
-    with open(TRACKER_STATE_PATH) as f:
-        data = json.load(f)
-
+    """Load the live tracker (data/companies.json) as TrackerEntry objects."""
+    from shared import tracker
     entries = []
-    for item in data:
+    for item in tracker.load():
+        status = {"leader": "benchmark", "exited": "killed", "shut_down": "killed"}.get(item.get("status"), "active")
+        checked = item.get("lastVerified") or item.get("dateAdded") or "2025-01-01"
         try:
             entry = TrackerEntry(
                 name=item["name"],
-                url=item.get("url"),
-                vertical=item.get("vertical", "Unknown"),
-                stage=item.get("stage", "unknown"),
-                status=item.get("status", "active"),
-                composite_score=item.get("composite_score"),
-                last_updated=datetime.fromisoformat(item.get("last_updated", "2025-01-01")),
-                added_at=datetime.fromisoformat(item.get("added_at", "2025-01-01")),
-                notes=item.get("notes"),
-                benchmark=item.get("benchmark", False),
+                url=item.get("website"),
+                vertical=item.get("sector", "Unknown"),
+                stage=_stage(item.get("stage")),
+                status=status,
+                last_updated=datetime.fromisoformat(checked[:10]),
+                added_at=datetime.fromisoformat((item.get("dateAdded") or "2025-01-01")[:10]),
+                notes=item.get("note"),
+                benchmark=item.get("status") == "leader",
             )
-            # Calculate staleness
-            delta = datetime.utcnow() - entry.last_updated
-            entry.stale_days = delta.days
-            entries.append(entry)
         except Exception:
             continue
-
+        entry.stale_days = (datetime.utcnow() - entry.last_updated).days
+        entries.append(entry)
     return entries
 
 
@@ -169,7 +164,7 @@ def run_ops(
     if not entries:
         # If no tracker_state.json, use seen companies from DB
         seen = get_all_seen(action_filter="track")
-        print(f"  No tracker_state.json found. Using {len(seen)} tracked companies from DB.")
+        print(f"  Tracker is empty. Using {len(seen)} tracked companies from DB.")
         entries = [
             TrackerEntry(
                 name=s["name"],
@@ -191,7 +186,9 @@ def run_ops(
 
     # News check
     news_recs = []
-    if not dry_run and entries:
+    # The refresh agent now does the per-company news check with source checks;
+    # this older unchecked search runs only when asked for explicitly.
+    if not dry_run and entries and config.get("ops", {}).get("legacy_news_check"):
         print(f"\n[3/4] Checking for news on tracked companies...")
         news_recs = check_for_news(entries, config)
         print(f"  {len(news_recs)} companies have news")
