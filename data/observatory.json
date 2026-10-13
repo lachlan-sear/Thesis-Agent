@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generatedAt": "2026-10-13T14:05:00+00:00",
+  "generatedAt": "2026-10-13T14:29:59+00:00",
   "thesis": {
-    "fund": "Reference instance (Lachlan Sear)",
+    "fund": "Lachlan Sear",
     "name": "Permission to operate",
-    "coreBelief": "The next durable AI companies sell into markets where the bottleneck is permission, not the model. In regulated industries that permission is certification, liability and a buyer's trust; in physical AI it is the safety case, procurement and real-world data that cannot be scraped. The moats are the same in both: compliance work competitors must repeat, proprietary operating data, and slow buyers whose switching costs run for a decade. The layer that grants the permission — evaluation, security, simulation and certification — is the picks and shovels of both.",
+    "coreBelief": "The next durable AI companies sell into markets where the bottleneck is permission, not the model. In regulated industries that permission is certification, liability and a buyer's trust; in physical AI it is the safety case, procurement and real-world data that cannot be scraped. The moats are the same in both: compliance work competitors must repeat, proprietary operating data, and slow buyers whose switching costs run for a decade. Both have to pass through the same layer that grants the permission: evaluation, security, simulation and certification.",
     "updated": "2026-10-13",
     "stage": "Seed to Series A",
     "geography": {
@@ -88,7 +88,7 @@
       "kind": "round",
       "headline": "Harvey raised $550M at $15.6B, co-led by Lightspeed and Diffusion",
       "date": "2026-09",
-      "source": "https://aiweekly.co/alerts/harvey-raises-550m-at-156b-co-led-by-lightspeed-and-diffusion"
+      "source": "https://cryptobriefing.com/harvey-legal-ai-16b-valuation-funding/"
     },
     {
       "company": "Comand AI",
@@ -110,7 +110,7 @@
       "company": "SIYTE",
       "sector": "defence",
       "kind": "update",
-      "headline": "Purple Transform now trades as SIYTE",
+      "headline": "Purple Transform Ltd now trades as SIYTE",
       "date": "2026-10",
       "source": "https://siyte.ai/"
     }
@@ -158,7 +158,7 @@
       },
       "exit": null,
       "status": "written_up",
-      "writeUp": "https://lachlansear.com",
+      "writeUp": null,
       "note": "Latest round is the $20M Series A (Oct 2025).",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
@@ -167,7 +167,9 @@
       "sources": [
         "https://tech.eu/2025/10/02/lupa-raises-20m-for-ai-powered-os-to-transform-global-petcare-market/",
         "https://www.cityam.com/?p=2366594"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 2,
@@ -186,7 +188,14 @@
         "Myriad Venture Partners",
         "The LegalTech Fund"
       ],
-      "lastRound": null,
+      "lastRound": {
+        "round": "Seed",
+        "amount": "$5.3M",
+        "date": "2025-09",
+        "leads": "",
+        "valuation": "",
+        "source": "https://tech.eu/2025/09/23/wexlerai-secures-53m-to-bring-real-time-fact-checking-to-litigation/"
+      },
       "exit": {
         "type": "acquisition",
         "acquirer": "Legora",
@@ -196,16 +205,20 @@
         "source": "https://tech.eu/2026/07/29/legora-acquires-legal-ai-startup-wexler-in-fifth-acquisition-of-2026/"
       },
       "status": "exited",
-      "writeUp": "https://lachlansear.com",
-      "note": "Legora announced its acquisition of Wexler on 29 Jul 2026, its fifth deal of the year; terms not disclosed.",
+      "writeUp": null,
+      "note": "Legora announced its acquisition of Wexler on 29 Jul 2026; terms not disclosed. Raised $6.7M: a $1.4M pre-seed and a $5.3M seed.",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
         "https://tech.eu/2026/07/29/legora-acquires-legal-ai-startup-wexler-in-fifth-acquisition-of-2026/",
-        "https://legora.com/newsroom/legora-is-acquiring-wexler"
-      ]
+        "https://legora.com/newsroom/legora-is-acquiring-wexler",
+        "https://tech.eu/2025/09/23/wexlerai-secures-53m-to-bring-real-time-fact-checking-to-litigation/",
+        "https://legaltechnology.com/genai-litigation-startup-wexler-ai-raises-1-4m-pre-seed-funding/"
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 3,
@@ -235,7 +248,7 @@
       },
       "exit": null,
       "status": "written_up",
-      "writeUp": "https://lachlansear.com",
+      "writeUp": null,
       "note": "Latest round is the €3.2M seed (Nov 2025).",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
@@ -244,7 +257,9 @@
       "sources": [
         "https://seedcamp.com/views/la-fraise-raises-e32m-to-democratise-dental-care-with-ai/",
         "https://www.vcbacked.co/company/la-fraise"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 4,
@@ -280,7 +295,9 @@
       "confidence": "high",
       "sources": [
         "https://www.cpapracticeadvisor.com/2026/02/05/startup-accrual-officially-launches-with-75m-in-funding-to-bring-ai-native-automation-to-accounting/177600/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 5,
@@ -321,7 +338,9 @@
       "confidence": "high",
       "sources": [
         "https://www.vcaonline.com/news/2026021803/avantos-raises-35-million-to-power-the-future-of-client-servicing-in-financial-services/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 6,
@@ -338,8 +357,7 @@
         "Blackfin Tech",
         "UVC Partners",
         "Grazia Equity",
-        "Plug & Play Ventures (Framework Ventures per tracker",
-        "not verified)"
+        "Plug & Play Ventures"
       ],
       "lastRound": null,
       "exit": null,
@@ -354,7 +372,9 @@
         "https://tfir.io/hypatos-raises-e10-million-in-funding/",
         "https://www.hypatos.ai/",
         "https://privatemarketview.com/companies/hypatos/funding-rounds"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 7,
@@ -382,26 +402,27 @@
         "Elad Gil"
       ],
       "lastRound": {
-        "round": "Late stage",
+        "round": "",
         "amount": "$550M",
         "date": "2026-09",
-        "leads": "Lightspeed Venture Partners, Diffusion",
+        "leads": "Lightspeed, Diffusion",
         "valuation": "$15.6B",
-        "source": "https://aiweekly.co/alerts/harvey-raises-550m-at-156b-co-led-by-lightspeed-and-diffusion"
+        "source": "https://cryptobriefing.com/harvey-legal-ai-16b-valuation-funding/"
       },
       "exit": null,
       "status": "leader",
       "writeUp": null,
-      "note": "Raised $200M at $11B in March 2026, then $550M at $15.6B in September, co-led by Lightspeed and Diffusion.",
+      "note": "Raised $550M at $15.6B, co-led by Lightspeed and Diffusion (Sep 2026), six months after $200M at $11B; more than $1.5B raised in total.",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
-        "https://aiweekly.co/alerts/harvey-raises-550m-at-156b-co-led-by-lightspeed-and-diffusion",
-        "https://raising.fi/news/harvey-undisclosed-september-2026",
-        "https://raising.fi/news/harvey-undisclosed-march-2026"
-      ]
+        "https://cryptobriefing.com/harvey-legal-ai-16b-valuation-funding/",
+        "https://www.legalbusiness.co.uk/in-house/harvey-hits-15-5bn-valuation-in-largest-fundraising-round-yet/"
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 8,
@@ -438,7 +459,9 @@
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/20/stacks-raises-23m-series-a-to-scale-agentic-ai/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 9,
@@ -449,7 +472,7 @@
       "geo": "Vienna, Austria",
       "founded": null,
       "stage": "Series A",
-      "raised": "$30M+",
+      "raised": "~$30M",
       "raisedUsdM": 33.0,
       "investors": [
         "HV Capital",
@@ -477,6 +500,10 @@
       "sources": [
         "https://www.trendingtopics.eu/viennas-flinn-raises-e17m-series-a-to-automate-medtech-and-pharma-compliance/",
         "https://seedtable.com/companies/flinn/funding-rounds/series-a-2026-02"
+      ],
+      "raisedBasis": "total",
+      "aliases": [
+        "Flinn"
       ]
     },
     {
@@ -513,7 +540,9 @@
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/26/burst-raises-3m-seed-to-unlock-fsa-and-hsa-retail-spending/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 11,
@@ -545,7 +574,7 @@
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Raised a €32M Series A led by Blossom Capital, with Saab as a strategic investor (Jun 2026).",
+      "note": "Raised a €32M Series A led by Blossom Capital, with Saab as a strategic investor (Jun 2026). Total is an estimate: the source gives about $12M raised before this round.",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
@@ -555,7 +584,9 @@
         "https://pulse2.com/comand-ai-raises-e32-million-series-a-to-accelerate-nato-deployment/",
         "https://www.proskauer.com/release/proskauer-advises-blossom-capital-on-32-million-funding-round-for-comand-ai",
         "https://www.vcbacked.co/company/comand-ai"
-      ]
+      ],
+      "raisedBasis": "estimate",
+      "aliases": []
     },
     {
       "id": 12,
@@ -593,7 +624,9 @@
       "sources": [
         "https://startuprise.co.uk/vizgard-raises-1-5-m-in-oversubscribed-funding/",
         "https://www.vcbacked.co/company/vizgard"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 13,
@@ -601,7 +634,7 @@
       "website": "https://siyte.ai",
       "sector": "defence",
       "description": "AI operational intelligence for rail and critical infrastructure",
-      "geo": "Oxford, UK",
+      "geo": "Oxfordshire, UK",
       "founded": 2021,
       "stage": "Series A",
       "raised": "£4.5M",
@@ -611,7 +644,7 @@
         "Sure Valley Ventures"
       ],
       "lastRound": {
-        "round": "Series A",
+        "round": "",
         "amount": "£4.5M",
         "date": "2024-09",
         "leads": "Mercia Ventures",
@@ -629,6 +662,10 @@
       "sources": [
         "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/",
         "https://siyte.ai/"
+      ],
+      "raisedBasis": "total",
+      "aliases": [
+        "Purple Transform"
       ]
     },
     {
@@ -650,18 +687,29 @@
         "Jeff Bezos",
         "Index Ventures"
       ],
-      "lastRound": null,
+      "lastRound": {
+        "round": "Series B",
+        "amount": "$600M",
+        "date": "2025-11",
+        "leads": "CapitalG",
+        "valuation": "$5.6B",
+        "source": "https://salestools.io/es/report/physical-intelligence-raises-600-million-series-b"
+      },
       "exit": null,
       "status": "leader",
       "writeUp": null,
-      "note": "Reported in talks to raise about $1B at an $11B valuation (Bloomberg, Mar 2026); no close confirmed yet, so not recorded as a round.",
+      "note": "Raised a $600M Series B at $5.6B led by CapitalG (Nov 2025). Reported in talks to raise about $1B at $11B (Bloomberg, Mar 2026); no close confirmed.",
       "dateAdded": "2026-03-31",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "medium",
       "sources": [
+        "https://salestools.io/es/report/physical-intelligence-raises-600-million-series-b",
+        "https://news.bloomberglaw.com/private-equity/robotics-startup-physical-intelligence-valued-at-5-6-billion",
         "https://news.bloomberglaw.com/artificial-intelligence/ai-robotics-lab-in-talks-to-nab-1-billion-at-11-billion-value"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 15,
@@ -688,7 +736,7 @@
       },
       "exit": null,
       "status": "written_up",
-      "writeUp": "https://lachlansear.com",
+      "writeUp": null,
       "note": "No change found since the $3M pre-seed (Nov 2025).",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
@@ -696,7 +744,9 @@
       "confidence": "high",
       "sources": [
         "https://tech.eu/2025/11/27/neuracore-raises-3m-to-power-next-gen-robots-and-open-robotics-research/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 16,
@@ -726,7 +776,7 @@
       },
       "exit": null,
       "status": "written_up",
-      "writeUp": "https://lachlansear.com",
+      "writeUp": null,
       "note": "Raised a $50M Series A led by Union Square Ventures (Mar 2026) to open 25 factories.",
       "dateAdded": "2025-01-27",
       "lastVerified": "2026-10-13",
@@ -734,7 +784,9 @@
       "confidence": "high",
       "sources": [
         "https://www.automation.com/article/isembard-raises-50-million-usd-series-a-open-25-ai-powered-factories-aerospace-defense"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 17,
@@ -744,7 +796,7 @@
       "description": "AI platform for autonomous manufacturing and Western supply chain reshoring",
       "geo": "San Francisco, US",
       "founded": 2025,
-      "stage": "Seed",
+      "stage": "Undisclosed",
       "raised": "$70M",
       "raisedUsdM": 70.0,
       "investors": [
@@ -759,20 +811,22 @@
         "date": "2026-03",
         "leads": "Founders Fund, Accel",
         "valuation": "$700M",
-        "source": "https://traded.co/deals/national/all/sale/bob-mcgrew-secures-70-million-investment-for-ai-startup-arda-valued-at-700-million/"
+        "source": "https://phemex.com/news/article/former-openai-executive-raises-70m-for-ai-startup-arda-64281"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Reported $70M raise at a $700M valuation, co-led by Founders Fund and Accel (Mar 2026).",
+      "note": "Reported (WSJ) to have raised $70M at a $700M valuation, co-led by Founders Fund and Accel (Mar 2026); round not named.",
       "dateAdded": "2026-03-04",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "medium",
       "sources": [
-        "https://traded.co/deals/national/all/sale/bob-mcgrew-secures-70-million-investment-for-ai-startup-arda-valued-at-700-million/",
-        "https://texxr.com/1164584/arda-raises-70m-to-automate-manufacturing"
-      ]
+        "https://phemex.com/news/article/former-openai-executive-raises-70m-for-ai-startup-arda-64281",
+        "https://www.placera.se/telegram/kallor-app-skapad-av-tidigare-openai-topp-tar-in-70-miljoner-dollar-wsj-20260305"
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 18,
@@ -808,6 +862,10 @@
       "confidence": "high",
       "sources": [
         "https://thedigitalship.com/news/electronics-navigation/72-5m-series-b-funding-for-orca-ai"
+      ],
+      "raisedBasis": "total",
+      "aliases": [
+        "Orca AI"
       ]
     },
     {
@@ -844,7 +902,9 @@
       "confidence": "high",
       "sources": [
         "https://www.corporatecomplianceinsights.com/complyance-raises-20m-series-a-led-by-google-ventures/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 20,
@@ -883,7 +943,9 @@
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/19/security-ai-platform-cogent-bags-42m-series-a/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 21,
@@ -919,7 +981,9 @@
       "confidence": "high",
       "sources": [
         "https://www.dbta.com/Editorial/News-Flashes/Pillar-Security-Raises-9M-to-Supercharge-AI-that-Secures-AI-Software-169094.aspx"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 22,
@@ -957,7 +1021,9 @@
       "sources": [
         "https://startuprise.co.uk/beyondmath-completes-18-5-m-seed-round-to-scale-worlds-largest-foundational-physics-ai-model/",
         "https://seedtable.com/companies/beyondmath/funding-rounds/series-a-2026-02"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 23,
@@ -966,33 +1032,37 @@
       "sector": "defence",
       "description": "Defence AI software for sensing, targeting and electronic warfare",
       "geo": "Munich, DE",
-      "founded": null,
+      "founded": 2021,
       "stage": "Series E",
-      "raised": "$1.8B+",
+      "raised": "$1.8B",
       "raisedUsdM": 1800,
       "investors": [
         "Dragoneer",
-        "Lightspeed"
+        "Lightspeed",
+        "Goldman Sachs Alternatives"
       ],
       "lastRound": {
         "round": "Series E",
         "amount": "$1.8B",
         "date": "2026-07",
-        "leads": "Dragoneer",
+        "leads": "",
         "valuation": "$18B",
         "source": "https://euro-sd.com/?p=52272"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Raised a $1.8B Series E at $18B led by Dragoneer (Jul 2026), Europe's largest defence-tech round. Earlier rounds not yet totalled.",
+      "note": "Raised a $1.8B Series E at $18B (Jul 2026) with Dragoneer, Lightspeed and Goldman Sachs Alternatives among the investors. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
-        "https://euro-sd.com/?p=52272"
-      ]
+        "https://euro-sd.com/?p=52272",
+        "https://helsing.ai/newsroom/helsing-raises-1-8bn-in-series-e"
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": []
     },
     {
       "id": 24,
@@ -1000,10 +1070,10 @@
       "website": "https://quantum-systems.com",
       "sector": "defence",
       "description": "Long-range drones for reconnaissance and mapping",
-      "geo": "Munich, DE",
+      "geo": "Gilching, DE",
       "founded": null,
       "stage": "Series D",
-      "raised": "$1.2B+",
+      "raised": "$1.2B",
       "raisedUsdM": 1200,
       "investors": [
         "Blackstone",
@@ -1030,7 +1100,9 @@
       "confidence": "high",
       "sources": [
         "https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/"
-      ]
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": []
     },
     {
       "id": 25,
@@ -1041,7 +1113,7 @@
       "geo": "Lisbon, Portugal",
       "founded": null,
       "stage": "Series D",
-      "raised": "$580M+",
+      "raised": "$580M",
       "raisedUsdM": 580,
       "investors": [
         "UC Investments",
@@ -1065,41 +1137,47 @@
       "confidence": "high",
       "sources": [
         "https://pulse2.com/tekever-raises-580-million-series-d-at-6-4-billion-valuation/"
-      ]
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": []
     },
     {
       "id": 26,
       "name": "Stark",
-      "website": null,
+      "website": "https://starkdefence.com",
       "sector": "defence",
       "description": "Autonomous strike and surveillance drones",
       "geo": "Berlin, DE",
       "founded": null,
-      "stage": "Series C",
-      "raised": "€500M+",
+      "stage": "Undisclosed",
+      "raised": "€500M",
       "raisedUsdM": 540,
       "investors": [
         "Sequoia",
         "Founders Fund"
       ],
       "lastRound": {
-        "round": "Series C",
+        "round": "",
         "amount": "€500M",
         "date": "2026-06",
         "leads": "Sequoia, Founders Fund",
-        "valuation": "€3.5B",
+        "valuation": "€3.2–3.5B (reported)",
         "source": "https://pulse2.com/stark-defence-reportedly-raises-e500-million-at-e3-5-billion-valuation/"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Reported to have raised €500M at about €3.5B (Jun 2026), backed by Sequoia and Founders Fund.",
+      "note": "Reported (Bloomberg) to have raised €500M at €3.2–3.5B, backed by Sequoia and Founders Fund (Jun 2026). Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "medium",
       "sources": [
         "https://pulse2.com/stark-defence-reportedly-raises-e500-million-at-e3-5-billion-valuation/"
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": [
+        "Stark Defence"
       ]
     },
     {
@@ -1111,7 +1189,7 @@
       "geo": "Munich, DE",
       "founded": null,
       "stage": "Series A",
-      "raised": "€31M+",
+      "raised": "€31M",
       "raisedUsdM": 33.5,
       "investors": [
         "HV Capital",
@@ -1137,7 +1215,9 @@
       "confidence": "high",
       "sources": [
         "https://www.verdict.co.uk/arx-robotics-e31m-series/"
-      ]
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": []
     },
     {
       "id": 28,
@@ -1148,9 +1228,12 @@
       "geo": "London, UK",
       "founded": null,
       "stage": "Series D",
-      "raised": "$1.2B+",
+      "raised": "$1.2B",
       "raisedUsdM": 1200,
       "investors": [
+        "Eclipse",
+        "Balderton",
+        "SoftBank Vision Fund 2",
         "Uber",
         "Microsoft",
         "NVIDIA"
@@ -1159,21 +1242,24 @@
         "round": "Series D",
         "amount": "$1.2B",
         "date": "2026-02",
-        "leads": "",
+        "leads": "Eclipse, Balderton, SoftBank Vision Fund 2",
         "valuation": "$8.6B",
-        "source": "https://ai2.work/blog/wayve-lands-1-2b-series-d-to-launch-london-robotaxi-trials-with-uber"
+        "source": "https://www.verdict.co.uk/wayve-raises-1-2bn-series-d-funding/"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Raised a $1.2B Series D at $8.6B (Feb 2026), with Uber committing a further $300M tied to robotaxi rollout. Earlier rounds not yet totalled.",
+      "note": "Raised a $1.2B Series D at $8.6B (Feb 2026), led by Eclipse, Balderton and SoftBank Vision Fund 2, with further milestone-based funding from Uber. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
+        "https://www.verdict.co.uk/wayve-raises-1-2bn-series-d-funding/",
         "https://ai2.work/blog/wayve-lands-1-2b-series-d-to-launch-london-robotaxi-trials-with-uber"
-      ]
+      ],
+      "raisedBasis": "latest_round",
+      "aliases": []
     },
     {
       "id": 29,
@@ -1184,32 +1270,36 @@
       "geo": "London, UK",
       "founded": null,
       "stage": "Series A",
-      "raised": "$152M+",
-      "raisedUsdM": 152,
+      "raised": "$270M",
+      "raisedUsdM": 270,
       "investors": [
         "Prime Movers Lab",
         "Bosch",
-        "Schaeffler"
+        "Schaeffler",
+        "Aglaé Ventures",
+        "Fubon Financial"
       ],
       "lastRound": {
         "round": "Series A",
         "amount": "$152M",
         "date": "2026-07",
         "leads": "Prime Movers Lab",
-        "valuation": "over $1B",
+        "valuation": "$1.35B",
         "source": "https://thenextweb.com/news/humanoid-152m-series-a-robotics-unicorn-bosch"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Raised a $152M Series A led by Prime Movers Lab at over $1B (Jul 2026); Bosch will manufacture its robots.",
+      "note": "Raised a $152M Series A led by Prime Movers Lab at $1.35B (Jul 2026), taking its total to $270M; Bosch will manufacture its robots.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
         "https://thenextweb.com/news/humanoid-152m-series-a-robotics-unicorn-bosch"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 30,
@@ -1219,12 +1309,14 @@
       "description": "AI for health-insurance prior authorisation and clinical review",
       "geo": "New York, US",
       "founded": null,
-      "stage": "Series B",
+      "stage": "Undisclosed",
       "raised": "$64M",
       "raisedUsdM": 64,
       "investors": [
         "NEA",
-        "Sequoia"
+        "Sequoia",
+        "FPV",
+        "Kinnevik"
       ],
       "lastRound": {
         "round": "",
@@ -1237,14 +1329,16 @@
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Closed a $40M round (Feb 2026), bringing its total to $64M, with NEA and Sequoia continuing.",
+      "note": "Closed a $40M round (Feb 2026; round not named), taking its total to $64M; NEA and Sequoia continued, FPV and Kinnevik joined.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
         "https://pulse2.com/anterior/"
-      ]
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 31,
@@ -1255,31 +1349,37 @@
       "geo": "New York, US",
       "founded": null,
       "stage": "Series B",
-      "raised": "$85M+",
+      "raised": "$86M",
       "raisedUsdM": 85.8,
       "investors": [
+        "Lux Capital",
+        "Index Ventures",
         "Sequoia",
+        "Bain Capital Ventures",
         "Cooley"
       ],
       "lastRound": {
         "round": "Series B",
         "amount": "$60M",
-        "date": "2026-04",
-        "leads": "",
-        "valuation": "",
-        "source": "https://www.mlex.com/pulse/legal-tech/articles/2460033/crosby-raises-60m-series-b-to-expand-hybrid-ai-law-practice"
+        "date": "2026-03",
+        "leads": "Lux Capital, Index Ventures",
+        "valuation": "$400M",
+        "source": "https://www.tamradar.com/funding-rounds/crosby-series-b-60m"
       },
       "exit": null,
       "status": "tracking",
       "writeUp": null,
-      "note": "Raised a $60M Series B (Apr 2026) after a $20M Series A (Oct 2025) and a $5.8M seed.",
+      "note": "Raised a $60M Series B at $400M, co-led by Lux Capital and Index Ventures (Mar 2026), after a $20M Series A (Oct 2025) and a $5.8M seed: about $86M in total.",
       "dateAdded": "2026-10-13",
       "lastVerified": "2026-10-13",
       "verifiedBy": "manual-2026-10-13",
       "confidence": "high",
       "sources": [
-        "https://www.mlex.com/pulse/legal-tech/articles/2460033/crosby-raises-60m-series-b-to-expand-hybrid-ai-law-practice"
-      ]
+        "https://www.tamradar.com/funding-rounds/crosby-series-b-60m",
+        "https://www.artificiallawyer.com/2025/10/08/hybrid-ai-law-firm-crosby-raises-20m-cooley-invests/"
+      ],
+      "raisedBasis": "total",
+      "aliases": []
     },
     {
       "id": 32,
@@ -1321,13 +1421,40 @@
       "sources": [
         "https://www.sec.gov/Archives/edgar/data/0001327811/000132781126000051/wday-10122026x991.htm",
         "https://finder.techleap.nl/news/feed/conductorone-secures-79m-for-ai-identity-platform"
+      ],
+      "raisedBasis": "total",
+      "aliases": [
+        "ConductorOne"
       ]
     }
   ],
   "candidates": [],
   "heldForReview": 0,
+  "audit": {
+    "date": "2026-10-13",
+    "passed": 31,
+    "checked": 33,
+    "unreadable": 2,
+    "notStated": 0,
+    "failures": [
+      {
+        "company": "C1",
+        "kind": "round",
+        "source": "https://finder.techleap.nl/news/feed/conductorone-secures-79m-for-ai-identity-platform",
+        "ok": false,
+        "reason": "source could not be read and the search retrieved nothing from it"
+      },
+      {
+        "company": "C1",
+        "kind": "exit",
+        "source": "https://www.sec.gov/Archives/edgar/data/0001327811/000132781126000051/wday-10122026x991.htm",
+        "ok": false,
+        "reason": "source could not be read and the search retrieved nothing from it"
+      }
+    ]
+  },
   "method": {
-    "schedule": "Monday 07:00 Europe/London",
+    "schedule": "Mondays, early morning UK time",
     "requireSourceMatch": true,
     "excludedCount": 0
   }

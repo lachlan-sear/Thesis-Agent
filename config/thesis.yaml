@@ -5,12 +5,11 @@
 # are scored, what Radar watches, which planets the Observatory draws, and
 # which companies are hidden from every view (your own portfolio).
 #
-# This copy is the reference instance: Lachlan Sear's "Permission to operate"
-# thesis. A contrasting example lives in examples/theses/sports-tech.yaml.
+# This copy is Lachlan Sear's own "Permission to operate" thesis. A contrasting example lives in examples/theses/sports-tech.yaml.
 # ─────────────────────────────────────────────────────────────────────────────
 
 thesis:
-  fund: "Reference instance (Lachlan Sear)"
+  fund: "Lachlan Sear"
   name: "Permission to operate"
   version: "3.0"
   updated: "2026-10-13"
@@ -22,8 +21,8 @@ thesis:
     safety case, procurement and real-world data that cannot be scraped. The
     moats are the same in both: compliance work competitors must repeat,
     proprietary operating data, and slow buyers whose switching costs run for
-    a decade. The layer that grants the permission — evaluation, security,
-    simulation and certification — is the picks and shovels of both.
+    a decade. Both have to pass through the same layer that grants the
+    permission: evaluation, security, simulation and certification.
 
   # Planets. Each sector becomes an orbit in the Observatory and a lane for
   # Scout's searches. Order = distance from the centre. Colours are optional.
@@ -281,5 +280,5 @@ refresh:
   hold_low_confidence: true    # low-confidence findings go to data/review.json, not the tracker
 
 scheduling:
-  weekly: "Monday 07:00 Europe/London"
+  weekly: "Mondays, early morning UK time"
   timezone: "Europe/London"

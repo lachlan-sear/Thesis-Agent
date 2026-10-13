@@ -172,3 +172,58 @@ def test_openai_citations_never_count_as_source_text():
     cites = [{"url": "https://paywalled", "title": "", "cited_text": ""}]
     ok, _, _ = verify.check("Isembard", {"kind": "round", "amount": "$50M", "source": "https://paywalled"}, cites, fake_fetch)
     assert not ok
+
+
+class TestFalseAccepts:
+    """Cases from the 13 Oct review: common-word names must not pass on unrelated text."""
+
+    def page(self, text):
+        return lambda url: verify.normalise(text)
+
+    def test_tony_stark_ceasefire_is_not_a_shutdown(self):
+        f = self.page("Tony Stark visited Berlin as the ceasefire talks resumed.")
+        assert not verify.check("Stark", {"kind": "shutdown", "source": "https://x"}, [], f)[0]
+
+    def test_anterior_ligament_is_not_a_shutdown(self):
+        f = self.page("Anterior cruciate ligament injuries: the Food and Drug Administration approved a brace.")
+        assert not verify.check("Anterior", {"kind": "shutdown", "source": "https://x"}, [], f)[0]
+
+    def test_amount_far_from_name_is_rejected(self):
+        filler = " lorem" * 120
+        f = self.page("Humanoid robots are booming." + filler + " Figure raised $152M last week.")
+        assert not verify.check("Humanoid", {"kind": "round", "amount": "$152M", "source": "https://x"}, [], f)[0]
+
+    def test_orca_whale_is_not_orca_ai(self):
+        f = self.page("An orca was seen off Norway; the trip raised $72.5M for charity.")
+        assert not verify.check("Orca.AI", {"kind": "round", "amount": "$72.5M", "source": "https://x"}, [], f)[0]
+
+    def test_alias_counts(self):
+        f = self.page("ConductorOne, now C1, agreed to be acquired by Workday.")
+        assert verify.check("C1", {"kind": "exit", "acquirer": "Workday", "source": "https://x"}, [], f, aliases=["ConductorOne"])[0]
+
+    def test_nav_word_listing_is_not_an_exit(self):
+        f = self.page("Wexler | Legora | Product listing | Pricing")
+        assert not verify.check("Wexler", {"kind": "exit", "acquirer": "Legora", "source": "https://x"}, [], f)[0]
+
+    def test_citation_url_normalised(self):
+        cites = [{"url": "https://www.example.com/a/?utm_source=x", "cited_text": "Isembard raised $50m in a Series A"}]
+        ok, _, _ = verify.check("Isembard", {"kind": "round", "amount": "$50M", "source": "https://example.com/a"}, cites, lambda u: None)
+        assert ok
+
+
+def test_empty_model_variable_falls_back_to_default(monkeypatch):
+    import importlib
+    import shared.claude_client as cc
+    monkeypatch.setenv("THESIS_MODEL_FAST", "")
+    monkeypatch.setenv("THESIS_PROVIDER", "anthropic")
+    importlib.reload(cc)
+    assert cc.FAST == "claude-sonnet-5-5"
+
+
+def test_older_round_is_held_not_dropped(sandbox):
+    from agents.refresh.refresh import run_refresh
+    answers = {"Isembard": {"changes": [{"kind": "round", "round": "Pre-Seed", "amount": "$50M", "date": "2024-01",
+                                         "source": "https://good"}]}}
+    run_refresh(config=load_config(), client=FakeClient(answers), fetch=fake_fetch, today=date(2026, 10, 19))
+    held = json.loads((sandbox / "review.json").read_text())
+    assert held and "older" in held[0]["reason"]

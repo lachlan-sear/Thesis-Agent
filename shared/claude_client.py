@@ -9,7 +9,7 @@ Pin either with THESIS_MODEL_FAST / THESIS_MODEL_DEEP.
 
 Every provider's search returns (text, citations). A citation's "cited_text" is
 only ever text taken from the source page (Anthropic's search quotes, or
-OpenRouter's page excerpts), never the model's own sentence, so the source
+OpenRouter's page excerpt when it returns one), never the model's own sentence, so the source
 check can't be satisfied by the model quoting itself.
 """
 
@@ -36,8 +36,8 @@ def provider() -> str:
 
 
 _fast, _deep = DEFAULT_MODELS.get(provider(), DEFAULT_MODELS["anthropic"])
-FAST = os.environ.get("THESIS_MODEL_FAST", _fast)
-DEEP = os.environ.get("THESIS_MODEL_DEEP", _deep)
+FAST = os.environ.get("THESIS_MODEL_FAST") or _fast  # an empty repo variable means "use the default"
+DEEP = os.environ.get("THESIS_MODEL_DEEP") or _deep
 
 MODELS = {
     "evaluate": FAST,     # bulk scoring, structured output

@@ -18,8 +18,8 @@ TRACKER_PATH = DATA / "companies.json"
 
 STATUSES = {"tracking", "leader", "written_up", "exited", "shut_down"}
 FIELDS = [
-    "id", "name", "website", "sector", "description", "geo", "founded", "stage",
-    "raised", "raisedUsdM", "investors", "lastRound", "exit", "status", "writeUp",
+    "id", "name", "aliases", "website", "sector", "description", "geo", "founded", "stage",
+    "raised", "raisedUsdM", "raisedBasis", "investors", "lastRound", "exit", "status", "writeUp",
     "note", "dateAdded", "lastVerified", "verifiedBy", "confidence", "sources",
 ]
 
@@ -62,6 +62,8 @@ def validate(companies: list[dict], sector_ids: set[str]) -> list[str]:
         lr = c.get("lastRound")
         if lr and not lr.get("source"):
             problems.append(f"{tag}: last round has no source")
+        if c.get("raisedBasis") not in (None, "total", "latest_round", "estimate"):
+            problems.append(f"{tag}: raisedBasis must be total, latest_round or estimate")
         if c.get("verifiedBy") != "pending" and not c.get("sources"):
             problems.append(f"{tag}: marked verified but lists no sources")
     return problems

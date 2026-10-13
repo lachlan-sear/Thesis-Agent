@@ -24,8 +24,11 @@ _AMOUNT = re.compile(
 )
 _AMOUNT_SUFFIX = re.compile(
     r"(\d+(?:[.,]\d+)?)\s?(billion|million|bn|mn|m|b)\s?(dollars|euros|pounds|usd|eur|gbp)\b", re.I)
-EXIT_WORDS = re.compile(r"acqui|to buy|bought|buys|purchase|merg|takeover|take-over|ipo|listing|went public", re.I)
-SHUT_WORDS = re.compile(r"shut|wind(?:s|ing)? down|wound down|clos(?:e|es|ed|ing) (?:its|the) doors|ceas|administration|insolven|bankrupt", re.I)
+EXIT_WORDS = re.compile(r"acquir|acquisition|to buy|bought|agreed to buy|merg(?:e|er|ed|ing)|takeover|take-over|\bipo\b|went public|goes public", re.I)
+SHUT_WORDS = re.compile(r"shut(?:s|ting)? down|wind(?:s|ing)? down|wound down|clos(?:e|es|ed|ing) (?:its|the) doors|"
+                        r"ceased (?:trading|operations)|(?:entered|into|in) administration|insolven|bankrupt|liquidat", re.I)
+RAISE_WORDS = re.compile(r"rais|funding|financing|round|investment", re.I)
+WINDOW = 300  # the figure must sit within this many characters of the company's name
 
 
 def fetch_text(url: str, timeout: int = 15, limit: int = 2_000_000) -> str | None:
@@ -97,53 +100,91 @@ def amount_in(claim: str | None, text: str) -> bool:
     return any(c == cur and abs(v - val) <= max(0.05, val * 0.01) for c, v in amounts_in(text))
 
 
+def _name_pattern(name: str) -> re.Pattern:
+    n = name.strip()
+    if re.search(r"\.ai$", n, re.I):  # "Orca.AI" may appear as "Orca AI" or "Orca.ai", never bare "Orca"
+        core = re.escape(n[:-3])
+        pat = core + r"(?:\.ai|[\s-]ai)"
+    else:
+        pat = re.escape(n).replace(r"\ ", r"[\s-]?")
+    return re.compile(r"(?<![\w.])" + pat + r"(?![\w])", re.I)
+
+
+def name_spans(names, text: str) -> list[int]:
+    """Start offsets of every mention of the company (name or alias) in the text."""
+    out = []
+    for n in names:
+        if n:
+            out.extend(m.start() for m in _name_pattern(n).finditer(text))
+    return sorted(out)
+
+
 def name_in(name: str, text: str) -> bool:
-    """Company name appears as a word (case-insensitive); '.ai' / ' AI' suffixes are optional."""
-    base = re.sub(r"(\.ai|\s+ai)$", "", name.strip(), flags=re.I)
-    pattern = r"(?<![\w])" + re.escape(base).replace(r"\ ", r"[\s-]?") + r"(?![\w])"
-    return re.search(pattern, text, re.I) is not None
+    return bool(name_spans([name], text))
+
+
+def _near(text: str, spans: list[int], window: int = WINDOW):
+    """The slices of text around each mention of the company."""
+    for i in spans:
+        yield text[max(0, i - window): i + window]
+
+
+def _norm_url(u: str) -> str:
+    u = (u or "").strip().split("#")[0]
+    u = re.sub(r"[?&]utm_[^&]*", "", u).rstrip("?&")
+    return re.sub(r"^https?://(www\.)?", "", u).rstrip("/").lower()
 
 
 def evidence_for(change: dict, citations: list[dict], fetch=fetch_text) -> list[tuple[str, str]]:
-    """Texts to check, in order of trust: the cited page itself, then the search tool's quotes from it."""
+    """Texts to check, in order of trust: the cited page itself, then the passage the search retrieved from it."""
     url = (change.get("source") or "").strip()
     texts = []
     if url:
         page = fetch(url)
         if page:
             texts.append((url, page))
-        quoted = " ".join(c.get("cited_text", "") for c in citations if c.get("url") == url)
+        quoted = " ".join(c.get("cited_text", "") for c in citations if _norm_url(c.get("url", "")) == _norm_url(url))
         if quoted.strip():
             texts.append((url, normalise(quoted)))
     return texts
 
 
-def check(company: str, change: dict, citations: list[dict], fetch=fetch_text) -> tuple[bool, str, str | None]:
+def check(company: str, change: dict, citations: list[dict], fetch=fetch_text,
+          aliases: list[str] | tuple = ()) -> tuple[bool, str, str | None]:
     """
     Decide whether a proposed change is supported by its own source.
+
+    The company (or an alias) must be named, and the evidence must sit within
+    WINDOW characters of that mention: the amount for a round, the acquirer and
+    a deal word for an exit, a shutdown phrase for a shutdown. This is what
+    stops "Tony Stark ... ceasefire" or "humanoid robots ... Figure raised $152M"
+    from passing for Stark or Humanoid.
     Returns (ok, reason, url_that_supported_it).
     """
     kind = change.get("kind")
+    names = [company, *aliases]
     texts = evidence_for(change, citations, fetch)
     if not texts:
-        return False, "source could not be read and the search quoted nothing from it", None
+        return False, "source could not be read and the search retrieved nothing from it", None
     for url, text in texts:
-        if not name_in(company, text):
+        spans = name_spans(names, text)
+        if not spans:
             continue
-        if kind == "round":
-            if change.get("amount"):
-                if amount_in(change["amount"], text):
-                    return True, f"name and {change['amount']} found on the source", url
-            elif change.get("round") and change["round"].lower() in text.lower():
-                return True, f"name and '{change['round']}' found on the source (amount undisclosed)", url
-        elif kind == "exit":
-            acq = change.get("acquirer") or ""
-            if acq and name_in(acq, text) and EXIT_WORDS.search(text):
-                return True, f"name, acquirer '{acq}' and a deal verb found on the source", url
-        elif kind == "shutdown":
-            if SHUT_WORDS.search(text):
-                return True, "name and a shutdown term found on the source", url
-        elif kind == "baseline":
-            if change.get("raised") and amount_in(change["raised"], text):
-                return True, f"name and total {change['raised']} found on the source", url
-    return False, "the source does not state this change for this company", None
+        for near in _near(text, spans):
+            if kind == "round":
+                if change.get("amount"):
+                    if amount_in(change["amount"], near):
+                        return True, f"{change['amount']} stated next to the company's name", url
+                elif change.get("round") and change["round"].lower() in near.lower() and RAISE_WORDS.search(near):
+                    return True, f"'{change['round']}' and a funding word next to the name (amount undisclosed)", url
+            elif kind == "exit":
+                acq = change.get("acquirer") or ""
+                if acq and name_in(acq, near) and EXIT_WORDS.search(near):
+                    return True, f"acquirer '{acq}' and a deal word next to the name", url
+            elif kind == "shutdown":
+                if SHUT_WORDS.search(near):
+                    return True, "a shutdown phrase next to the name", url
+            elif kind == "baseline":
+                if change.get("raised") and amount_in(change["raised"], near):
+                    return True, f"total {change['raised']} stated next to the name", url
+    return False, "the source does not state this change next to the company's name", None

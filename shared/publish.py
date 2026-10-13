@@ -93,6 +93,7 @@ def build(config: dict | None = None) -> dict:
         "companies": companies,
         "candidates": candidates,
         "heldForReview": len(_read(REVIEW, [])),
+        "audit": _read(DATA / "source_audit.json", None),
         "method": {
             "schedule": config.get("scheduling", {}).get("weekly", "Weekly"),
             "requireSourceMatch": config.get("refresh", {}).get("require_source_match", True),

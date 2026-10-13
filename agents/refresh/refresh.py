@@ -61,12 +61,16 @@ def _since(c: dict) -> str:
 
 
 def _already_known(company: dict, change: dict) -> bool:
-    """A round we already hold, or one dated before the last check's month."""
+    """The round we already hold (same amount and month). Undated or unparsed rounds are never 'known'."""
     lr = company.get("lastRound") or {}
-    same = verify.parse_amount(lr.get("amount")) == verify.parse_amount(change.get("amount")) and \
-        (lr.get("date") or "")[:7] == (change.get("date") or "")[:7]
-    older = bool(change.get("date")) and change["date"][:7] < _since(company)[:7]
-    return same or older
+    a, b = verify.parse_amount(lr.get("amount")), verify.parse_amount(change.get("amount"))
+    return bool(a and b and a == b and lr.get("date") and change.get("date")
+                and lr["date"][:7] == change["date"][:7])
+
+
+def _older_than_last_round(company: dict, change: dict) -> bool:
+    lr = (company.get("lastRound") or {}).get("date")
+    return bool(lr and change.get("date") and change["date"][:7] < lr[:7])
 
 
 def _stage_from_round(name: str | None, current: str | None) -> str | None:
@@ -83,7 +87,8 @@ def _usd_m(amount: str | None) -> float | None:
     if not p:
         return None
     cur, val = p
-    return round(val * {"GBP": 1.27, "EUR": 1.08, "CHF": 1.1}.get(cur, 1.0), 1)
+    rate = {"USD": 1.0, "GBP": 1.27, "EUR": 1.08, "CHF": 1.1, "SEK": 0.095}.get(cur)
+    return round(val * rate, 1) if rate else None
 
 
 def research(client, company: dict) -> tuple[dict, list[dict]]:
@@ -101,7 +106,7 @@ def research(client, company: dict) -> tuple[dict, list[dict]]:
     try:
         result = _extract_json(text)
     except Exception:
-        result = {"changes": [], "summary": "Unreadable answer"}
+        result = None  # an unreadable answer is not a check
     return result, citations
 
 
@@ -119,10 +124,13 @@ def apply(company: dict, change: dict, today: str) -> dict:
         if change.get("total_raised_verified"):
             company["raised"] = change["total_raised"]
             company["raisedUsdM"] = _usd_m(change["total_raised"])
-        else:
-            add = _usd_m(change.get("amount"))
-            if add and company.get("raisedUsdM"):
-                company["raisedUsdM"] = round(company["raisedUsdM"] + add, 1)
+            company["raisedBasis"] = "total"
+        elif company.get("raisedBasis") == "latest_round" or not company.get("raised"):
+            # we only ever knew the latest round, so the new round replaces it
+            company["raised"] = change.get("amount") or company.get("raised")
+            company["raisedUsdM"] = _usd_m(change.get("amount")) or company.get("raisedUsdM")
+            company["raisedBasis"] = "latest_round"
+        # otherwise a sourced total stands until a source states the new total
         lead = f", led by {change['leads']}" if change.get("leads") else ""
         val = f" at {change['valuation']}" if change.get("valuation") else ""
         headline = f"{company['name']} raised {change.get('amount') or 'an undisclosed amount'} ({change.get('round') or 'round'}){val}{lead}"
@@ -140,10 +148,11 @@ def apply(company: dict, change: dict, today: str) -> dict:
         company["stage"] = change.get("stage") or company.get("stage")
         company["raised"] = change.get("raised")
         company["raisedUsdM"] = _usd_m(change.get("raised"))
+        company["raisedBasis"] = "total"
         if change.get("investors"):
             company["investors"] = change["investors"][:8]
         headline = f"{company['name']}: first verified figures ({company['raised']} raised)"
-    company["note"] = headline + "."
+    company["note"] = headline + "."  # former names live in `aliases`, so nothing is lost here
     return {"company": company["name"], "sector": company.get("sector"), "kind": kind,
             "headline": headline, "date": change.get("date") or today, "source": src}
 
@@ -179,6 +188,9 @@ def run_refresh(config: dict | None = None, client=None, dry_run: bool = False,
             except Exception as e:  # network or API trouble: leave the record as it was
                 print(f"    [WARN] {e}")
                 continue
+            if result is None:
+                print("    [WARN] unreadable answer; record left as it was")
+                continue
             proposals = [dict(ch) for ch in result.get("changes") or [] if ch.get("kind") in ("round", "exit", "shutdown")]
             if result.get("baseline") and c.get("verifiedBy") == "pending":
                 proposals.append(dict(result["baseline"], kind="baseline"))
@@ -186,11 +198,16 @@ def run_refresh(config: dict | None = None, client=None, dry_run: bool = False,
             for ch in proposals:
                 if ch.get("kind") == "round" and _already_known(c, ch):
                     continue
-                ok, reason, url = verify.check(c["name"], ch, citations, fetch)
+                if ch.get("kind") == "round" and _older_than_last_round(c, ch):
+                    held.append({"date": today_s, "company": c["name"], "change": ch,
+                                 "reason": "older than the round already recorded; check by hand"})
+                    continue
+                ok, reason, url = verify.check(c["name"], ch, citations, fetch, aliases=c.get("aliases") or [])
                 if ok and rcfg.get("require_source_match", True):
                     if ch.get("kind") == "round" and ch.get("total_raised"):
-                        ch["total_raised_verified"] = any(
-                            verify.amount_in(ch["total_raised"], t) for _, t in verify.evidence_for(ch, citations, fetch))
+                        ch["total_raised_verified"] = verify.check(
+                            c["name"], {"kind": "baseline", "raised": ch["total_raised"], "source": ch.get("source")},
+                            citations, fetch, aliases=c.get("aliases") or [])[0]
                     accepted.append(apply(c, ch, today_s))
                     ok_any = True
                     print(f"    ✓ {ch['kind']}: {reason}")

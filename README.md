@@ -1,9 +1,11 @@
 # Thesis Agent
 
-A deal-intelligence engine a fund points at its own thesis. One YAML file
-describes what you invest in; every Monday the agents keep a tracker of
-companies true, look for new ones, and publish a dated edition that
+A weekly engine for keeping a map of companies current. One YAML file
+describes what you're interested in; each scheduled run checks the companies
+you follow, looks for new ones, and publishes a dated edition that
 [the Observatory](https://observatory.lachlansear.com) draws as a map.
+Built for fun, and usable by anyone with their own set of interests, a fund's
+thesis included.
 
 The rule that runs through it: **the model proposes, the source decides.**
 A new round, an exit or a shutdown is written to the tracker only if the page
@@ -35,8 +37,10 @@ config/thesis.yaml  ──►  refresh ──► source check ──► data/com
 | **Publish** | Writes `data/observatory.json` (minus anything in `exclude_from_views`) and a dated edition. |
 
 The workflow is `.github/workflows/weekly.yml`: Mondays 06:17 UTC, or by hand
-from the Actions tab (with a "refresh only" option). It commits the edition, so
-the history of every change is in git. `ci.yml` runs the tests, the thesis
+from the Actions tab (with a "refresh only" option). It runs once a model key is
+added as a repository secret. It commits the edition, so the history of every
+change is in git, and then re-checks every recorded figure against its source
+(`scripts/audit_sources.py`, result in `data/source_audit.json`). `ci.yml` runs the tests, the thesis
 check and a dry run on every push.
 
 ## Make it yours
@@ -62,8 +66,8 @@ The briefs in `examples/sports-tech-briefs/` came from it.
 
 ## The reference instance
 
-`config/thesis.yaml` is Lachlan Sear's thesis, **Permission to operate**: the
-durable AI companies sell where the bottleneck is permission, not the model.
+`config/thesis.yaml` is my own, **Permission to operate**: the durable AI
+companies sell where the bottleneck is permission, not the model.
 Four orbits:
 
 - regulated vertical AI;
@@ -71,9 +75,10 @@ Four orbits:
 - robotics and autonomy;
 - AI assurance, the evaluation, security and certification layer the other three must pass through.
 
-Edition 1 (13 October 2026) was checked by hand: all 31 companies, and every
-round and exit in it (29 of 29) passes the same source check the weekly run
-uses. Weekly runs take over from Monday 19 October.
+Edition 1 (13 October 2026) was checked by hand: 32 companies. Run
+`python scripts/audit_sources.py` to re-check every recorded round and exit
+against its source; on 13 October, 31 of 33 matched, and the other two (an SEC
+filing and a Techleap page) couldn't be fetched from the audit's network.
 
 ## Run it locally
 
@@ -126,6 +131,7 @@ shared/publish.py           edition and observatory.json
   the model's own sentence.
 - Capital is converted to dollars at fixed approximate rates, for placing dots
   on the map only. Figures are always shown as reported.
-- Sources that need a key are skipped without one, and the brief says which ran.
+- Some sources need a free key (Companies House, Adzuna, Product Hunt); without
+  one they are skipped, and the brief says which ran.
 
 MIT licence.
