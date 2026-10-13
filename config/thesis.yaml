@@ -77,6 +77,7 @@ thesis:
     - "Hardware-light or uses commodity hardware; the value is in the software and data"
     - "Clear path through procurement (frameworks, DIANA, DASA, SBIR, NHS frameworks)"
     - "Revenue tied to outcomes or deployments rather than seats"
+    - "An obvious strategic buyer: an incumbent platform that needs the capability for AI agents, or an AI-native leader consolidating its category"
 
   signals_negative:
     - "Thin wrapper on a foundation model API with no domain data"
@@ -134,6 +135,8 @@ thesis:
       text: "Does each deployment produce data that makes the next one better, and that a model lab cannot get from the web?"
     - name: "Services as software"
       text: "Is it selling the work (an outcome that replaces service or labour spend) or a tool that adds a seat?"
+    - name: "Who buys it"
+      text: "Incumbent platforms are buying AI-native capability (Workday agreed to buy C1 for agent identity in Oct 2026) and AI-native leaders are consolidating point tools (Legora bought Wexler in Jul 2026). Name the two or three likeliest acquirers and whether they have bought in the space before."
     - name: "Procurement path"
       text: "Who signs, through which framework or budget line, and how long is the cycle? Long cycles at seed are a risk; a signed framework place is a strong signal."
 
