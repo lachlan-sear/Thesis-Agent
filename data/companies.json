@@ -464,10 +464,10 @@
   },
   {
     "id": 13,
-    "name": "Purple Transform",
-    "website": "https://www.purpletransform.com/",
+    "name": "SIYTE",
+    "website": "https://siyte.ai",
     "sector": "defence",
-    "description": "Video AI for rail safety and critical-infrastructure monitoring",
+    "description": "AI operational intelligence for rail and critical infrastructure",
     "geo": "Oxford, UK",
     "founded": 2021,
     "stage": "Series A",
@@ -488,13 +488,14 @@
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "No new round since £4.5M (Sep 2024).",
+    "note": "Purple Transform Ltd now trades as SIYTE. No new round since £4.5M (Sep 2024).",
     "dateAdded": "2025-01-27",
     "lastVerified": "2026-10-13",
     "verifiedBy": "manual-2026-10-13",
     "confidence": "high",
     "sources": [
-      "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/"
+      "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/",
+      "https://siyte.ai/"
     ]
   },
   {
@@ -828,71 +829,110 @@
   {
     "id": 23,
     "name": "Helsing",
-    "website": null,
+    "website": "https://helsing.ai",
     "sector": "defence",
     "description": "Defence AI software for sensing, targeting and electronic warfare",
     "geo": "Munich, DE",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series E",
+    "raised": "$1.8B+",
+    "raisedUsdM": 1800,
+    "investors": [
+      "Dragoneer",
+      "Lightspeed"
+    ],
+    "lastRound": {
+      "round": "Series E",
+      "amount": "$1.8B",
+      "date": "2026-07",
+      "leads": "Dragoneer",
+      "valuation": "$18B",
+      "source": "https://euro-sd.com/?p=52272"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a $1.8B Series E at $18B led by Dragoneer (Jul 2026), Europe's largest defence-tech round. Earlier rounds not yet totalled.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://euro-sd.com/?p=52272"
+    ]
   },
   {
     "id": 24,
     "name": "Quantum Systems",
-    "website": null,
+    "website": "https://quantum-systems.com",
     "sector": "defence",
     "description": "Long-range drones for reconnaissance and mapping",
     "geo": "Munich, DE",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series D",
+    "raised": "$1.2B+",
+    "raisedUsdM": 1200,
+    "investors": [
+      "Blackstone",
+      "Airbus",
+      "Advent",
+      "Balderton",
+      "HV Capital"
+    ],
+    "lastRound": {
+      "round": "Series D",
+      "amount": "$1.2B",
+      "date": "2026-07",
+      "leads": "Blackstone, Noteus, Airbus, Advent",
+      "valuation": "over $8B",
+      "source": "https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a $1.2B Series D at over $8B (Jul 2026), co-led by Blackstone, Noteus, Airbus and Advent. Earlier rounds not yet totalled.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/"
+    ]
   },
   {
     "id": 25,
     "name": "Tekever",
-    "website": null,
+    "website": "https://www.tekever.com",
     "sector": "defence",
     "description": "Uncrewed aircraft systems for maritime and land surveillance",
     "geo": "Lisbon, Portugal",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series D",
+    "raised": "$580M+",
+    "raisedUsdM": 580,
+    "investors": [
+      "UC Investments",
+      "Baillie Gifford"
+    ],
+    "lastRound": {
+      "round": "Series D",
+      "amount": "$580M",
+      "date": "2026-09",
+      "leads": "UC Investments, Baillie Gifford",
+      "valuation": "$6.4B",
+      "source": "https://pulse2.com/tekever-raises-580-million-series-d-at-6-4-billion-valuation/"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "First close of a $580M Series D at $6.4B (Sep 2026), led by UC Investments and Baillie Gifford.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://pulse2.com/tekever-raises-580-million-series-d-at-6-4-billion-valuation/"
+    ]
   },
   {
     "id": 26,
@@ -902,134 +942,210 @@
     "description": "Autonomous strike and surveillance drones",
     "geo": "Berlin, DE",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series C",
+    "raised": "€500M+",
+    "raisedUsdM": 540,
+    "investors": [
+      "Sequoia",
+      "Founders Fund"
+    ],
+    "lastRound": {
+      "round": "Series C",
+      "amount": "€500M",
+      "date": "2026-06",
+      "leads": "Sequoia, Founders Fund",
+      "valuation": "€3.5B",
+      "source": "https://pulse2.com/stark-defence-reportedly-raises-e500-million-at-e3-5-billion-valuation/"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Reported to have raised €500M at about €3.5B (Jun 2026), backed by Sequoia and Founders Fund.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "medium",
+    "sources": [
+      "https://pulse2.com/stark-defence-reportedly-raises-e500-million-at-e3-5-billion-valuation/"
+    ]
   },
   {
     "id": 27,
     "name": "ARX Robotics",
-    "website": null,
+    "website": "https://arx-robotics.com",
     "sector": "defence",
     "description": "Uncrewed ground vehicles and an operating system for military robots",
     "geo": "Munich, DE",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series A",
+    "raised": "€31M+",
+    "raisedUsdM": 33.5,
+    "investors": [
+      "HV Capital",
+      "NATO Innovation Fund",
+      "Project A",
+      "Omnes Capital"
+    ],
+    "lastRound": {
+      "round": "Series A",
+      "amount": "€31M",
+      "date": "2025-04",
+      "leads": "HV Capital",
+      "valuation": "",
+      "source": "https://www.verdict.co.uk/arx-robotics-e31m-series/"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a €31M Series A led by HV Capital, with the NATO Innovation Fund and Project A; reportedly extended to €42M.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://www.verdict.co.uk/arx-robotics-e31m-series/"
+    ]
   },
   {
     "id": 28,
     "name": "Wayve",
-    "website": null,
+    "website": "https://wayve.ai",
     "sector": "robotics",
     "description": "Embodied AI for autonomous driving",
     "geo": "London, UK",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series D",
+    "raised": "$1.2B+",
+    "raisedUsdM": 1200,
+    "investors": [
+      "Uber",
+      "Microsoft",
+      "NVIDIA"
+    ],
+    "lastRound": {
+      "round": "Series D",
+      "amount": "$1.2B",
+      "date": "2026-02",
+      "leads": "",
+      "valuation": "$8.6B",
+      "source": "https://ai2.work/blog/wayve-lands-1-2b-series-d-to-launch-london-robotaxi-trials-with-uber"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a $1.2B Series D at $8.6B (Feb 2026), with Uber committing a further $300M tied to robotaxi rollout. Earlier rounds not yet totalled.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://ai2.work/blog/wayve-lands-1-2b-series-d-to-launch-london-robotaxi-trials-with-uber"
+    ]
   },
   {
     "id": 29,
     "name": "Humanoid",
-    "website": null,
+    "website": "https://thehumanoid.ai",
     "sector": "robotics",
     "description": "General-purpose humanoid robots for industrial work",
     "geo": "London, UK",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series A",
+    "raised": "$152M+",
+    "raisedUsdM": 152,
+    "investors": [
+      "Prime Movers Lab",
+      "Bosch",
+      "Schaeffler"
+    ],
+    "lastRound": {
+      "round": "Series A",
+      "amount": "$152M",
+      "date": "2026-07",
+      "leads": "Prime Movers Lab",
+      "valuation": "over $1B",
+      "source": "https://thenextweb.com/news/humanoid-152m-series-a-robotics-unicorn-bosch"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a $152M Series A led by Prime Movers Lab at over $1B (Jul 2026); Bosch will manufacture its robots.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://thenextweb.com/news/humanoid-152m-series-a-robotics-unicorn-bosch"
+    ]
   },
   {
     "id": 30,
     "name": "Anterior",
-    "website": null,
+    "website": "https://www.anterior.com",
     "sector": "regulated",
     "description": "AI for health-insurance prior authorisation and clinical review",
     "geo": "New York, US",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series B",
+    "raised": "$64M",
+    "raisedUsdM": 64,
+    "investors": [
+      "NEA",
+      "Sequoia"
+    ],
+    "lastRound": {
+      "round": "",
+      "amount": "$40M",
+      "date": "2026-02",
+      "leads": "",
+      "valuation": "",
+      "source": "https://pulse2.com/anterior/"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Closed a $40M round (Feb 2026), bringing its total to $64M, with NEA and Sequoia continuing.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://pulse2.com/anterior/"
+    ]
   },
   {
     "id": 31,
     "name": "Crosby",
-    "website": null,
+    "website": "https://www.crosby.ai",
     "sector": "regulated",
     "description": "AI-native law firm handling contracts end to end",
     "geo": "New York, US",
     "founded": null,
-    "stage": null,
-    "raised": null,
-    "raisedUsdM": null,
-    "investors": [],
-    "lastRound": null,
+    "stage": "Series B",
+    "raised": "$85M+",
+    "raisedUsdM": 85.8,
+    "investors": [
+      "Sequoia",
+      "Cooley"
+    ],
+    "lastRound": {
+      "round": "Series B",
+      "amount": "$60M",
+      "date": "2026-04",
+      "leads": "",
+      "valuation": "",
+      "source": "https://www.mlex.com/pulse/legal-tech/articles/2460033/crosby-raises-60m-series-b-to-expand-hybrid-ai-law-practice"
+    },
     "exit": null,
     "status": "tracking",
     "writeUp": null,
-    "note": "Added 13 Oct 2026 for the new thesis; figures arrive with the first weekly run.",
+    "note": "Raised a $60M Series B (Apr 2026) after a $20M Series A (Oct 2025) and a $5.8M seed.",
     "dateAdded": "2026-10-13",
-    "lastVerified": null,
-    "verifiedBy": "pending",
-    "confidence": null,
-    "sources": []
+    "lastVerified": "2026-10-13",
+    "verifiedBy": "manual-2026-10-13",
+    "confidence": "high",
+    "sources": [
+      "https://www.mlex.com/pulse/legal-tech/articles/2460033/crosby-raises-60m-series-b-to-expand-hybrid-ai-law-practice"
+    ]
   }
 ]

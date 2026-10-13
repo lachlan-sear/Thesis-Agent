@@ -39,18 +39,25 @@ jobs:
       - name: Check the thesis and tracker
         run: python main.py check
 
-      - name: Fail clearly without an API key
+      - name: Fail clearly without a model key
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "::error::Add ANTHROPIC_API_KEY under Settings → Secrets and variables → Actions."
+          if [ -z "$ANTHROPIC_API_KEY$OPENAI_API_KEY$OPENROUTER_API_KEY" ]; then
+            echo "::error::Add ANTHROPIC_API_KEY, OPENAI_API_KEY or OPENROUTER_API_KEY under Settings → Secrets and variables → Actions."
             exit 1
           fi
 
       - name: Run the weekly pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          THESIS_PROVIDER: ${{ vars.THESIS_PROVIDER }}
+          THESIS_MODEL_FAST: ${{ vars.THESIS_MODEL_FAST }}
+          THESIS_MODEL_DEEP: ${{ vars.THESIS_MODEL_DEEP }}
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
           COMPANIES_HOUSE_API_KEY: ${{ secrets.COMPANIES_HOUSE_API_KEY }}

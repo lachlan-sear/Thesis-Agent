@@ -154,3 +154,21 @@ def test_publish_hides_excluded_companies(sandbox, monkeypatch):
     out = publish.build(cfg)
     assert "Neuracore" not in {c["name"] for c in out["companies"]}
     assert out["edition"]["number"] == 1 and out["method"]["excludedCount"] == 1
+
+
+def test_provider_follows_whichever_key_is_set(monkeypatch):
+    import importlib
+    import shared.claude_client as cc
+    for k in ("THESIS_PROVIDER", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY"):
+        monkeypatch.delenv(k, raising=False)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "x")
+    assert cc.provider() == "openrouter"
+    monkeypatch.setenv("THESIS_PROVIDER", "openai")
+    assert cc.provider() == "openai"
+
+
+def test_openai_citations_never_count_as_source_text():
+    """A model's own sentence must not be able to verify itself."""
+    cites = [{"url": "https://paywalled", "title": "", "cited_text": ""}]
+    ok, _, _ = verify.check("Isembard", {"kind": "round", "amount": "$50M", "source": "https://paywalled"}, cites, fake_fetch)
+    assert not ok

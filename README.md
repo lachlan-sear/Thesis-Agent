@@ -42,8 +42,10 @@ check and a dry run on every push.
 ## Make it yours
 
 1. Fork or "Use this template".
-2. Add `ANTHROPIC_API_KEY` under Settings → Secrets and variables → Actions.
-   Optional keys widen the free sources: `COMPANIES_HOUSE_API_KEY`,
+2. Add one model key under Settings → Secrets and variables → Actions:
+   `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` or `OPENROUTER_API_KEY`. The engine uses
+   whichever is set (or set the repository variable `THESIS_PROVIDER`). Optional keys
+   widen the free sources: `COMPANIES_HOUSE_API_KEY`,
    `ADZUNA_APP_ID`/`ADZUNA_APP_KEY`, `PRODUCTHUNT_TOKEN`.
 3. Rewrite `config/thesis.yaml`: your belief, your **sectors** (they become the
    orbits and the search lanes), signals, rubric and weights, the lenses the
@@ -69,15 +71,15 @@ Four orbits:
 - robotics and autonomy;
 - AI assurance, the evaluation, security and certification layer the other three must pass through.
 
-Edition 1 (13 October 2026) was checked by hand. Every round and exit in it
-passes the same source check the weekly run uses: 20 of 20. Weekly runs take
-over from Monday 19 October.
+Edition 1 (13 October 2026) was checked by hand: all 31 companies, and every
+round and exit in it (29 of 29) passes the same source check the weekly run
+uses. Weekly runs take over from Monday 19 October.
 
 ## Run it locally
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env                 # add ANTHROPIC_API_KEY
+cp .env.example .env                 # add one model key
 python main.py check                 # validate the thesis and the tracker
 python main.py weekly --dry-run      # the whole pipeline, no API calls
 python main.py run --refresh --limit 5
@@ -86,9 +88,19 @@ python main.py publish               # rebuild data/observatory.json
 python -m pytest -q tests
 ```
 
-Models are routed by task: the fast model (`THESIS_MODEL_FAST`, default
-`claude-sonnet-5-5`) for search and scoring, the deep one (`THESIS_MODEL_DEEP`,
-default `claude-opus-5-5`) for synthesis. Override either with an env var.
+## Providers
+
+| Provider | Key | Web search | Defaults (fast / deep) |
+|---|---|---|---|
+| Anthropic | `ANTHROPIC_API_KEY` | Claude's web search tool | `claude-sonnet-5-5` / `claude-opus-5-5` |
+| OpenAI | `OPENAI_API_KEY` | Responses API `web_search` | `gpt-5-mini` / `gpt-5` |
+| OpenRouter | `OPENROUTER_API_KEY` | the `web` plugin, any model | `anthropic/claude-sonnet-4.5` / `anthropic/claude-opus-4.1` |
+
+Pin models with `THESIS_MODEL_FAST` and `THESIS_MODEL_DEEP` (environment or
+repository variables). The source check is the same for all three. One
+difference: when a cited page can't be fetched, Anthropic and OpenRouter can
+still be checked against the passage they retrieved from it. OpenAI returns
+only the link, so its paywalled finds are held for review.
 
 ## Files
 
@@ -110,7 +122,8 @@ shared/publish.py           edition and observatory.json
   and states the figure; it can't tell whether the page is right. Low-quality
   sources are possible, so each one is shown on the map.
 - Paywalled pages can't be fetched. The check then falls back to the passage
-  the search tool quoted from that page.
+  the search tool retrieved from that page (Anthropic, OpenRouter), never to
+  the model's own sentence.
 - Capital is converted to dollars at fixed approximate rates, for placing dots
   on the map only. Figures are always shown as reported.
 - Sources that need a key are skipped without one, and the brief says which ran.

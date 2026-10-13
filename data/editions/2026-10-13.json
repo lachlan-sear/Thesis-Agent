@@ -2,8 +2,8 @@
   "number": 1,
   "date": "2026-10-13",
   "kind": "seed",
-  "checked": 22,
-  "applied": 4,
+  "checked": 31,
+  "applied": 5,
   "held": 0,
   "changes": [
     {
@@ -37,7 +37,15 @@
       "headline": "Isembard raised a $50M Series A led by Union Square Ventures",
       "date": "2026-03",
       "source": "https://www.automation.com/article/isembard-raises-50-million-usd-series-a-open-25-ai-powered-factories-aerospace-defense"
+    },
+    {
+      "company": "SIYTE",
+      "sector": "defence",
+      "kind": "update",
+      "headline": "Purple Transform now trades as SIYTE",
+      "date": "2026-10",
+      "source": "https://siyte.ai/"
     }
   ],
-  "note": "Edition 1 re-orients the tracker to the Permission to operate thesis. 22 companies carried over and checked by hand on 13 Oct 2026 against the March tracker; 9 added to the new orbits, awaiting their first weekly check; 24 out-of-thesis names retired. Weekly runs take over from Monday 19 Oct."
+  "note": "Edition 1 re-orients the tracker to the Permission to operate thesis. All 31 companies were checked by hand against source on 13 Oct 2026: 22 carried over from the March tracker and 9 added for the new orbits. 24 out-of-thesis names were retired. Weekly runs take over from Monday 19 Oct."
 }
