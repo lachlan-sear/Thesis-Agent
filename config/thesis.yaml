@@ -22,7 +22,9 @@ thesis:
     moats are the same in both: compliance work competitors must repeat,
     proprietary operating data, and slow buyers whose switching costs run for
     a decade. Both have to pass through the same layer that grants the
-    permission: evaluation, security, simulation and certification.
+    permission: evaluation, security, simulation and certification. And
+    before any of it, the models have to be taught the work by the people
+    who already hold the permission.
 
   # Planets. Each sector becomes an orbit in the Observatory and a lane for
   # Scout's searches. Order = distance from the centre. Colours are optional.
@@ -60,12 +62,22 @@ thesis:
         compliance, simulation and certification that regulated and physical
         AI must pass through.
       keywords: ["AI evaluation", "AI security", "AI governance", "GRC", "simulation", "certification", "safety case"]
+    - id: data
+      name: "Training data and evals"
+      short: "Data"
+      color: "#9B4868"
+      description: >
+        Expert data, RL environments and evaluations that teach and test
+        frontier models on professional work. The same doctors, lawyers and
+        bankers whose sign-off grants the permission are now the ones
+        teaching the models.
+      keywords: ["AI training data", "expert data", "RL environments", "reinforcement learning environments", "AI data labelling", "model evaluation", "human data"]
 
   # Legacy grouping some agents still read (kept in step with `sectors`).
   target_verticals:
     primary: ["healthcare", "legal", "defence and dual-use", "robotics and autonomy"]
     secondary: ["tax and accounting", "financial services compliance", "veterinary", "dental", "autonomous shipping"]
-    emerging: ["AI assurance and evaluation", "AI security", "software-defined manufacturing", "counter-drone systems"]
+    emerging: ["expert training data and RL environments", "AI assurance and evaluation", "AI security", "software-defined manufacturing", "counter-drone systems"]
 
   signals_positive:
     - "Holds or is pursuing a licence, certification, accreditation or approved-supplier status competitors must repeat"
@@ -142,6 +154,8 @@ thesis:
 sourcing:
   # Extra thesis-specific searches, run alongside the per-sector templates.
   thesis_queries:
+    - "expert data AI training startup raises 2026"
+    - "RL environments startup funding 2026"
     - "defence tech startup Europe seed Series A 2026"
     - "NATO DIANA accelerator cohort 2026 companies"
     - "UK MOD DASA contract AI startup 2026"
