@@ -13,9 +13,12 @@ OpenRouter's page excerpt when it returns one), never the model's own sentence, 
 check can't be satisfied by the model quoting itself.
 """
 
+import atexit
+import datetime
 import json
 import os
 import urllib.request
+from collections import defaultdict
 from typing import Optional
 
 DEFAULT_MODELS = {
@@ -47,6 +50,60 @@ MODELS = {
     "synthesise": DEEP,   # trend synthesis, brief writing
     "promote": DEEP,      # calibrated recommendations
 }
+
+# ── Usage meter ──────────────────────────────────────────────────────────────
+# USD per million tokens (input, output), and per web search. Anthropic's list
+# prices, Nov 2026; anything not listed is costed at Sonnet's rate.
+PRICES = {
+    "claude-haiku-5-5": (0.10, 0.50),
+    "claude-sonnet-5-5": (2.0, 10.0),
+    "claude-opus-5-5": (4.0, 20.0),
+    "gpt-5-mini": (0.25, 2.0),
+    "gpt-5": (1.25, 10.0),
+}
+SEARCH_PRICE = 0.01
+USAGE: dict = defaultdict(lambda: {"calls": 0, "input": 0, "output": 0, "searches": 0})
+
+
+def _meter(task_type: str, model: str, inp: int, out: int, searches: int = 0):
+    u = USAGE[f"{task_type}|{model}"]
+    u["calls"] += 1
+    u["input"] += inp or 0
+    u["output"] += out or 0
+    u["searches"] += searches or 0
+
+
+def usage_report() -> dict:
+    rows, total = [], 0.0
+    for key, u in sorted(USAGE.items()):
+        task, model = key.split("|", 1)
+        pin, pout = PRICES.get(model.split("/")[-1], PRICES["claude-sonnet-5-5"])
+        cost = u["input"] / 1e6 * pin + u["output"] / 1e6 * pout + u["searches"] * SEARCH_PRICE
+        total += cost
+        rows.append({"task": task, "model": model, **u, "usd": round(cost, 3)})
+    return {"date": datetime.date.today().isoformat(), "usd": round(total, 2), "by_task": rows}
+
+
+@atexit.register
+def _write_usage():
+    if not USAGE:
+        return
+    rep = usage_report()
+    os.makedirs("data/usage", exist_ok=True)
+    path = f"data/usage/{rep['date']}.json"
+    prev = json.load(open(path)) if os.path.exists(path) else None
+    if prev:  # several processes in one run (weekly, then refresh): add them up
+        rep["usd"] = round(rep["usd"] + prev.get("usd", 0), 2)
+        rep["by_task"] = prev.get("by_task", []) + rep["by_task"]
+    with open(path, "w") as f:
+        json.dump(rep, f, indent=2)
+    lines = [f"**Model spend this run: ${rep['usd']:.2f}**", "", "| Task | Model | Calls | Input | Output | Searches | $ |", "|---|---|---|---|---|---|---|"]
+    lines += [f"| {r['task']} | {r['model']} | {r['calls']} | {r['input']:,} | {r['output']:,} | {r['searches']} | {r['usd']:.2f} |" for r in rep["by_task"]]
+    print("\n".join(lines))
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+            f.write("\n".join(lines) + "\n")
+
 
 WEB_SEARCH_TOOL = {"type": "web_search_20250305", "name": "web_search", "max_uses": 5}
 
@@ -83,6 +140,7 @@ class ClaudeClient:
             system=system,
             messages=[{"role": "user", "content": prompt}],
         )
+        _meter(task_type, MODELS.get(task_type, FAST), response.usage.input_tokens, response.usage.output_tokens)
         return "".join(b.text for b in response.content if getattr(b, "type", "") == "text")
 
     def complete_json(self, task_type: str, system: str, prompt: str, max_tokens: int = 4096):
@@ -108,6 +166,9 @@ class ClaudeClient:
                 tools=[WEB_SEARCH_TOOL],
                 messages=messages,
             )
+            stu = getattr(response.usage, "server_tool_use", None)
+            _meter(task_type, MODELS.get(task_type, FAST), response.usage.input_tokens,
+                   response.usage.output_tokens, getattr(stu, "web_search_requests", 0) if stu else 0)
             for block in response.content:
                 if getattr(block, "type", "") != "text":
                     continue
@@ -166,6 +227,9 @@ class OpenAIClient(_Shared):
         if tools:
             body["tools"] = tools
         out = _post(self.URL, self.key, body)
+        u = out.get("usage") or {}
+        _meter(task_type, body["model"], u.get("input_tokens", 0), u.get("output_tokens", 0),
+               sum(1 for i in out.get("output", []) if i.get("type") == "web_search_call"))
         text, cites = [], []
         for item in out.get("output", []):
             for part in item.get("content", []) or []:
@@ -196,6 +260,8 @@ class OpenRouterClient(_Shared):
         if web:
             body["plugins"] = [{"id": "web", "max_results": 5}]
         out = _post(self.URL, self.key, body, {"X-Title": "thesis-agent"})
+        u = out.get("usage") or {}
+        _meter(task_type, body["model"], u.get("prompt_tokens", 0), u.get("completion_tokens", 0), 1 if web else 0)
         msg = (out.get("choices") or [{}])[0].get("message", {})
         cites = []
         for a in msg.get("annotations", []) or []:
