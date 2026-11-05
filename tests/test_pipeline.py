@@ -217,7 +217,7 @@ def test_empty_model_variable_falls_back_to_default(monkeypatch):
     monkeypatch.setenv("THESIS_MODEL_FAST", "")
     monkeypatch.setenv("THESIS_PROVIDER", "anthropic")
     importlib.reload(cc)
-    assert cc.FAST == "claude-sonnet-5-5"
+    assert cc.FAST == "claude-haiku-5-5"
 
 
 def test_older_round_is_held_not_dropped(sandbox):
@@ -227,3 +227,31 @@ def test_older_round_is_held_not_dropped(sandbox):
     run_refresh(config=load_config(), client=FakeClient(answers), fetch=fake_fetch, today=date(2026, 10, 19))
     held = json.loads((sandbox / "review.json").read_text())
     assert held and "older" in held[0]["reason"]
+
+
+def test_budget_ceiling_stops_further_calls():
+    import shared.claude_client as cc
+    cc.USAGE.clear()
+    old = cc.BUDGET_USD
+    cc.BUDGET_USD = 0.05
+    try:
+        cc._meter("refresh", "claude-haiku-5-5", 10_000, 1_000, searches=10)  # $0.10 of searches
+        import pytest
+        with pytest.raises(cc.BudgetExceeded):
+            cc._guard()
+    finally:
+        cc.BUDGET_USD = old
+        cc.USAGE.clear()
+
+
+def test_triage_keeps_only_the_best(monkeypatch):
+    from agents.scout import evaluator
+    from shared.models import RawCandidate
+
+    class Fake:
+        def complete_json(self, *a, **k):
+            return {"keep": [{"i": 2, "fit": 9}, {"i": 0, "fit": 7}, {"i": 1, "fit": 3}]}
+    monkeypatch.setattr(evaluator, "get_client", lambda: Fake())
+    cands = [RawCandidate(name=n, source="test", description="") for n in ("A", "B", "C", "D")]
+    kept = evaluator.triage(cands, {"thesis": {"sectors": []}}, keep=2)
+    assert [c.name for c in kept] == ["C", "A"]

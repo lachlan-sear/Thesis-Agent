@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generatedAt": "2026-10-20T23:26:39+00:00",
+  "generatedAt": "2026-11-05T18:20:00+00:00",
   "thesis": {
     "fund": "Lachlan Sear",
     "name": "Permission to operate",
@@ -64,61 +64,40 @@
     ]
   },
   "edition": {
-    "number": 2,
-    "date": "2026-10-20",
-    "kind": "manual",
-    "checked": 43,
-    "applied": 5,
+    "number": 3,
+    "date": "2026-11-05",
+    "kind": "weekly",
+    "checked": 41,
+    "applied": 1,
     "held": 0,
-    "note": "A new fifth orbit, Training data and evals: the experts and environments that teach the models. Labelbox's Series E is this week's news."
+    "note": "No new rounds or exits among the 41 companies checked. In regulated AI, Crosby, the AI-native law firm, has bid for Weil Gotshal's data and brand."
   },
   "changes": [
     {
-      "company": "Labelbox",
-      "sector": "data",
-      "kind": "round",
-      "headline": "Labelbox, which runs the Alignerr expert network, raised more than $100M in a Series E led by Infinitum Partners",
-      "date": "2026-10",
-      "source": "https://www.morningstar.com/news/pr-newswire/20261014sf72677/labelbox-raises-100-million-in-series-e-funding-to-advance-reinforcement-learning-and-enterprise-ai-agents"
-    },
-    {
-      "company": "Halluminate",
-      "sector": "data",
-      "kind": "round",
-      "headline": "Halluminate raised a $30M Series A led by Oak HC/FT to build finance training environments",
-      "date": "2026-10",
-      "source": "https://pulse2.com/halluminate-raises-30-million-series-a-bringing-total-funding-to-38-5-million/"
-    },
-    {
-      "company": "micro1",
-      "sector": "data",
-      "kind": "round",
-      "headline": "micro1 reportedly raised more than $100M at a $4B valuation",
-      "date": "2026-09",
-      "source": "https://www.forbes.com.au/news/uncategorized/this-25-year-old-raised-us100-million-for-his-ai-startup-at-a-us4-billion-valuation/"
-    },
-    {
-      "company": "Training data and evals",
-      "sector": "data",
+      "company": "Crosby",
+      "sector": "regulated",
       "kind": "update",
-      "headline": "New orbit: Training data and evals, the experts and environments that teach the models (11 companies)",
+      "headline": "Crosby, the AI-native law firm, bid for Weil Gotshal's data and brand; terms weren't disclosed",
       "date": "2026-10",
-      "source": null
-    },
-    {
-      "company": "Complyance",
-      "sector": "assurance",
-      "kind": "update",
-      "headline": "Corrected: Complyance's $20M Series A was February 2026, not 2025",
-      "date": "2026-02",
-      "source": "https://www.corporatecomplianceinsights.com/complyance-raises-20m-series-a-led-by-google-ventures/"
+      "source": "https://techcrunch.com/2026/10/30/ai-law-firm-crosby-bids-on-disintegrating-famed-firm-weil-gotshal/"
     }
   ],
   "editions": [
     {
+      "number": 3,
+      "date": "2026-11-05",
+      "kind": "weekly",
+      "checked": 41,
+      "applied": 1,
+      "held": 0,
+      "headlines": [
+        "Crosby, the AI-native law firm, bid for Weil Gotshal's data and brand; terms weren't disclosed"
+      ]
+    },
+    {
       "number": 2,
       "date": "2026-10-20",
-      "kind": "manual",
+      "kind": "weekly",
       "checked": 43,
       "applied": 5,
       "held": 0,
@@ -174,8 +153,8 @@
       "writeUp": null,
       "note": "Latest round is the $20M Series A (Oct 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://tech.eu/2025/10/02/lupa-raises-20m-for-ai-powered-os-to-transform-global-petcare-market/",
@@ -264,8 +243,8 @@
       "writeUp": null,
       "note": "Latest round is the €3.2M seed (Nov 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://seedcamp.com/views/la-fraise-raises-e32m-to-democratise-dental-care-with-ai/",
@@ -303,8 +282,8 @@
       "writeUp": null,
       "note": "No change found since launching with $75M (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.cpapracticeadvisor.com/2026/02/05/startup-accrual-officially-launches-with-75m-in-funding-to-bring-ai-native-automation-to-accounting/177600/"
@@ -346,8 +325,8 @@
       "writeUp": null,
       "note": "Latest round is the $25M Series A led by Bessemer (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.vcaonline.com/news/2026021803/avantos-raises-35-million-to-power-the-future-of-client-servicing-in-financial-services/"
@@ -378,8 +357,8 @@
       "writeUp": null,
       "note": "No funding news in 2026; total raised not independently confirmed.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "low",
       "sources": [
         "https://tfir.io/hypatos-raises-e10-million-in-funding/",
@@ -427,8 +406,8 @@
       "writeUp": null,
       "note": "Raised $550M at $15.6B, co-led by Lightspeed and Diffusion (Sep 2026), six months after $200M at $11B; more than $1.5B raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://cryptobriefing.com/harvey-legal-ai-16b-valuation-funding/",
@@ -467,8 +446,8 @@
       "writeUp": null,
       "note": "No change found since the $23M Series A (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/20/stacks-raises-23m-series-a-to-scale-agentic-ai/"
@@ -507,8 +486,8 @@
       "writeUp": null,
       "note": "Raised €17M led by HV Capital (Feb 2026); about $30M raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://www.trendingtopics.eu/viennas-flinn-raises-e17m-series-a-to-automate-medtech-and-pharma-compliance/",
@@ -548,8 +527,8 @@
       "writeUp": null,
       "note": "Formerly Float. Raised a $2.1M seed led by Pear VC (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/26/burst-raises-3m-seed-to-unlock-fsa-and-hsa-retail-spending/"
@@ -589,8 +568,8 @@
       "writeUp": null,
       "note": "Raised a €32M Series A led by Blossom Capital, with Saab as a strategic investor (Jun 2026). Total is an estimate: the source gives about $12M raised before this round.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://resiliencemedia.co/comand-ai-raises-e32m-for-its-c2-software-adds-saab-as-a-strategic-backer/",
@@ -631,8 +610,8 @@
       "writeUp": null,
       "note": "Latest round is £1.5M (Jan 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://startuprise.co.uk/vizgard-raises-1-5-m-in-oversubscribed-funding/",
@@ -669,8 +648,8 @@
       "writeUp": null,
       "note": "Purple Transform Ltd now trades as SIYTE. No new round since £4.5M (Sep 2024).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/",
@@ -713,8 +692,8 @@
       "writeUp": null,
       "note": "Raised a $600M Series B at $5.6B led by CapitalG (Nov 2025). Reported in talks to raise about $1B at $11B (Bloomberg, Mar 2026); no close confirmed.",
       "dateAdded": "2026-03-31",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://salestools.io/es/report/physical-intelligence-raises-600-million-series-b",
@@ -752,8 +731,8 @@
       "writeUp": null,
       "note": "No change found since the $3M pre-seed (Nov 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://tech.eu/2025/11/27/neuracore-raises-3m-to-power-next-gen-robots-and-open-robotics-research/"
@@ -792,8 +771,8 @@
       "writeUp": null,
       "note": "Raised a $50M Series A led by Union Square Ventures (Mar 2026) to open 25 factories.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.automation.com/article/isembard-raises-50-million-usd-series-a-open-25-ai-powered-factories-aerospace-defense"
@@ -831,8 +810,8 @@
       "writeUp": null,
       "note": "Reported (WSJ) to have raised $70M at a $700M valuation, co-led by Founders Fund and Accel (Mar 2026); round not named.",
       "dateAdded": "2026-03-04",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://phemex.com/news/article/former-openai-executive-raises-70m-for-ai-startup-arda-64281",
@@ -870,8 +849,8 @@
       "writeUp": null,
       "note": "No new round since the $72.5M Series B (May 2025); $111M raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://thedigitalship.com/news/electronics-navigation/72-5m-series-b-funding-for-orca-ai"
@@ -910,8 +889,8 @@
       "writeUp": null,
       "note": "Latest round is the $20M Series A led by GV (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.corporatecomplianceinsights.com/complyance-raises-20m-series-a-led-by-google-ventures/"
@@ -951,8 +930,8 @@
       "writeUp": null,
       "note": "Latest round is the $42M Series A (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://fintech.global/2026/02/19/security-ai-platform-cogent-bags-42m-series-a/"
@@ -989,8 +968,8 @@
       "writeUp": null,
       "note": "No change found since the $9M seed.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.dbta.com/Editorial/News-Flashes/Pillar-Security-Raises-9M-to-Supercharge-AI-that-Secures-AI-Software-169094.aspx"
@@ -1028,8 +1007,8 @@
       "writeUp": null,
       "note": "Raised a $10M seed extension led by Cambridge Innovation Capital (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://startuprise.co.uk/beyondmath-completes-18-5-m-seed-round-to-scale-worlds-largest-foundational-physics-ai-model/",
@@ -1067,8 +1046,8 @@
       "writeUp": null,
       "note": "Raised a $1.8B Series E at $18B (Jul 2026) with Dragoneer, Lightspeed and Goldman Sachs Alternatives among the investors. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://euro-sd.com/?p=52272",
@@ -1108,8 +1087,8 @@
       "writeUp": null,
       "note": "Raised a $1.2B Series D at over $8B (Jul 2026), co-led by Blackstone, Noteus, Airbus and Advent. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/"
@@ -1145,8 +1124,8 @@
       "writeUp": null,
       "note": "First close of a $580M Series D at $6.4B (Sep 2026), led by UC Investments and Baillie Gifford.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://pulse2.com/tekever-raises-580-million-series-d-at-6-4-billion-valuation/"
@@ -1182,8 +1161,8 @@
       "writeUp": null,
       "note": "Reported (Bloomberg) to have raised €500M at €3.2–3.5B, backed by Sequoia and Founders Fund (Jun 2026). Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
         "https://pulse2.com/stark-defence-reportedly-raises-e500-million-at-e3-5-billion-valuation/"
@@ -1223,8 +1202,8 @@
       "writeUp": null,
       "note": "Raised a €31M Series A led by HV Capital, with the NATO Innovation Fund and Project A; reportedly extended to €42M.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.verdict.co.uk/arx-robotics-e31m-series/"
@@ -1264,8 +1243,8 @@
       "writeUp": null,
       "note": "Raised a $1.2B Series D at $8.6B (Feb 2026), led by Eclipse, Balderton and SoftBank Vision Fund 2, with further milestone-based funding from Uber. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.verdict.co.uk/wayve-raises-1-2bn-series-d-funding/",
@@ -1305,8 +1284,8 @@
       "writeUp": null,
       "note": "Raised a $152M Series A led by Prime Movers Lab at $1.35B (Jul 2026), taking its total to $270M; Bosch will manufacture its robots.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://thenextweb.com/news/humanoid-152m-series-a-robotics-unicorn-bosch"
@@ -1344,8 +1323,8 @@
       "writeUp": null,
       "note": "Closed a $40M round (Feb 2026; round not named), taking its total to $64M; NEA and Sequoia continued, FPV and Kinnevik joined.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://pulse2.com/anterior/"
@@ -1384,8 +1363,8 @@
       "writeUp": null,
       "note": "Raised a $60M Series B at $400M, co-led by Lux Capital and Index Ventures (Mar 2026), after a $20M Series A (Oct 2025) and a $5.8M seed: about $86M in total.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-13",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
         "https://www.tamradar.com/funding-rounds/crosby-series-b-60m",
@@ -1448,8 +1427,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://pulse2.com/halluminate-raises-30-million-series-a-bringing-total-funding-to-38-5-million/"
@@ -1488,8 +1467,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://techcrunch.com/?p=3140621"
@@ -1522,8 +1501,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://www.forbes.com.au/news/uncategorized/this-25-year-old-raised-us100-million-for-his-ai-startup-at-a-us4-billion-valuation/"
@@ -1556,8 +1535,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://symbal.ai/"
@@ -1585,8 +1564,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://www.morningstar.com/news/pr-newswire/20261014sf72677/labelbox-raises-100-million-in-series-e-funding-to-advance-reinforcement-learning-and-enterprise-ai-agents",
@@ -1626,8 +1605,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://www.cdomagazine.tech/aiml/meta-takes-49-stake-in-scale-ai-ceo-alexandr-wang-joins-to-boost-ai-push"
@@ -1662,8 +1641,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://pulse2.com/turing-111-million-series-e-raised-at-2-2-billion-valuation-for-agi-infrastructure"
@@ -1701,8 +1680,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://salestools.io/da/report/invisible-technologies-raises-100m-growth"
@@ -1735,8 +1714,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://businesscloud.co.uk/news/bootstrapped-prolific-raises-25m-to-add-human-touch-to-ai"
@@ -1772,8 +1751,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://www.verdict.co.uk/surge-ai-funding-round-15bn-valuation/"
@@ -1799,8 +1778,8 @@
       "status": "tracking",
       "writeUp": null,
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-10-20",
-      "verifiedBy": "manual-2026-10-20",
+      "lastVerified": "2026-11-05",
+      "verifiedBy": "weekly-run",
       "sector": "data",
       "sources": [
         "https://techfundingnews.com/artificial-societies-raises-5m-seed-ai-simulations-human-behaviour/",
@@ -1834,7 +1813,7 @@
   "candidates": [],
   "heldForReview": 0,
   "audit": {
-    "date": "2026-10-20",
+    "date": "2026-11-05",
     "passed": 40,
     "checked": 42,
     "unreadable": 2,

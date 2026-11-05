@@ -38,9 +38,11 @@ config/thesis.yaml  ──►  refresh ──► source check ──► data/com
 
 The workflow is `.github/workflows/weekly.yml`: Mondays 06:17 UTC, or by hand
 from the Actions tab (with a "refresh only" option). It runs once a model key is
-added as a repository secret. It commits the edition, so the history of every
-change is in git, and then re-checks every recorded figure against its source
-(`scripts/audit_sources.py`, result in `data/source_audit.json`). `ci.yml` runs the tests, the thesis
+added as a repository secret. The refresh runs first and its edition is
+committed straight away, so the history of every change is in git, after every
+recorded figure is re-checked against its source (`scripts/audit_sources.py`,
+result in `data/source_audit.json`). Scout and the market scan run after that and
+are committed separately, so stopping them never loses the edition. `ci.yml` runs the tests, the thesis
 check and a dry run on every push.
 
 ## Make it yours
@@ -93,11 +95,25 @@ python main.py publish               # rebuild data/observatory.json
 python -m pytest -q tests
 ```
 
+## Cost
+
+Each run records its spend, by stage and model, at the top of the run's page on
+GitHub and in `data/usage/<date>.json`. It stops at a ceiling: the repository
+variable `THESIS_BUDGET_USD` (default $5). The refresh goes first, so a capped run
+still publishes its edition.
+
+What keeps it down: the bulk work (the refresh, scoring) runs on the fast model;
+the thesis prompt is cached across calls; each company gets at most three web
+searches; companies checked in the last three days are skipped; and Scout scores
+every lead in one cheap batched pass, so only the best 15 get a full evaluation
+and only the top three get deep research (`scout.max_evaluate`,
+`scout.max_enrich` in the thesis file).
+
 ## Providers
 
 | Provider | Key | Web search | Defaults (fast / deep) |
 |---|---|---|---|
-| Anthropic | `ANTHROPIC_API_KEY` | Claude's web search tool | `claude-sonnet-5-5` / `claude-opus-5-5` |
+| Anthropic | `ANTHROPIC_API_KEY` | Claude's web search tool | `claude-haiku-5-5` / `claude-sonnet-5-5` |
 | OpenAI | `OPENAI_API_KEY` | Responses API `web_search` | `gpt-5-mini` / `gpt-5` |
 | OpenRouter | `OPENROUTER_API_KEY` | the `web` plugin, any model | `anthropic/claude-sonnet-4.5` / `anthropic/claude-opus-4.1` |
 

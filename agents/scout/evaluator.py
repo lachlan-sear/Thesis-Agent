@@ -127,9 +127,49 @@ def evaluate_batch(
     """Evaluate a batch of candidates. Returns sorted by composite score."""
     evaluations = []
     for candidate in candidates:
-        ev = evaluate_candidate(candidate, config)
+        try:
+            ev = evaluate_candidate(candidate, config)
+        except Exception as e:  # budget reached or API trouble: keep what's done
+            print(f"  [STOP] evaluation stopped: {e}")
+            break
         evaluations.append(ev)
         print(f"  [{ev.action.value.upper():5s}] {ev.composite_score:4.1f} — {candidate.name}: {ev.one_liner[:80]}")
 
     evaluations.sort(key=lambda e: e.composite_score, reverse=True)
     return evaluations
+
+
+def triage(candidates: list[RawCandidate], config: dict, keep: int = 15, batch: int = 60) -> list[RawCandidate]:
+    """
+    One cheap pass over every candidate before the full evaluation. The model
+    sees name, source and a line of description, 60 at a time, and returns the
+    ones that plausibly fit the thesis and are real operating companies. Only
+    the best `keep` go on to the (much more expensive) per-company evaluation.
+    """
+    if len(candidates) <= keep:
+        return candidates
+    client = get_client()
+    system = ("You triage deal-sourcing leads against an investment thesis. Most leads are noise: "
+              "open-source repos, VCs, articles, big incumbents, or companies outside the thesis. "
+              "Keep only real, private, early-to-growth-stage operating companies that plausibly fit.\n\n"
+              + get_thesis_text(config))
+    scored: dict[int, int] = {}
+    for start in range(0, len(candidates), batch):
+        chunk = candidates[start:start + batch]
+        lines = "\n".join(f"{start + i}. {c.name} [{c.source}] {(c.description or '')[:160]}"
+                           for i, c in enumerate(chunk))
+        prompt = (f"Leads:\n{lines}\n\nReturn JSON: {{\"keep\": [{{\"i\": <number>, \"fit\": <1-10>}}]}} "
+                  f"listing only leads with fit 6 or more. No commentary.")
+        try:
+            out = client.complete_json("evaluate", system, prompt, max_tokens=1500)
+            for row in out.get("keep", []):
+                i, fit = int(row.get("i", -1)), int(row.get("fit", 0))
+                if start <= i < start + len(chunk) and fit >= 6:
+                    scored[i] = fit
+        except Exception as e:
+            print(f"  [WARN] triage batch failed: {e}")
+            if "budget" in str(e).lower():
+                break
+    best = sorted(scored, key=lambda i: -scored[i])[:keep]
+    print(f"  Triage: {len(candidates)} leads → {len(scored)} plausible → evaluating the top {len(best)}")
+    return [candidates[i] for i in best]

@@ -105,9 +105,8 @@ def search_recently_incorporated(
     if sic_codes is None:
         sic_codes = list(DEFAULT_SIC_CODES.keys())
     if keywords is None:
-        keywords = ["AI", "digital health", "veterinary tech", "legal tech",
-                     "fintech platform", "dental AI", "practice management software",
-                     "healthtech", "insurtech", "automation platform"]
+        from shared.keywords import thesis_keywords
+        keywords = thesis_keywords(fallback=["AI"])[:10]
 
     cutoff = datetime.utcnow() - timedelta(days=days_back)
     candidates = []

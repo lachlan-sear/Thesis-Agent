@@ -27,40 +27,10 @@ from shared.keywords import thesis_keywords, thesis_queries
 # These are the shows where founders appear when raising or just after closing
 PODCAST_FEEDS = [
     {
-        "name": "20VC (The Twenty Minute VC)",
-        "url": "https://feeds.megaphone.fm/twentyminutevc",
-        "signal_strength": "very_high",
-        "description": "Harry Stebbings. The highest-signal VC podcast globally. A founder appearing here is almost always raising or just raised.",
-    },
-    {
-        "name": "Riding Unicorns",
-        "url": "https://feeds.acast.com/public/shows/riding-unicorns",
-        "signal_strength": "high",
-        "description": "James Pringle. European early-stage focus. Strong signal for UK and European startups pre-Series A/B.",
-    },
-    {
         "name": "The Generalist Podcast",
         "url": "https://feeds.simplecast.com/l2i9YnTd",
         "signal_strength": "high",
         "description": "Mario Gabriele. Deep-dive company analyses and founder interviews.",
-    },
-    {
-        "name": "This Week in Startups",
-        "url": "https://feeds.megaphone.fm/thisweekinstartups",
-        "signal_strength": "medium",
-        "description": "Jason Calacanis. Broad startup coverage, frequent founder pitches.",
-    },
-    {
-        "name": "Lenny's Podcast",
-        "url": "https://feeds.simplecast.com/lAHUbQkP",
-        "signal_strength": "medium",
-        "description": "Lenny Rachitsky. Product and growth focus. Strong for consumer/marketplace companies.",
-    },
-    {
-        "name": "How I Built This",
-        "url": "https://feeds.simplecast.com/dHoohVNH",
-        "signal_strength": "medium",
-        "description": "Guy Raz / NPR. Founder stories, typically later-stage but strong brand signal.",
     },
     {
         "name": "Invest Like the Best",

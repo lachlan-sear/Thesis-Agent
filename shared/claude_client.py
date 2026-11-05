@@ -22,7 +22,7 @@ from collections import defaultdict
 from typing import Optional
 
 DEFAULT_MODELS = {
-    "anthropic": ("claude-sonnet-5-5", "claude-opus-5-5"),
+    "anthropic": ("claude-haiku-5-5", "claude-sonnet-5-5"),
     "openai": ("gpt-5-mini", "gpt-5"),
     "openrouter": ("anthropic/claude-sonnet-4.5", "anthropic/claude-opus-4.1"),
 }
@@ -62,14 +62,53 @@ PRICES = {
     "gpt-5": (1.25, 10.0),
 }
 SEARCH_PRICE = 0.01
-USAGE: dict = defaultdict(lambda: {"calls": 0, "input": 0, "output": 0, "searches": 0})
+USAGE: dict = defaultdict(lambda: {"calls": 0, "input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "searches": 0})
+# A hard ceiling per run. Once spent, every further model call raises
+# BudgetExceeded: the stage stops and the run publishes what it has.
+BUDGET_USD = float(os.environ.get("THESIS_BUDGET_USD") or 5)
 
 
-def _meter(task_type: str, model: str, inp: int, out: int, searches: int = 0):
+class BudgetExceeded(RuntimeError):
+    pass
+
+
+def _cost(model: str, u: dict) -> float:
+    pin, pout = PRICES.get(model.split("/")[-1], PRICES["claude-sonnet-5-5"])
+    return ((u["input"] + 1.25 * u["cache_write"] + 0.1 * u["cache_read"]) / 1e6 * pin
+            + u["output"] / 1e6 * pout + u["searches"] * SEARCH_PRICE)
+
+
+def _earlier_in_this_run() -> float:
+    """Spend already recorded by an earlier step of the same GitHub run (the refresh, before the scout)."""
+    run = os.environ.get("GITHUB_RUN_ID")
+    path = f"data/usage/{datetime.date.today().isoformat()}.json"
+    try:
+        prev = json.load(open(path))
+        return float(prev.get("usd", 0)) if run and prev.get("run") == run else 0.0
+    except Exception:
+        return 0.0
+
+
+PRIOR_USD = _earlier_in_this_run()
+
+
+def spent() -> float:
+    return PRIOR_USD + sum(_cost(k.split("|", 1)[1], u) for k, u in USAGE.items())
+
+
+def _guard():
+    if spent() >= BUDGET_USD:
+        raise BudgetExceeded(f"run budget of ${BUDGET_USD:.2f} reached")
+
+
+def _meter(task_type: str, model: str, inp: int, out: int, searches: int = 0,
+           cache_write: int = 0, cache_read: int = 0):
     u = USAGE[f"{task_type}|{model}"]
     u["calls"] += 1
     u["input"] += inp or 0
     u["output"] += out or 0
+    u["cache_write"] += cache_write or 0
+    u["cache_read"] += cache_read or 0
     u["searches"] += searches or 0
 
 
@@ -77,11 +116,10 @@ def usage_report() -> dict:
     rows, total = [], 0.0
     for key, u in sorted(USAGE.items()):
         task, model = key.split("|", 1)
-        pin, pout = PRICES.get(model.split("/")[-1], PRICES["claude-sonnet-5-5"])
-        cost = u["input"] / 1e6 * pin + u["output"] / 1e6 * pout + u["searches"] * SEARCH_PRICE
+        cost = _cost(model, u)
         total += cost
         rows.append({"task": task, "model": model, **u, "usd": round(cost, 3)})
-    return {"date": datetime.date.today().isoformat(), "usd": round(total, 2), "by_task": rows}
+    return {"date": datetime.date.today().isoformat(), "usd": round(total, 2), "budget": BUDGET_USD, "by_task": rows}
 
 
 @atexit.register
@@ -89,15 +127,16 @@ def _write_usage():
     if not USAGE:
         return
     rep = usage_report()
+    rep["run"] = os.environ.get("GITHUB_RUN_ID")
     os.makedirs("data/usage", exist_ok=True)
     path = f"data/usage/{rep['date']}.json"
     prev = json.load(open(path)) if os.path.exists(path) else None
-    if prev:  # several processes in one run (weekly, then refresh): add them up
+    if prev and PRIOR_USD:  # the refresh step, then the scout step of the same run: add them up
         rep["usd"] = round(rep["usd"] + prev.get("usd", 0), 2)
         rep["by_task"] = prev.get("by_task", []) + rep["by_task"]
     with open(path, "w") as f:
         json.dump(rep, f, indent=2)
-    lines = [f"**Model spend this run: ${rep['usd']:.2f}**", "", "| Task | Model | Calls | Input | Output | Searches | $ |", "|---|---|---|---|---|---|---|"]
+    lines = [f"**Model spend this run: ${rep['usd']:.2f}** (ceiling ${BUDGET_USD:.2f})", "", "| Task | Model | Calls | Input | Output | Searches | $ |", "|---|---|---|---|---|---|---|"]
     lines += [f"| {r['task']} | {r['model']} | {r['calls']} | {r['input']:,} | {r['output']:,} | {r['searches']} | {r['usd']:.2f} |" for r in rep["by_task"]]
     print("\n".join(lines))
     if os.environ.get("GITHUB_STEP_SUMMARY"):
@@ -105,7 +144,8 @@ def _write_usage():
             f.write("\n".join(lines) + "\n")
 
 
-WEB_SEARCH_TOOL = {"type": "web_search_20250305", "name": "web_search", "max_uses": 5}
+WEB_SEARCH_TOOL = {"type": "web_search_20250305", "name": "web_search",
+                   "max_uses": int(os.environ.get("THESIS_MAX_SEARCHES", "3"))}
 
 
 def _extract_json(raw: str):
@@ -131,16 +171,29 @@ class ClaudeClient:
         import anthropic
         self.client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
+    @staticmethod
+    def _system(system: str):
+        # The thesis-laden system prompt repeats on every call in a stage: cache it
+        # (a cached read costs a tenth of a fresh one).
+        return [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+
+    @staticmethod
+    def _usage(task_type, response, searches=0):
+        u = response.usage
+        _meter(task_type, MODELS.get(task_type, FAST), u.input_tokens, u.output_tokens, searches,
+               getattr(u, "cache_creation_input_tokens", 0) or 0, getattr(u, "cache_read_input_tokens", 0) or 0)
+
     def complete(self, task_type: str, system: str, prompt: str,
                  max_tokens: int = 4096, temperature: float = 0.3) -> str:
+        _guard()
         response = self.client.messages.create(
             model=MODELS.get(task_type, FAST),
             max_tokens=max_tokens,
             temperature=temperature,
-            system=system,
+            system=self._system(system),
             messages=[{"role": "user", "content": prompt}],
         )
-        _meter(task_type, MODELS.get(task_type, FAST), response.usage.input_tokens, response.usage.output_tokens)
+        self._usage(task_type, response)
         return "".join(b.text for b in response.content if getattr(b, "type", "") == "text")
 
     def complete_json(self, task_type: str, system: str, prompt: str, max_tokens: int = 4096):
@@ -154,21 +207,21 @@ class ClaudeClient:
 
         Returns (text, citations). Each citation is {"url", "title", "cited_text"}:
         the passage the search tool itself quoted from that page. Continues a
-        paused turn (long searches) up to three times.
+        paused turn (long searches) once.
         """
         messages = [{"role": "user", "content": prompt}]
         text_parts, citations = [], []
-        for _ in range(4):
+        for _ in range(2):  # one continuation at most: each one re-sends every search result
+            _guard()
             response = self.client.messages.create(
                 model=MODELS.get(task_type, FAST),
                 max_tokens=max_tokens,
-                system=system,
+                system=self._system(system),
                 tools=[WEB_SEARCH_TOOL],
                 messages=messages,
             )
             stu = getattr(response.usage, "server_tool_use", None)
-            _meter(task_type, MODELS.get(task_type, FAST), response.usage.input_tokens,
-                   response.usage.output_tokens, getattr(stu, "web_search_requests", 0) if stu else 0)
+            self._usage(task_type, response, getattr(stu, "web_search_requests", 0) if stu else 0)
             for block in response.content:
                 if getattr(block, "type", "") != "text":
                     continue
@@ -226,6 +279,7 @@ class OpenAIClient(_Shared):
                 "max_output_tokens": max_tokens}
         if tools:
             body["tools"] = tools
+        _guard()
         out = _post(self.URL, self.key, body)
         u = out.get("usage") or {}
         _meter(task_type, body["model"], u.get("input_tokens", 0), u.get("output_tokens", 0),
@@ -259,6 +313,7 @@ class OpenRouterClient(_Shared):
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}]}
         if web:
             body["plugins"] = [{"id": "web", "max_results": 5}]
+        _guard()
         out = _post(self.URL, self.key, body, {"X-Title": "thesis-agent"})
         u = out.get("usage") or {}
         _meter(task_type, body["model"], u.get("prompt_tokens", 0), u.get("completion_tokens", 0), 1 if web else 0)

@@ -23,9 +23,13 @@ concurrency:
 jobs:
   weekly:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     env:
       OBSERVATORY_DEPLOY_HOOK: ${{ secrets.OBSERVATORY_DEPLOY_HOOK }}
+      PYTHONUNBUFFERED: "1"   # stream the log live instead of in bursts
+      # One spend ceiling for the whole run, in dollars (repository variable; default 5).
+      # The refresh runs first and is saved first, so the ceiling can only cut the scout short.
+      THESIS_BUDGET_USD: ${{ vars.THESIS_BUDGET_USD }}
     steps:
       - uses: actions/checkout@v4
 
@@ -50,7 +54,7 @@ jobs:
             exit 1
           fi
 
-      - name: Run the weekly pipeline
+      - name: Refresh the tracker and publish the edition
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -58,16 +62,7 @@ jobs:
           THESIS_PROVIDER: ${{ vars.THESIS_PROVIDER }}
           THESIS_MODEL_FAST: ${{ vars.THESIS_MODEL_FAST }}
           THESIS_MODEL_DEEP: ${{ vars.THESIS_MODEL_DEEP }}
-          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
-          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
-          COMPANIES_HOUSE_API_KEY: ${{ secrets.COMPANIES_HOUSE_API_KEY }}
-          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
-        run: |
-          if [ "${{ inputs.refresh_only }}" = "true" ]; then
-            python main.py weekly --refresh-only
-          else
-            python main.py weekly
-          fi
+        run: python main.py weekly --refresh-only
 
       - name: Validate before committing
         run: python main.py check
@@ -83,6 +78,34 @@ jobs:
           git add data/ outputs/ || true
           git diff --cached --quiet && { echo "Nothing changed"; exit 0; }
           git commit -m "Weekly edition $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash origin main
+          git push
+
+      # Scout, radar, ops and events: new names and market context. Saved
+      # separately, so a cancelled or capped scout never costs the edition.
+      - name: Scout and scan the market
+        if: ${{ inputs.refresh_only != true }}
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          THESIS_PROVIDER: ${{ vars.THESIS_PROVIDER }}
+          THESIS_MODEL_FAST: ${{ vars.THESIS_MODEL_FAST }}
+          THESIS_MODEL_DEEP: ${{ vars.THESIS_MODEL_DEEP }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          COMPANIES_HOUSE_API_KEY: ${{ secrets.COMPANIES_HOUSE_API_KEY }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+        run: python main.py weekly --skip-refresh
+
+      - name: Commit the scout's findings
+        if: ${{ always() && inputs.refresh_only != true }}
+        run: |
+          git add data/ outputs/ || true
+          git diff --cached --quiet && { echo "Nothing changed"; exit 0; }
+          git commit -m "Scout and market scan $(date -u +%Y-%m-%d)"
           git pull --rebase --autostash origin main
           git push
 

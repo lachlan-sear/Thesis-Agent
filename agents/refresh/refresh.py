@@ -171,7 +171,9 @@ def run_refresh(config: dict | None = None, client=None, dry_run: bool = False,
         raise SystemExit("Tracker is inconsistent:\n  " + "\n  ".join(problems))
 
     print("\n" + "=" * 60 + "\n  REFRESH AGENT — keeping the tracker true\n" + "=" * 60)
-    queue = tracker.refresh_order(companies, today)[:limit]
+    min_days = rcfg.get("min_days_between_checks", 3)  # a same-week re-run doesn't pay twice
+    queue = [c for c in tracker.refresh_order(companies, today)
+             if (d := tracker.days_since(c.get("lastVerified"), today)) is None or d >= min_days][:limit]
     accepted, held, checked = [], [], 0
 
     if dry_run:

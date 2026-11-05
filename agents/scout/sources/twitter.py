@@ -42,7 +42,7 @@ TWITTER_QUERIES = [
     'site:x.com "London-based" startup raised 2026',
     'site:x.com "Berlin-based" OR "Paris-based" startup funding 2026',
 ]
-TWITTER_QUERIES = thesis_queries("site:x.com {kw} startup funding 2026", fallback=TWITTER_QUERIES, limit=8)
+TWITTER_QUERIES = thesis_queries("site:x.com {kw} startup funding 2026", fallback=TWITTER_QUERIES, limit=4)
 
 
 

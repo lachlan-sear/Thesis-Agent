@@ -19,6 +19,7 @@ Pipeline: Sources → Dedup → Evaluate → Enrich (top hits) → Brief
 """
 
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -27,7 +28,7 @@ from shared.models import RawCandidate, Action, ScoutBrief
 from shared.db import init_db, is_seen, mark_seen, save_evaluation, log_run
 from agents.scout.sources.web_search import run_discovery
 from agents.scout.sources.hn import scan_show_hn, scan_top_stories
-from agents.scout.evaluator import evaluate_batch
+from agents.scout.evaluator import evaluate_batch, triage
 from agents.scout.enricher import enrich_company
 
 # Optional sources — each gracefully skips if not available
@@ -118,7 +119,7 @@ def run_scout(
 
     init_db()
     sources_cfg = config.get("sources", {})
-    available = sum(1 for v in _SRC.values() if v is not None) + 2  # +2 for web search and HN
+    available = sum(1 for v in _SRC.values() if v is not None) + 2  # modules present, not keys set
 
     print("\n" + "=" * 60)
     print("  SCOUT AGENT — Deal Sourcing")
@@ -148,8 +149,9 @@ def run_scout(
     source_counts["hacker_news"] = len(hn_show) + len(hn_top)
     print(f"  → {source_counts['hacker_news']} candidates")
 
-    # 3. Companies House
-    if _SRC["companies_house"] and sources_cfg.get("companies_house", {}).get("enabled"):
+    # 3. Companies House (needs a free key; without one every call is a 401)
+    if (_SRC["companies_house"] and sources_cfg.get("companies_house", {}).get("enabled")
+            and os.environ.get("COMPANIES_HOUSE_API_KEY")):
         _run_source("Companies House", _SRC["companies_house"], source_counts, all_candidates, days_back=90)
     else:
         print(f"\n  [Companies House] Skipped")
@@ -181,14 +183,14 @@ def run_scout(
     else:
         print(f"\n  [Product Hunt] Skipped")
 
-    # 8. Reddit
-    if _SRC["reddit"] and not dry_run:
+    # 8. Reddit: blocks GitHub's runners (HTTP 403), so off unless switched on in the thesis
+    if _SRC["reddit"] and not dry_run and sources_cfg.get("reddit", {}).get("enabled"):
         _run_source("Reddit", _SRC["reddit"], source_counts, all_candidates)
     else:
         print(f"\n  [Reddit] Skipped")
 
-    # 9. Patents
-    if _SRC["patents"] and not dry_run:
+    # 9. Patents: the free USPTO (PatentsView) endpoint was retired; off unless switched on
+    if _SRC["patents"] and not dry_run and sources_cfg.get("patents", {}).get("enabled"):
         _run_source("Patents", _SRC["patents"], source_counts, all_candidates)
     else:
         print(f"\n  [Patents] Skipped")
@@ -232,7 +234,9 @@ def run_scout(
 
     # --- Evaluate ---
     print(f"\n[3/5] Evaluating {len(deduped)} candidates...")
-    evaluations = [] if dry_run else evaluate_batch(deduped, config)
+    scout_cfg = config.get("scout", {})
+    shortlist = deduped if dry_run else triage(deduped, config, keep=scout_cfg.get("max_evaluate", 15))
+    evaluations = [] if dry_run else evaluate_batch(shortlist, config)
     if dry_run:
         print("  [DRY RUN] Skipped")
 
@@ -247,15 +251,26 @@ def run_scout(
     print(f"\n[4/5] Enriching {len(high_scoring)} companies scoring {enrich_threshold}+...")
 
     enriched_track, enriched_watch = [], []
+    max_enrich = scout_cfg.get("max_enrich", 3)  # deep research is the dearest call: top few only
     if not dry_run:
         for ev in evaluations:
+            if len(enriched_track) + len(enriched_watch) >= max_enrich:
+                break
             orig = next((c for c in deduped if c.name.lower() == ev.company_name.lower()), None)
             url = orig.url if orig else None
             if ev.action == Action.TRACK and ev.composite_score >= enrich_threshold:
                 print(f"  Enriching: {ev.company_name}...")
-                enriched_track.append(enrich_company(ev.company_name, url, ev))
+                try:
+                    enriched_track.append(enrich_company(ev.company_name, url, ev))
+                except Exception as e:
+                    print(f"  [STOP] enrichment stopped: {e}")
+                    break
             elif ev.action == Action.WATCH:
-                enriched_watch.append(enrich_company(ev.company_name, url, ev))
+                try:
+                    enriched_watch.append(enrich_company(ev.company_name, url, ev))
+                except Exception as e:
+                    print(f"  [STOP] enrichment stopped: {e}")
+                    break
 
     # --- Brief ---
     print(f"\n[5/5] Generating brief...")

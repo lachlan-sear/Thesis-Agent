@@ -67,7 +67,8 @@ def cmd_weekly(args):
     config = load_config()
     _banner(config)
     from agents.refresh.refresh import run_refresh
-    stages = [("refresh", lambda: run_refresh(config=config, dry_run=args.dry_run))]
+    stages = [] if getattr(args, "skip_refresh", False) else [
+        ("refresh", lambda: run_refresh(config=config, dry_run=args.dry_run))]
     if not args.refresh_only:
         from agents.scout.scout import run_scout
         from agents.radar.radar import run_radar
@@ -153,7 +154,8 @@ def main():
     weekly = sub.add_parser("weekly", help="The scheduled weekly pipeline")
     weekly.add_argument("--dry-run", action="store_true")
     weekly.add_argument("--refresh-only", action="store_true")
-    weekly.add_argument("--max-queries", type=int, default=24)
+    weekly.add_argument("--skip-refresh", action="store_true", help="Scout and market scan only")
+    weekly.add_argument("--max-queries", type=int, default=12)
     weekly.set_defaults(func=cmd_weekly)
 
     for name, fn in (("publish", cmd_publish), ("check", cmd_check), ("thesis", cmd_thesis), ("health", cmd_health)):
