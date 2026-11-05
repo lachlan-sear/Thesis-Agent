@@ -75,7 +75,7 @@ Four orbits:
 - robotics and autonomy;
 - AI assurance, the evaluation, security and certification layer the other three must pass through.
 
-Editions 1 and 2 (13 and 20 October 2026) were checked by hand; Edition 2 added a fifth orbit, Training data and evals, for 43 companies in all. Run
+Edition 2 (20 October 2026) added a fifth orbit, Training data and evals, for 43 companies in all. Run
 `python scripts/audit_sources.py` to re-check every recorded round and exit
 against its source; on 13 October, 31 of 33 matched, and the other two (an SEC
 filing and a Techleap page) couldn't be fetched from the audit's network.
