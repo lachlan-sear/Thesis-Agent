@@ -27,26 +27,18 @@ def scan_conferences(config: dict) -> list[dict]:
     verticals = thesis.get("target_verticals", {}).get("primary", [])
     signals = []
 
-    # Build conference search queries from verticals
+    # Build conference search queries from verticals + thesis config
     conference_queries = []
-    for vertical in verticals[:6]:  # Cap to control costs
+    for vertical in verticals[:2]:  # Cap verticals to control costs
         conference_queries.append(f"{vertical} conference summit 2026 Europe UK speakers")
-        conference_queries.append(f"{vertical} startup demo day pitch event 2026")
 
-    # Also search for major known events
-    major_events = [
-        "London Tech Week 2026 speakers agenda",
-        "SaaStr EMEA 2026 speakers startups",
-        "Web Summit 2026 startup speakers",
-        "Slush 2026 speakers finalists",
-        "TechCrunch Disrupt 2026 Europe startups",
-        "Sifted Summit 2026 speakers",
-    ]
-    conference_queries.extend(major_events)
-
-    # Add thesis-specific event queries from config
-    event_queries = thesis.get("events_monitoring", {}).get("queries", [])
+    # Add thesis-specific event queries from config (under sources)
+    sources = config.get("sources", {})
+    event_queries = sources.get("events_monitoring", {}).get("queries", [])
     conference_queries.extend(event_queries)
+
+    # Hard cap at 6 queries
+    conference_queries = conference_queries[:6]
 
     print(f"  Scanning {len(conference_queries)} conference queries...")
 
@@ -98,16 +90,9 @@ def scan_regulatory_hearings(config: dict) -> list[dict]:
     thesis = config["thesis"]
     signals = []
 
-    # Use regulatory monitoring queries from thesis config
-    reg_queries = thesis.get("regulatory_monitoring", {}).get("queries", [])
-
-    # Add generic regulatory hearing queries
-    reg_queries.extend([
-        "upcoming regulatory consultation UK FCA 2026",
-        "EU regulation hearing digital markets 2026",
-        "CMA investigation update UK 2026",
-        "regulatory deadline compliance technology 2026",
-    ])
+    # Use regulatory monitoring queries from config (under sources), capped at 4
+    sources = config.get("sources", {})
+    reg_queries = sources.get("regulatory_monitoring", {}).get("queries", [])[:4]
 
     print(f"  Scanning {len(reg_queries)} regulatory queries...")
 
@@ -160,9 +145,12 @@ def scan_product_launches(config: dict) -> list[dict]:
     signals = []
 
     queries = []
-    for vertical in verticals[:4]:
+    for vertical in verticals[:2]:
         queries.append(f"{vertical} startup product launch announcement 2026")
         queries.append(f"{vertical} startup beta launch waitlist 2026")
+
+    # Hard cap at 4 queries
+    queries = queries[:4]
 
     print(f"  Scanning {len(queries)} product launch queries...")
 

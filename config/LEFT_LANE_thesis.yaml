@@ -1,0 +1,142 @@
+# Private thesis configuration — DO NOT COMMIT TO PUBLIC REPO
+# Swap in locally before running: copy config\LEFT_LANE_thesis.yaml config\thesis.yaml
+
+thesis:
+  name: "Vertical AI in Overlooked Industries"
+  fund: "Lachlan Sear"
+  version: "2.0"
+
+  core_belief: >
+    Horizontal AI wrappers lack defensible moats. The best opportunities are
+    vertical AI specialists in overlooked, four-wall industries — clinics,
+    practices, salons, restaurants, studios — where the workflow is
+    intelligence-heavy, the buying decision requires trust, the incumbent
+    software is decades behind, and the customer relationship endures for
+    5-10+ years. Short sales cycles because the pain is acute. Strong
+    retention because switching costs are structural. Fast-growing revenue
+    because regulation forces adoption.
+
+  target_verticals:
+    primary:
+      - "veterinary technology and pet services"
+      - "healthcare and mental health technology"
+      - "dental practice technology"
+      - "beauty and wellness SMB technology"
+      - "restaurant and food service technology"
+      - "legal technology for SMBs"
+      - "insurance technology"
+      - "SMB practice management and vertical SaaS"
+    secondary:
+      - "accounting and tax technology"
+      - "fitness and sports facility technology"
+      - "education technology"
+      - "property and real estate technology"
+      - "consumer health and wellness DTC"
+    emerging:
+      - "AI-native SMB operating systems"
+      - "vertical commerce platforms"
+      - "regulation-heavy consumer fintech"
+
+  signals_positive:
+    - "Four-wall business (physical location as customer unit)"
+    - "Sub-30-day sales cycle"
+    - "50%+ annual revenue growth"
+    - "Net revenue retention above 120%"
+    - "Customer relationship spanning 5-10+ years"
+    - "Digital transformation of offline industry"
+    - "Regulation creates switching costs and compliance moats"
+    - "Repeat purchasing or subscription revenue"
+    - "Consumer-facing component drives virality or retention"
+    - "Founder with operating experience in the vertical"
+    - "Replaces outsourced service spend, not tool spend"
+    - "Revenue model tied to outcomes, not seats"
+
+  signals_negative:
+    - "Enterprise-only with 12+ month sales cycles"
+    - "No consumer or SMB component"
+    - "Pure B2B infrastructure play"
+    - "Market too small for venture-scale returns"
+    - "No regulatory or switching cost moat"
+    - "Thin wrapper on foundation model API"
+    - "Horizontal positioning across multiple unrelated verticals"
+    - "Competing directly with model provider roadmap"
+
+  stage_focus:
+    primary: "series-a"
+    range_min: "seed"
+    range_max: "series-c"
+    sweet_spot: "Seed to Series B"
+
+  geography:
+    primary: ["europe", "uk", "us"]
+    secondary: ["australia", "canada"]
+
+  evaluation_rubric:
+    thesis_fit: "Alignment with vertical AI in overlooked four-wall industries (1-10)"
+    customer_durability: "CRITICAL — will this customer relationship last 5-10+ years? (1-10)"
+    regulation_moat: "Does regulatory complexity create defensibility? (1-10)"
+    unit_economics: "Strong or clearly improving unit economics? (1-10)"
+    growth_inflection: "At or approaching breakout revenue growth? (1-10)"
+    founder_quality: "Domain expertise, operator background, technical depth? (1-10)"
+    autopilot_potential: "Selling the work (autopilot) or the tool (copilot)? (1-10)"
+    funding_stage_score: "Quality of cap table — investor tier, follow-on signals? (1-10)"
+    tam_score: "Venture-scale market — big enough for $100M+ outcomes? (1-10)"
+    revenue_model_score: "CRITICAL — subscription/repeat revenue with strong retention? (1-10)"
+    gtm_score: "CRITICAL — short sales cycles, efficient distribution? (1-10)"
+    geo_scalability: "Can this expand beyond home market? (1-10)"
+    exit_potential: "Clear strategic acquirers or IPO path? (1-10)"
+
+  evaluation_weights:
+    customer_durability: 0.15
+    revenue_model_score: 0.12
+    gtm_score: 0.12
+    thesis_fit: 0.10
+    growth_inflection: 0.10
+    unit_economics: 0.08
+    regulation_moat: 0.08
+    founder_quality: 0.07
+    autopilot_potential: 0.05
+    funding_stage_score: 0.05
+    tam_score: 0.04
+    geo_scalability: 0.02
+    exit_potential: 0.02
+
+  autopilot_lens:
+    enabled: true
+    description: >
+      Is this company selling the work (autopilot) rather than the tool (copilot)?
+      Companies that capture service and labour budgets rather than software budgets
+      have larger TAM and stronger lock-in.
+
+  regulatory_monitoring:
+    queries:
+      - "CMA veterinary market investigation UK 2026"
+      - "veterinary prescription regulations UK 2026"
+      - "NHS digital transformation mandate 2026"
+      - "dental regulation changes UK 2026"
+      - "beauty salon licensing regulations 2026"
+      - "restaurant health compliance technology 2026"
+      - "legal services regulation SRA UK 2026"
+      - "insurance regulation FCA insurtech 2026"
+
+sources:
+  web_search:
+    enabled: true
+    queries_per_vertical: 3
+    recency: "30d"
+  hacker_news:
+    enabled: true
+  rss_feeds:
+    enabled: true
+  companies_house:
+    enabled: true
+  github_trending:
+    enabled: true
+
+scheduling:
+  scout: "daily"
+  radar_funding: "daily"
+  radar_synthesis: "weekly"
+  ops: "weekly"
+  timezone: "Europe/London"
+  run_time: "07:00"
