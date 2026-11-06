@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generatedAt": "2026-11-05T18:20:00+00:00",
+  "generatedAt": "2026-11-06T08:47:11+00:00",
   "thesis": {
     "fund": "Lachlan Sear",
     "name": "Permission to operate",
@@ -64,7 +64,7 @@
     ]
   },
   "edition": {
-    "number": 3,
+    "number": 4,
     "date": "2026-11-05",
     "kind": "weekly",
     "checked": 41,
@@ -84,7 +84,7 @@
   ],
   "editions": [
     {
-      "number": 3,
+      "number": 4,
       "date": "2026-11-05",
       "kind": "weekly",
       "checked": 41,
@@ -93,6 +93,15 @@
       "headlines": [
         "Crosby, the AI-native law firm, bid for Weil Gotshal's data and brand; terms weren't disclosed"
       ]
+    },
+    {
+      "number": 3,
+      "date": "2026-10-26",
+      "kind": "weekly",
+      "checked": 41,
+      "applied": 0,
+      "held": 0,
+      "headlines": []
     },
     {
       "number": 2,
