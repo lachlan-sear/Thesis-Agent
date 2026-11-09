@@ -1,17 +1,7 @@
 {
-  "date": "2026-11-05",
+  "date": "2026-11-09",
   "kind": "weekly",
   "checked": 41,
-  "held": 0,
-  "note": "No new rounds or exits among the 41 companies checked. In regulated AI, Crosby, the AI-native law firm, has bid for Weil Gotshal's data and brand.",
-  "applied": [
-    {
-      "company": "Crosby",
-      "sector": "regulated",
-      "kind": "update",
-      "headline": "Crosby, the AI-native law firm, bid for Weil Gotshal's data and brand; terms weren't disclosed",
-      "date": "2026-10",
-      "source": "https://techcrunch.com/2026/10/30/ai-law-firm-crosby-bids-on-disintegrating-famed-firm-weil-gotshal/"
-    }
-  ]
+  "applied": [],
+  "held": 1
 }

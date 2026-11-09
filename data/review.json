@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "date": "2026-11-09",
+    "company": "Tekever",
+    "change": {
+      "kind": "round",
+      "round": "Series D (new closing, EIFO)",
+      "amount": "€13M",
+      "date": "2026-11",
+      "leads": "",
+      "valuation": "",
+      "total_raised": "",
+      "source": "https://www.tekever.com/news/tekever-to-establish-its-first-operational-presence-in-denmark-as-eifo-joins-series-d-in-a-new-closing/"
+    },
+    "reason": "the source does not state this change next to the company's name"
+  }
+]

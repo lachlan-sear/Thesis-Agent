@@ -1,10 +1,45 @@
 {
-  "date": "2026-11-05",
-  "passed": 40,
+  "date": "2026-11-09",
+  "passed": 35,
   "checked": 42,
-  "unreadable": 2,
+  "unreadable": 7,
   "notStated": 0,
   "failures": [
+    {
+      "company": "Lupa",
+      "kind": "round",
+      "source": "https://tech.eu/2025/10/02/lupa-raises-20m-for-ai-powered-os-to-transform-global-petcare-market/",
+      "ok": false,
+      "reason": "source could not be read and the search retrieved nothing from it"
+    },
+    {
+      "company": "Wexler",
+      "kind": "round",
+      "source": "https://tech.eu/2025/09/23/wexlerai-secures-53m-to-bring-real-time-fact-checking-to-litigation/",
+      "ok": false,
+      "reason": "source could not be read and the search retrieved nothing from it"
+    },
+    {
+      "company": "Wexler",
+      "kind": "exit",
+      "source": "https://tech.eu/2026/07/29/legora-acquires-legal-ai-startup-wexler-in-fifth-acquisition-of-2026/",
+      "ok": false,
+      "reason": "source could not be read and the search retrieved nothing from it"
+    },
+    {
+      "company": "SIYTE",
+      "kind": "round",
+      "source": "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/",
+      "ok": false,
+      "reason": "source could not be read and the search retrieved nothing from it"
+    },
+    {
+      "company": "Neuracore",
+      "kind": "round",
+      "source": "https://tech.eu/2025/11/27/neuracore-raises-3m-to-power-next-gen-robots-and-open-robotics-research/",
+      "ok": false,
+      "reason": "source could not be read and the search retrieved nothing from it"
+    },
     {
       "company": "C1",
       "kind": "round",
