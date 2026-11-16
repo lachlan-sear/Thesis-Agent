@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-16",
+  "usd": 1.16,
+  "budget": 5.0,
+  "by_task": [
+    {
+      "task": "refresh",
+      "model": "claude-haiku-5-5",
+      "calls": 41,
+      "input": 23123,
+      "output": 26749,
+      "cache_write": 831350,
+      "cache_read": 638075,
+      "searches": 103,
+      "usd": 1.156
+    }
+  ],
+  "run": "43898214176"
+}

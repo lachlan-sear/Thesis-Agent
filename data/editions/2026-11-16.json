@@ -1,0 +1,19 @@
+{
+  "number": 6,
+  "date": "2026-11-16",
+  "kind": "weekly",
+  "checked": 41,
+  "applied": 1,
+  "held": 0,
+  "changes": [
+    {
+      "company": "Mercor",
+      "sector": "data",
+      "kind": "round",
+      "headline": "Mercor raised $750M (Series D) at $20B, led by Not named; company did not name a lead investor. Participants include Benchmark, Felicis, Fundomo, funds affiliated with Apollo, G Squared, General Catalyst, Glade Brook Capital, NVIDIA, Salesforce, Sapphire Ventures, StepStone Group, XTX Ventures, and Zoom",
+      "date": "2026-11",
+      "source": "https://www.mercor.com/blog/series-d/"
+    }
+  ],
+  "note": ""
+}
