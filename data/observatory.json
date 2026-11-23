@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generatedAt": "2026-11-16T15:48:33+00:00",
+  "generatedAt": "2026-11-23T18:02:19+00:00",
   "thesis": {
     "fund": "Lachlan Sear",
     "name": "Permission to operate",
@@ -64,25 +64,25 @@
     ]
   },
   "edition": {
-    "number": 6,
-    "date": "2026-11-16",
+    "number": 7,
+    "date": "2026-11-23",
     "kind": "weekly",
     "checked": 41,
-    "applied": 1,
+    "applied": 0,
     "held": 0,
     "note": ""
   },
-  "changes": [
-    {
-      "company": "Mercor",
-      "sector": "data",
-      "kind": "round",
-      "headline": "Mercor raised $750M (Series D) at $20B, led by Not named; company did not name a lead investor. Participants include Benchmark, Felicis, Fundomo, funds affiliated with Apollo, G Squared, General Catalyst, Glade Brook Capital, NVIDIA, Salesforce, Sapphire Ventures, StepStone Group, XTX Ventures, and Zoom",
-      "date": "2026-11",
-      "source": "https://www.mercor.com/blog/series-d/"
-    }
-  ],
+  "changes": [],
   "editions": [
+    {
+      "number": 7,
+      "date": "2026-11-23",
+      "kind": "weekly",
+      "checked": 41,
+      "applied": 0,
+      "held": 0,
+      "headlines": []
+    },
     {
       "number": 6,
       "date": "2026-11-16",
@@ -184,7 +184,7 @@
       "writeUp": null,
       "note": "Latest round is the $20M Series A (Oct 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -274,7 +274,7 @@
       "writeUp": null,
       "note": "Latest round is the €3.2M seed (Nov 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -313,7 +313,7 @@
       "writeUp": null,
       "note": "No change found since launching with $75M (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -356,7 +356,7 @@
       "writeUp": null,
       "note": "Latest round is the $25M Series A led by Bessemer (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -388,7 +388,7 @@
       "writeUp": null,
       "note": "No funding news in 2026; total raised not independently confirmed.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "low",
       "sources": [
@@ -437,7 +437,7 @@
       "writeUp": null,
       "note": "Raised $550M at $15.6B, co-led by Lightspeed and Diffusion (Sep 2026), six months after $200M at $11B; more than $1.5B raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -477,7 +477,7 @@
       "writeUp": null,
       "note": "No change found since the $23M Series A (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -519,7 +519,7 @@
       "writeUp": null,
       "note": "Raised €17M led by HV Capital (Feb 2026); about $30M raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -558,7 +558,7 @@
       "writeUp": null,
       "note": "Formerly Float. Raised a $2.1M seed led by Pear VC (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -599,7 +599,7 @@
       "writeUp": null,
       "note": "Raised a €32M Series A led by Blossom Capital, with Saab as a strategic investor (Jun 2026). Total is an estimate: the source gives about $12M raised before this round.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -641,7 +641,7 @@
       "writeUp": null,
       "note": "Latest round is £1.5M (Jan 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -681,7 +681,7 @@
       "writeUp": null,
       "note": "Purple Transform Ltd now trades as SIYTE. No new round since £4.5M (Sep 2024).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -723,7 +723,7 @@
       "writeUp": null,
       "note": "Raised a $600M Series B at $5.6B led by CapitalG (Nov 2025). Reported in talks to raise about $1B at $11B (Bloomberg, Mar 2026); no close confirmed.",
       "dateAdded": "2026-03-31",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -762,7 +762,7 @@
       "writeUp": null,
       "note": "No change found since the $3M pre-seed (Nov 2025).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -802,7 +802,7 @@
       "writeUp": null,
       "note": "Raised a $50M Series A led by Union Square Ventures (Mar 2026) to open 25 factories.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -841,7 +841,7 @@
       "writeUp": null,
       "note": "Reported (WSJ) to have raised $70M at a $700M valuation, co-led by Founders Fund and Accel (Mar 2026); round not named.",
       "dateAdded": "2026-03-04",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -882,7 +882,7 @@
       "writeUp": null,
       "note": "No new round since the $72.5M Series B (May 2025); $111M raised in total.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -920,7 +920,7 @@
       "writeUp": null,
       "note": "Latest round is the $20M Series A led by GV (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -961,7 +961,7 @@
       "writeUp": null,
       "note": "Latest round is the $42M Series A (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -999,7 +999,7 @@
       "writeUp": null,
       "note": "No change found since the $9M seed.",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1038,7 +1038,7 @@
       "writeUp": null,
       "note": "Raised a $10M seed extension led by Cambridge Innovation Capital (Feb 2026).",
       "dateAdded": "2025-01-27",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1077,7 +1077,7 @@
       "writeUp": null,
       "note": "Raised a $1.8B Series E at $18B (Jul 2026) with Dragoneer, Lightspeed and Goldman Sachs Alternatives among the investors. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1118,7 +1118,7 @@
       "writeUp": null,
       "note": "Raised a $1.2B Series D at over $8B (Jul 2026), co-led by Blackstone, Noteus, Airbus and Advent. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1155,7 +1155,7 @@
       "writeUp": null,
       "note": "First close of a $580M Series D at $6.4B (Sep 2026), led by UC Investments and Baillie Gifford.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1194,7 +1194,7 @@
       "writeUp": null,
       "note": "Reported (Bloomberg) to have raised €500M at €3.2–3.5B, backed by Sequoia and Founders Fund (Jun 2026). Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -1233,7 +1233,7 @@
       "writeUp": null,
       "note": "Raised a €31M Series A led by HV Capital, with the NATO Innovation Fund and Project A; reportedly extended to €42M.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1274,7 +1274,7 @@
       "writeUp": null,
       "note": "Raised a $1.2B Series D at $8.6B (Feb 2026), led by Eclipse, Balderton and SoftBank Vision Fund 2, with further milestone-based funding from Uber. Earlier rounds not yet totalled.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1315,7 +1315,7 @@
       "writeUp": null,
       "note": "Raised a $152M Series A led by Prime Movers Lab at $1.35B (Jul 2026), taking its total to $270M; Bosch will manufacture its robots.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1354,7 +1354,7 @@
       "writeUp": null,
       "note": "Closed a $40M round (Feb 2026; round not named), taking its total to $64M; NEA and Sequoia continued, FPV and Kinnevik joined.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1394,7 +1394,7 @@
       "writeUp": null,
       "note": "Raised a $60M Series B at $400M, co-led by Lux Capital and Index Ventures (Mar 2026), after a $20M Series A (Oct 2025) and a $5.8M seed: about $86M in total.",
       "dateAdded": "2026-10-13",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1481,7 +1481,7 @@
       "writeUp": null,
       "note": "Raised a $30M Series A led by Oak HC/FT (Oct 2026), taking its total to $38.5M; finance first, then consulting and insurance.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1515,7 +1515,7 @@
       "writeUp": null,
       "note": "Mercor raised $750M (Series D) at $20B, led by Not named; company did not name a lead investor. Participants include Benchmark, Felicis, Fundomo, funds affiliated with Apollo, G Squared, General Catalyst, Glade Brook Capital, NVIDIA, Salesforce, Sapphire Ventures, StepStone Group, XTX Ventures, and Zoom.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1550,7 +1550,7 @@
       "writeUp": null,
       "note": "Reported (Forbes, Sep 2026) to have raised more than $100M at a $4B valuation, eight times its value a year earlier.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -1577,7 +1577,7 @@
       "writeUp": null,
       "note": "Little is public yet: no funding round has been announced.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -1618,7 +1618,7 @@
       "writeUp": null,
       "note": "Raised more than $100M (equity and a credit facility) in a Series E led by Infinitum Partners at $1.25B pre-money (14 Oct 2026); profitable in 2026.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1656,7 +1656,7 @@
       "writeUp": null,
       "note": "Meta invested $14.3B for 49% (Jun 2025) and hired its CEO, Alexandr Wang; not counted as capital raised on this map.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1693,7 +1693,7 @@
       "writeUp": null,
       "note": "Raised a $111M Series E at $2.2B led by Khazanah Nasional (Mar 2025), taking its total to $225M.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1729,7 +1729,7 @@
       "writeUp": null,
       "note": "Raised $100M in growth funding (Sep 2025); Bloomberg reported a valuation of more than $2B.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -1766,7 +1766,7 @@
       "writeUp": null,
       "note": "Bootstrapped until a £25M Series A co-led by Partech and Oxford Science Enterprises (Jul 2023).",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1793,7 +1793,7 @@
       "writeUp": null,
       "note": "Bootstrapped. Reported (Reuters, Jul 2025) to be planning a first raise of up to $1B at more than $15B; no close confirmed.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "medium",
       "sources": [
@@ -1831,7 +1831,7 @@
       "writeUp": null,
       "note": "Raised a $3.35M seed led by Point72 Ventures (Aug 2025), after a $2M pre-seed: $5.35M in total.",
       "dateAdded": "2026-10-20",
-      "lastVerified": "2026-11-16",
+      "lastVerified": "2026-11-23",
       "verifiedBy": "weekly-run",
       "confidence": "high",
       "sources": [
@@ -1843,44 +1843,16 @@
   "candidates": [],
   "heldForReview": 1,
   "audit": {
-    "date": "2026-11-16",
-    "passed": 35,
+    "date": "2026-11-23",
+    "passed": 39,
     "checked": 42,
-    "unreadable": 7,
+    "unreadable": 3,
     "notStated": 0,
     "failures": [
       {
-        "company": "Lupa",
+        "company": "Orca.AI",
         "kind": "round",
-        "source": "https://tech.eu/2025/10/02/lupa-raises-20m-for-ai-powered-os-to-transform-global-petcare-market/",
-        "ok": false,
-        "reason": "source could not be read and the search retrieved nothing from it"
-      },
-      {
-        "company": "Wexler",
-        "kind": "round",
-        "source": "https://tech.eu/2025/09/23/wexlerai-secures-53m-to-bring-real-time-fact-checking-to-litigation/",
-        "ok": false,
-        "reason": "source could not be read and the search retrieved nothing from it"
-      },
-      {
-        "company": "Wexler",
-        "kind": "exit",
-        "source": "https://tech.eu/2026/07/29/legora-acquires-legal-ai-startup-wexler-in-fifth-acquisition-of-2026/",
-        "ok": false,
-        "reason": "source could not be read and the search retrieved nothing from it"
-      },
-      {
-        "company": "SIYTE",
-        "kind": "round",
-        "source": "https://tech.eu/2024/09/12/purple-transform-raises-ps45m-for-ai-rail-data-analytics/",
-        "ok": false,
-        "reason": "source could not be read and the search retrieved nothing from it"
-      },
-      {
-        "company": "Neuracore",
-        "kind": "round",
-        "source": "https://tech.eu/2025/11/27/neuracore-raises-3m-to-power-next-gen-robots-and-open-robotics-research/",
+        "source": "https://thedigitalship.com/news/electronics-navigation/72-5m-series-b-funding-for-orca-ai",
         "ok": false,
         "reason": "source could not be read and the search retrieved nothing from it"
       },
