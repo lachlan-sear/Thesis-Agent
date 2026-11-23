@@ -1,6 +1,6 @@
 {
   "date": "2026-11-23",
-  "usd": 1.19,
+  "usd": 2.01,
   "budget": 5.0,
   "by_task": [
     {
@@ -13,6 +13,28 @@
       "cache_read": 684203,
       "searches": 106,
       "usd": 1.19
+    },
+    {
+      "task": "audit",
+      "model": "claude-haiku-5-5",
+      "calls": 14,
+      "input": 1311,
+      "output": 38406,
+      "cache_write": 212299,
+      "cache_read": 104802,
+      "searches": 27,
+      "usd": 0.317
+    },
+    {
+      "task": "evaluate",
+      "model": "claude-haiku-5-5",
+      "calls": 28,
+      "input": 3098,
+      "output": 53971,
+      "cache_write": 359321,
+      "cache_read": 168084,
+      "searches": 43,
+      "usd": 0.504
     }
   ],
   "run": "45233353287"
